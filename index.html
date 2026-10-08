@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Личный архив Bing Wallpaper UHD">
+    <meta name="theme-color" content="#141517">
+    <title>Горизонт | Архив Bing</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="canonical" href="https://gorizont.isvii.ru/">
+    <link rel="preconnect" href="https://www.bing.com" crossorigin>
+    <link rel="preload" href="data.json" as="fetch" crossorigin="anonymous">
+
+    <meta property="og:title" content="Горизонт | Архив Bing">
+    <meta property="og:description" content="Коллекция лучших обоев Bing в формате UHD.">
+    <meta property="og:url" content="https://gorizont.isvii.ru/">
+    <meta property="og:image" content="https://gorizont.isvii.ru/favicon.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <style>
+        /* CSS-переменные — единая точка управления палитрой */
+        :root {
+            --bg-start: #2a2d32;
+            --bg-end: #141517;
+            --card-bg: #22252a;
+            --text: #fff;
+            --text-muted: #c7c7c7;
+            --overlay: rgba(15, 16, 18, 0.95);
+            --accent: rgba(0, 120, 212, 0.85);
+            --border: rgba(255, 255, 255, 0.25);
+            --border-hover: rgba(255, 255, 255, 0.5);
+            --btn-bg: rgba(255, 255, 255, 0.08);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            --radius: 8px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: radial-gradient(circle at center, var(--bg-start) 0%, var(--bg-end) 100%);
+        }
+
+        h1 {
+            margin: 60px 0;
+            text-align: center;
+            font-size: 32px;
+            font-weight: 200;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            min-height: 220px;
+            padding: 0;
+            overflow: hidden;
+            border: 0;
+            border-radius: var(--radius);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            font: inherit;
+            letter-spacing: normal;
+            text-transform: none;
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .card:hover { will-change: transform; }
+
+        .card:hover {
+            outline: none;
+            transform: scale(1.02);
+        }
+
+        /* Явный фокус для доступности с клавиатуры */
+        .card:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
+            transform: scale(1.02);
+        }
+
+        .card img {
+            display: block;
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .card img.loaded { opacity: 1; }
+
+        /* Использование нативного тега <dialog> */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* Сброс дефолтных стилей <dialog> */
+            margin: auto;
+            border: none;
+            background: transparent;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            max-width: none;
+            max-height: none;
+        }
+
+        /* При открытии <dialog> получает атрибут open */
+        .lightbox[open] {
+            display: flex;
+        }
+
+        /* Нативный фон для диалога */
+        .lightbox::backdrop {
+            background: var(--overlay);
+            backdrop-filter: blur(5px);
+        }
+
+        .lightbox img {
+            max-width: 98%;
+            max-height: 88%;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .close {
+            position: absolute;
+            top: 35px;
+            right: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            margin: 0;
+            padding: 0;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: var(--btn-bg);
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close:hover {
+            outline: none;
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .close:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .close svg {
+            display: block;
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: var(--btn-bg);
+            backdrop-filter: blur(12px);
+            color: var(--text);
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn.prev { left: 35px; }
+        .nav-btn.next { right: 35px; }
+
+        .nav-btn[hidden] {
+            display: none !important;
+        }
+
+        .nav-btn:hover {
+            outline: none;
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .nav-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .controls { margin-top: 20px; }
+
+        .action-btn {
+            padding: 14px 34px;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 200;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            background: var(--btn-bg);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            transition: all 0.35s ease;
+        }
+
+        .action-btn:hover {
+            outline: none;
+            border-color: var(--border-hover);
+            background: var(--accent);
+            box-shadow: 0 4px 14px rgba(0, 120, 212, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .action-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+            border-color: var(--border-hover);
+            background: var(--accent);
+            box-shadow: 0 4px 14px rgba(0, 120, 212, 0.35);
+            transform: translateY(-2px);
+        }
+
+        .action-btn:active { transform: scale(0.98); }
+        .action-btn.loading { opacity: 0.7; pointer-events: none; }
+        .status { color: var(--text-muted); text-align: center; }
+
+        @media (max-width: 600px) {
+            body { padding: 14px; }
+            h1 { margin: 34px 0; font-size: 24px; letter-spacing: 0.35em; }
+            .grid { grid-template-columns: 1fr; }
+            .close { top: 16px; right: 16px; }
+            .nav-btn { width: 40px; height: 40px; }
+            .nav-btn.prev { left: 10px; }
+            .nav-btn.next { right: 10px; }
+            .controls { width: 100%; padding: 0 20px; }
+            .controls .action-btn { width: 100%; letter-spacing: 0.25em; }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Горизонт</h1>
+
+    <main class="grid" id="gallery" aria-live="polite" aria-busy="true"></main>
+
+    <noscript>
+        <p class="status">Для работы архива необходим JavaScript.</p>
+    </noscript>
+
+    <dialog class="lightbox" id="viewer" aria-label="Просмотр обоев">
+        <button class="close" id="close" type="button" aria-label="Закрыть просмотр">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M 7 7 L 17 17 M 17 7 L 7 17"></path>
+            </svg>
+        </button>
+
+        <button class="nav-btn prev" id="prev" type="button" aria-label="Предыдущее изображение">&lsaquo;</button>
+        <button class="nav-btn next" id="next" type="button" aria-label="Следующее изображение">&rsaquo;</button>
+
+        <img id="bigImage" alt="" referrerpolicy="no-referrer">
+
+        <div class="controls">
+            <button class="action-btn" id="download" type="button">Скачать UHD</button>
+        </div>
+    </dialog>
+
+    <script>
+        'use strict';
+
+        const gallery = document.getElementById('gallery');
+        const viewer = document.getElementById('viewer');
+        const bigImage = document.getElementById('bigImage');
+        const downloadBtn = document.getElementById('download');
+        const closeBtn = document.getElementById('close');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+
+        const FALLBACK_TIMEOUT = 5000;
+
+        // Состояние
+        let galleryItems = [];
+        let currentIndex = -1;
+        let blobURL = null;
+        let fallbackTimer = null;
+        let loadToken = 0;
+        let previouslyFocused = null;
+        let downloadFallbackItem = null;
+        let downloadController = null;
+
+        function setDownloadState(label, isLoading = false) {
+            downloadBtn.textContent = label;
+            downloadBtn.classList.toggle('loading', isLoading);
+        }
+
+        function releaseBlobURL() {
+            if (blobURL) {
+                URL.revokeObjectURL(blobURL);
+                blobURL = null;
+            }
+        }
+
+        function cancelDownload() {
+            if (downloadController) {
+                downloadController.abort();
+                downloadController = null;
+            }
+        }
+
+        async function downloadImage(item) {
+            if (!item?.url) return;
+
+            cancelDownload();
+
+            const controller = new AbortController();
+            downloadController = controller;
+            downloadFallbackItem = null;
+            setDownloadState('Загрузка...', true);
+
+            try {
+                const response = await fetch(item.url, {
+                    referrerPolicy: 'no-referrer',
+                    signal: controller.signal,
+                });
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const blob = await response.blob();
+
+                releaseBlobURL();
+                blobURL = URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = blobURL;
+                link.download = `${item.img_id || 'BING_IMAGE'}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                setDownloadState('Скачать UHD');
+            } catch (error) {
+                if (error.name === 'AbortError') return;
+                downloadFallbackItem = item;
+                setDownloadState('Открыть UHD');
+            } finally {
+                if (downloadController === controller) {
+                    downloadController = null;
+                    downloadBtn.classList.remove('loading');
+                }
+            }
+        }
+
+        function getImageAlt(item) {
+            return item.title || item.copyright || 'Обои Bing';
+        }
+
+        function openViewer(index) {
+            const item = galleryItems[index];
+            if (!item) return;
+
+            currentIndex = index;
+            downloadFallbackItem = null;
+            previouslyFocused = document.activeElement;
+
+            if (!viewer.open) {
+                viewer.showModal();
+                document.body.style.overflow = 'hidden';
+            }
+
+            prevBtn.hidden = index <= 0;
+            nextBtn.hidden = index >= galleryItems.length - 1;
+
+            bigImage.alt = getImageAlt(item);
+            bigImage.style.opacity = '0';
+            setDownloadState('Загрузка...', true);
+            
+            if (document.activeElement !== nextBtn && document.activeElement !== prevBtn) {
+                closeBtn.focus();
+            }
+
+            const token = ++loadToken;
+            let usedPreview = false;
+
+            window.clearTimeout(fallbackTimer);
+
+            const showImage = () => {
+                if (token !== loadToken) return;
+                window.clearTimeout(fallbackTimer);
+                bigImage.style.opacity = '1';
+                setDownloadState('Скачать UHD');
+            };
+
+            const showPreview = () => {
+                if (token !== loadToken) return;
+                if (usedPreview || !item.preview) {
+                    setDownloadState('Ошибка загрузки');
+                    return;
+                }
+                usedPreview = true;
+                bigImage.src = item.preview;
+            };
+
+            bigImage.onload = showImage;
+            bigImage.onerror = showPreview;
+            bigImage.src = item.url || item.preview;
+
+            fallbackTimer = window.setTimeout(() => {
+                if (token === loadToken && (!bigImage.complete || bigImage.naturalWidth === 0)) {
+                    showPreview();
+                }
+            }, FALLBACK_TIMEOUT);
+        }
+
+        function closeViewer() {
+            if (viewer.open) {
+                viewer.close();
+            }
+        }
+
+        function navigate(direction) {
+            const next = currentIndex + direction;
+            if (next < 0 || next >= galleryItems.length) return;
+            openViewer(next);
+        }
+
+        function sortByNewest(a, b) {
+            return String(b.sort_key || '').localeCompare(String(a.sort_key || ''));
+        }
+
+        const PAGE_SIZE = 36;
+        let renderedCount = 0;
+        let sentinelObserver = null;
+
+        function createCard(item, index) {
+            const card = document.createElement('button');
+            card.className = 'card';
+            card.type = 'button';
+            card.setAttribute('aria-label', `Открыть: ${getImageAlt(item)}`);
+
+            const img = document.createElement('img');
+            img.src = item.preview || item.url;
+            img.decoding = 'async';
+            img.referrerPolicy = 'no-referrer';
+            img.alt = '';
+            img.setAttribute('aria-hidden', 'true');
+
+            // Первые 6 изображений грузим сразу с повышенным приоритетом
+            if (index < 6) {
+                img.loading = 'eager';
+                img.fetchPriority = 'high';
+            } else {
+                img.loading = 'lazy';
+            }
+
+            img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+            img.addEventListener('error', () => {
+                img.classList.add('loaded');
+            }, { once: true });
+
+            card.append(img);
+            card.addEventListener('click', () => openViewer(index));
+            return card;
+        }
+
+        function renderNextBatch() {
+            if (renderedCount >= galleryItems.length) return;
+
+            const nextBatch = galleryItems.slice(renderedCount, renderedCount + PAGE_SIZE);
+            const fragment = document.createDocumentFragment();
+
+            nextBatch.forEach((item, offset) => {
+                fragment.append(createCard(item, renderedCount + offset));
+            });
+
+            renderedCount += nextBatch.length;
+
+            const sentinel = document.getElementById('gallery-sentinel');
+            if (sentinel) {
+                gallery.insertBefore(fragment, sentinel);
+                if (renderedCount >= galleryItems.length) {
+                    sentinel.remove();
+                    if (sentinelObserver) sentinelObserver.disconnect();
+                }
+            } else {
+                gallery.append(fragment);
+            }
+        }
+
+        function setupInfiniteScroll() {
+            if (sentinelObserver) sentinelObserver.disconnect();
+
+            const sentinel = document.createElement('div');
+            sentinel.id = 'gallery-sentinel';
+            sentinel.style.width = '100%';
+            sentinel.style.height = '60px';
+            sentinel.style.gridColumn = '1 / -1';
+            gallery.append(sentinel);
+
+            sentinelObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    renderNextBatch();
+                }
+            }, { rootMargin: '600px 0px' });
+
+            sentinelObserver.observe(sentinel);
+        }
+
+        function renderGallery(data) {
+            const items = Array.isArray(data) ? data : Object.values(data || {});
+            const validItems = items
+                .filter(item => item && (item.url || item.preview))
+                .map(item => ({
+                    ...item,
+                    url: item.url ? item.url.replace('/th?id=', '/th/id/') : '',
+                    preview: item.preview ? item.preview.replace('/th?id=', '/th/id/') : ''
+                }))
+                .sort(sortByNewest);
+
+            galleryItems = validItems;
+            gallery.setAttribute('aria-busy', 'false');
+
+            if (!validItems.length) {
+                gallery.innerHTML = '<p class="status">Архив пока пуст.</p>';
+                return;
+            }
+
+            renderedCount = 0;
+            gallery.replaceChildren();
+
+            // Рендерим первую партию сразу
+            renderNextBatch();
+
+            // Если элементов больше одной страницы, подключаем ленивую догрузку
+            if (validItems.length > PAGE_SIZE) {
+                setupInfiniteScroll();
+            }
+        }
+
+        async function loadGallery() {
+            try {
+                // Оптимизация кэширования для всегда свежих данных
+                const response = await fetch('data.json', { cache: 'no-cache' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                renderGallery(data);
+            } catch (error) {
+                console.error('Не удалось загрузить архив:', error);
+                gallery.setAttribute('aria-busy', 'false');
+                gallery.innerHTML = '<p class="status">Ошибка загрузки архива.</p>';
+            }
+        }
+
+        // --- Слушатели событий ---
+
+        downloadBtn.addEventListener('click', () => {
+            if (downloadFallbackItem?.url) {
+                window.open(downloadFallbackItem.url, '_blank', 'noopener,noreferrer');
+                return;
+            }
+            if (currentIndex >= 0) {
+                downloadImage(galleryItems[currentIndex]);
+            }
+        });
+
+        closeBtn.addEventListener('click', closeViewer);
+        prevBtn.addEventListener('click', () => navigate(-1));
+        nextBtn.addEventListener('click', () => navigate(1));
+
+        // Закрытие по клику на фон
+        viewer.addEventListener('click', event => {
+            if (event.target === viewer) closeViewer();
+        });
+
+        // Очистка при закрытии нативного диалога
+        viewer.addEventListener('close', () => {
+            ++loadToken;
+            window.clearTimeout(fallbackTimer);
+            cancelDownload();
+            releaseBlobURL();
+
+            document.body.style.overflow = '';
+
+            bigImage.removeAttribute('src');
+            bigImage.style.opacity = '0';
+
+            currentIndex = -1;
+            downloadFallbackItem = null;
+            setDownloadState('Скачать UHD');
+
+            previouslyFocused?.focus?.();
+        });
+
+        // Глобальные горячие клавиши
+        document.addEventListener('keydown', event => {
+            if (!viewer.open) return;
+            if (event.key === 'ArrowLeft') navigate(-1);
+            if (event.key === 'ArrowRight') navigate(1);
+        });
+
+        window.addEventListener('beforeunload', () => {
+            cancelDownload();
+            releaseBlobURL();
+        });
+
+        loadGallery();
+    </script>
+</body>
+</html>
