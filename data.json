@@ -1,16 +1,91 @@
 {
+    "MayotteOctopus": {
+        "sort_key": "20261008_MayotteOctopus",
+        "date": "2026-10-08",
+        "url": "https://www.bing.com/th?id=OHR.MayotteOctopus_EN-GB3076987688_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.MayotteOctopus_EN-GB3076987688_1920x1080.jpg",
+        "img_id": "MayotteOctopus",
+        "title": "Now you 'sea' me...",
+        "description": "Octopus in defensive posture, Mayotte, Indian Ocean (© Gabriel Barathieu/Minden Pictures)",
+        "copyright": "Octopus in defensive posture, Mayotte, Indian Ocean (© Gabriel Barathieu/Minden Pictures)",
+        "markets": [
+            "en-US",
+            "en-AU",
+            "en-CA",
+            "zh-CN",
+            "de-DE",
+            "es-ES",
+            "fr-FR",
+            "it-IT",
+            "en-NZ",
+            "en-GB",
+            "nl-NL",
+            "pl-PL",
+            "pt-BR",
+            "pt-PT",
+            "ko-KR",
+            "ru-RU"
+        ]
+    },
+    "IlesSanguinaires": {
+        "sort_key": "20261008_IlesSanguinaires",
+        "date": "2026-10-08",
+        "url": "https://www.bing.com/th?id=OHR.IlesSanguinaires_EN-GB3151593517_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.IlesSanguinaires_EN-GB3151593517_1920x1080.jpg",
+        "img_id": "IlesSanguinaires",
+        "title": "Corsica's rocky outposts",
+        "description": "View of the Sanguinaires Islands from Corsica, France (© Francesco Riccardo Iacomino/Getty Images)",
+        "copyright": "View of the Sanguinaires Islands from Corsica, France (© Francesco Riccardo Iacomino/Getty Images)",
+        "markets": [
+            "zh-CN",
+            "de-DE",
+            "es-ES",
+            "fr-FR",
+            "it-IT",
+            "ja-JP",
+            "en-GB"
+        ]
+    },
+    "Chestnut2026": {
+        "sort_key": "20261007_Chestnut2026",
+        "date": "2026-10-07",
+        "url": "https://www.bing.com/th?id=OHR.Chestnut2026_JA-JP0900389061_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.Chestnut2026_JA-JP0900389061_1920x1080.jpg",
+        "img_id": "Chestnut2026",
+        "title": "今日は寒露",
+        "description": "栗の実 (© y-studio/Getty Images)",
+        "copyright": "栗の実 (© y-studio/Getty Images)",
+        "markets": [
+            "ja-JP"
+        ]
+    },
     "ForestofDean": {
         "sort_key": "20261006_ForestofDean",
         "date": "2026-10-06",
-        "url": "https://www.bing.com/th?id=OHR.ForestofDean_JA-JP0675230191_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.ForestofDean_JA-JP0675230191_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.ForestofDean_EN-GB3000076093_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.ForestofDean_EN-GB3000076093_1920x1080.jpg",
         "img_id": "ForestofDean",
-        "title": "苔むした森",
-        "description": "パズルウッド, イングランド (© Fulcanelli_AOS/Getty Images)",
-        "copyright": "パズルウッド, イングランド (© Fulcanelli_AOS/Getty Images)",
+        "title": "Puzzled? Follow the trail",
+        "description": "Moss-covered rocks in Puzzlewood, Forest of Dean, Gloucestershire, England (© Fulcanelli_AOS/Getty Images)",
+        "copyright": "Moss-covered rocks in Puzzlewood, Forest of Dean, Gloucestershire, England (© Fulcanelli_AOS/Getty Images)",
         "markets": [
             "ja-JP",
-            "zh-CN"
+            "zh-CN",
+            "en-US",
+            "en-AU",
+            "en-CA",
+            "de-DE",
+            "es-ES",
+            "fr-FR",
+            "it-IT",
+            "en-NZ",
+            "en-GB",
+            "nl-NL",
+            "pl-PL",
+            "pt-BR",
+            "pt-PT",
+            "ko-KR",
+            "ru-RU"
         ]
     },
     "DanxiaLandform": {
@@ -317,8 +392,8 @@
     "KasilofRiver": {
         "sort_key": "20260928_KasilofRiver",
         "date": "2026-09-28",
-        "url": "https://www.bing.com/th?id=OHR.KasilofRiver_EN-GB9796874794_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.KasilofRiver_EN-GB9796874794_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.KasilofRiver_EN-US0047556055_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.KasilofRiver_EN-US0047556055_1920x1080.jpg",
         "img_id": "KasilofRiver",
         "title": "Born of glaciers",
         "description": "The blue, glacier-fed waters of the Kasilof River, Alaska, USA (© jared lloyd/Getty Images)",
