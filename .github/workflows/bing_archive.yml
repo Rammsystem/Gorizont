@@ -1,0 +1,54 @@
+name: Bing Archive Auto-Update
+
+on:
+  schedule:
+    - cron: "17 */2 * * *"   # Запуск каждые 2 часа (Bing обновляется раз в сутки)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bing-archive-update
+  cancel-in-progress: true   # Отменяем зависшие предыдущие запуски
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch Bing wallpapers
+        run: python fetch_bing.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -- data.json
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+
+          NEW_COUNT=$(git diff --cached --numstat | awk '{s+=$1} END {print s+0}')
+          git commit -m "Update Bing archive (+${NEW_COUNT} lines)"
+
+          # Retry через rebase: если между checkout и push кто-то запушил вручную,
+          # обычный push упадёт с non-fast-forward и данные потеряются до следующего запуска.
+          git push -u origin HEAD || {
+            echo "Push отклонён — делаю rebase и повтор..."
+            git pull --rebase origin main && git push -u origin HEAD
+          }
