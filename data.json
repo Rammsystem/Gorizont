@@ -1,4 +1,17 @@
 {
+    "ZaragozaBasilica": {
+        "sort_key": "20261009_ZaragozaBasilica",
+        "date": "2026-10-09",
+        "url": "https://www.bing.com/th?id=OHR.ZaragozaBasilica_ES-ES1990532240_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.ZaragozaBasilica_ES-ES1990532240_1920x1080.jpg",
+        "img_id": "ZaragozaBasilica",
+        "title": "Hoy: Zara-goza",
+        "description": "Catedral-Basílica de Nuestra Señora del Pilar, Zaragoza, Aragón, España (© frantic00/Getty Images)",
+        "copyright": "Catedral-Basílica de Nuestra Señora del Pilar, Zaragoza, Aragón, España (© frantic00/Getty Images)",
+        "markets": [
+            "es-ES"
+        ]
+    },
     "CormorantsFlight": {
         "sort_key": "20261009_CormorantsFlight",
         "date": "2026-10-09",
@@ -10,7 +23,9 @@
         "copyright": "蒙特雷湾上空的双冠鸬鹚，加利福尼亚州，美国 (© Hiroya Minakuchi/Minden Pictures)",
         "markets": [
             "zh-CN",
-            "ja-JP"
+            "ja-JP",
+            "de-DE",
+            "it-IT"
         ]
     },
     "MayotteOctopus": {
@@ -214,7 +229,8 @@
             "en-GB",
             "pt-BR",
             "en-CA",
-            "en-US"
+            "en-US",
+            "fr-FR"
         ]
     },
     "Camburiu": {
