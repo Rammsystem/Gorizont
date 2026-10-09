@@ -1,6 +1,6 @@
 # Горизонт - Архив обоев Bing
 
-[![Bing Archive Auto-Update](https://github.com/AntOne777/Gorizont/actions/workflows/update.yml/badge.svg)](https://github.com/AntOne777/Gorizont/actions/workflows/update.yml)
+[![Bing Archive Auto-Update](https://github.com/Rammsystem/Gorizont/actions/workflows/update.yml/badge.svg)](https://github.com/Rammsystem/Gorizont/actions/workflows/update.yml)
 [![Сайт](https://img.shields.io/badge/Сайт-gorizont.isvii.ru-blue)](https://gorizont.isvii.ru/)
 [![Лицензия: MIT](https://img.shields.io/badge/Лицензия-MIT-yellow.svg)](LICENSE)
 
@@ -37,7 +37,7 @@
 
 ```bash
 # 1. Клонируйте репозиторий
-git clone https://github.com/AntOne777/Gorizont.git
+git clone https://github.com/Rammsystem/Gorizont.git
 cd Gorizont
 
 # 2. Запустите локальный сервер (Python 3)
