@@ -1,6 +1,6 @@
 # Горизонт - Архив обоев Bing
 
-[![Bing Archive Auto-Update](https://github.com/Rammsystem/Gorizont/actions/workflows/update.yml/badge.svg)](https://github.com/Rammsystem/Gorizont/actions/workflows/update.yml)
+[![Bing Archive Auto-Update](https://github.com/Rammsystem/Gorizont/actions/workflows/bing_archive.yml/badge.svg)](https://github.com/Rammsystem/Gorizont/actions/workflows/bing_archive.yml)
 [![Сайт](https://img.shields.io/badge/Сайт-gorizont.isvii.ru-blue)](https://gorizont.isvii.ru/)
 [![Лицензия: MIT](https://img.shields.io/badge/Лицензия-MIT-yellow.svg)](LICENSE)
 
