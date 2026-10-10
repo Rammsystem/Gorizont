@@ -1,4 +1,30 @@
 {
+    "MouflonAutumn": {
+        "sort_key": "20261010_MouflonAutumn",
+        "date": "2026-10-10",
+        "url": "https://www.bing.com/th?id=OHR.MouflonAutumn_DE-DE6144771164_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.MouflonAutumn_DE-DE6144771164_1920x1080.jpg",
+        "img_id": "MouflonAutumn",
+        "title": "Symbol ursprünglicher Natur",
+        "description": "Europäisches Mufflon (Widder) im Herbstwald, Bayern (© imageBROKER/David & Micha Sheldon/Getty Images)",
+        "copyright": "Europäisches Mufflon (Widder) im Herbstwald, Bayern (© imageBROKER/David & Micha Sheldon/Getty Images)",
+        "markets": [
+            "de-DE"
+        ]
+    },
+    "BarcolanaBoats": {
+        "sort_key": "20261010_BarcolanaBoats",
+        "date": "2026-10-10",
+        "url": "https://www.bing.com/th?id=OHR.BarcolanaBoats_IT-IT7828341555_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.BarcolanaBoats_IT-IT7828341555_1920x1080.jpg",
+        "img_id": "BarcolanaBoats",
+        "title": "Il golfo si riempie di vele",
+        "description": "La regata della Barcolana nel Golfo di Trieste, Friuli-Venezia Giulia, Italia (© Marco Saracco/Getty Images)",
+        "copyright": "La regata della Barcolana nel Golfo di Trieste, Friuli-Venezia Giulia, Italia (© Marco Saracco/Getty Images)",
+        "markets": [
+            "it-IT"
+        ]
+    },
     "BabcockSP": {
         "sort_key": "20261010_BabcockSP",
         "date": "2026-10-10",
@@ -10,7 +36,9 @@
         "copyright": "格莱德溪磨坊，巴布科克州立公园，西弗吉尼亚州，美国 (© dszc/Getty Images)",
         "markets": [
             "zh-CN",
-            "ja-JP"
+            "ja-JP",
+            "es-ES",
+            "fr-FR"
         ]
     },
     "ZaragozaBasilica": {
