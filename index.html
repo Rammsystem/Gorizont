@@ -6,9 +6,11 @@
     <meta name="description" content="Личный архив Bing Wallpaper UHD">
     <meta name="theme-color" content="#141517">
     <title>Горизонт | Архив Bing</title>
+    <meta name="referrer" content="no-referrer">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="canonical" href="https://gorizont.isvii.ru/">
-    <link rel="preconnect" href="https://www.bing.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.bing.com">
+    <link rel="preconnect" href="https://www.bing.com">
     <link rel="preload" href="data.json" as="fetch" crossorigin="anonymous">
 
     <meta property="og:title" content="Горизонт | Архив Bing">
@@ -478,24 +480,47 @@
             card.setAttribute('aria-label', `Открыть: ${getImageAlt(item)}`);
 
             const img = document.createElement('img');
-            img.src = item.preview || item.url;
-            img.decoding = 'async';
-            img.referrerPolicy = 'no-referrer';
             img.alt = '';
             img.setAttribute('aria-hidden', 'true');
+            img.decoding = 'async';
+            img.referrerPolicy = 'no-referrer';
 
-            // Первые 6 изображений грузим сразу с повышенным приоритетом
-            if (index < 6) {
+            // Первые 8 изображений (первый экран) грузим сразу с повышенным приоритетом
+            if (index < 8) {
                 img.loading = 'eager';
                 img.fetchPriority = 'high';
             } else {
                 img.loading = 'lazy';
             }
 
-            img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
-            img.addEventListener('error', () => {
+            const primarySrc = item.preview || item.url;
+            let retries = 0;
+
+            img.addEventListener('load', () => {
                 img.classList.add('loaded');
             }, { once: true });
+
+            img.addEventListener('error', () => {
+                if (retries < 2) {
+                    retries++;
+                    setTimeout(() => {
+                        // При сбое переключаем формат между /th/id/ и /th?id= и повторяем запрос
+                        const current = img.src;
+                        if (current.includes('/th/id/')) {
+                            img.src = current.replace('/th/id/', '/th?id=');
+                        } else if (current.includes('/th?id=')) {
+                            img.src = current.replace('/th?id=', '/th/id/');
+                        } else {
+                            img.src = primarySrc;
+                        }
+                    }, 600 * retries);
+                } else {
+                    img.classList.add('loaded');
+                }
+            });
+
+            // Назначаем src строго ПОСЛЕ задания всех атрибутов и слушателей
+            img.src = primarySrc;
 
             card.append(img);
             card.addEventListener('click', () => openViewer(index));
@@ -540,7 +565,7 @@
                 if (entries[0].isIntersecting) {
                     renderNextBatch();
                 }
-            }, { rootMargin: '600px 0px' });
+            }, { rootMargin: '250px 0px' });
 
             sentinelObserver.observe(sentinel);
         }
