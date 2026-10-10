@@ -15,17 +15,18 @@
     "CormorantsFlight": {
         "sort_key": "20261009_CormorantsFlight",
         "date": "2026-10-09",
-        "url": "https://www.bing.com/th?id=OHR.CormorantsFlight_ZH-CN0770863330_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.CormorantsFlight_ZH-CN0770863330_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.CormorantsFlight_EN-GB3315477514_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.CormorantsFlight_EN-GB3315477514_1920x1080.jpg",
         "img_id": "CormorantsFlight",
-        "title": "迁飞路线上的生命",
-        "description": "蒙特雷湾上空的双冠鸬鹚，加利福尼亚州，美国 (© Hiroya Minakuchi/Minden Pictures)",
-        "copyright": "蒙特雷湾上空的双冠鸬鹚，加利福尼亚州，美国 (© Hiroya Minakuchi/Minden Pictures)",
+        "title": "Life along the flyway",
+        "description": "Double-crested cormorants over Monterey Bay, California, United States (© Hiroya Minakuchi/Minden Pictures)",
+        "copyright": "Double-crested cormorants over Monterey Bay, California, United States (© Hiroya Minakuchi/Minden Pictures)",
         "markets": [
             "zh-CN",
             "ja-JP",
             "de-DE",
-            "it-IT"
+            "it-IT",
+            "en-GB"
         ]
     },
     "MayotteOctopus": {
@@ -403,8 +404,8 @@
     "BeardReedling": {
         "sort_key": "20260929_BeardReedling",
         "date": "2026-09-29",
-        "url": "https://www.bing.com/th?id=OHR.BeardReedling_EN-GB9865111388_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.BeardReedling_EN-GB9865111388_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.BeardReedling_EN-US0124350202_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.BeardReedling_EN-US0124350202_1920x1080.jpg",
         "img_id": "BeardReedling",
         "title": "A face you don't forget",
         "description": "Male bearded reedling, Norfolk, England (© Andrew Sproule/Shutterstock)",
