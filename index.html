@@ -80,10 +80,9 @@
             transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .card:hover { will-change: transform; }
-
         .card:hover {
             outline: none;
+            will-change: transform;
             transform: scale(1.02);
         }
 
@@ -92,6 +91,34 @@
             outline: 2px solid var(--accent);
             outline-offset: 4px;
             transform: scale(1.02);
+        }
+
+        /* Skeleton-анимация мерцания при загрузке */
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.04) 50%,
+                transparent 100%
+            );
+            transform: translateX(-100%);
+            animation: shimmer 1.8s infinite ease-in-out;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .card.is-loaded::before,
+        .card:has(img.loaded)::before {
+            opacity: 0;
+            animation: none;
         }
 
         .card img {
@@ -498,6 +525,7 @@
 
             img.addEventListener('load', () => {
                 img.classList.add('loaded');
+                card.classList.add('is-loaded');
             }, { once: true });
 
             img.addEventListener('error', () => {
@@ -516,6 +544,7 @@
                     }, 600 * retries);
                 } else {
                     img.classList.add('loaded');
+                    card.classList.add('is-loaded');
                 }
             });
 
@@ -603,8 +632,8 @@
 
         async function loadGallery() {
             try {
-                // Оптимизация кэширования для всегда свежих данных
-                const response = await fetch('data.json', { cache: 'no-cache' });
+                // Использование предзагруженного ресурса (согласовано с <link rel="preload">)
+                const response = await fetch('data.json');
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const data = await response.json();
                 renderGallery(data);
@@ -630,6 +659,32 @@
         closeBtn.addEventListener('click', closeViewer);
         prevBtn.addEventListener('click', () => navigate(-1));
         nextBtn.addEventListener('click', () => navigate(1));
+
+        // Поддержка свайпов на мобильных устройствах
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        viewer.addEventListener('touchstart', event => {
+            if (event.touches.length === 1) {
+                touchStartX = event.touches[0].clientX;
+                touchStartY = event.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        viewer.addEventListener('touchend', event => {
+            if (!viewer.open || event.changedTouches.length === 0) return;
+            const deltaX = event.changedTouches[0].clientX - touchStartX;
+            const deltaY = event.changedTouches[0].clientY - touchStartY;
+
+            // Срабатывает только при отчётливом горизонтальном свайпе
+            if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+                if (deltaX < 0) {
+                    navigate(1);  // Свайп влево — следующее изображение
+                } else {
+                    navigate(-1); // Свайп вправо — предыдущее изображение
+                }
+            }
+        }, { passive: true });
 
         // Закрытие по клику на фон
         viewer.addEventListener('click', event => {
