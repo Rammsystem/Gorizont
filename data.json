@@ -1,4 +1,17 @@
 {
+    "MumblesSwansea2026": {
+        "sort_key": "20261011_MumblesSwansea2026",
+        "date": "2026-10-11",
+        "url": "https://www.bing.com/th?id=OHR.MumblesSwansea2026_ZH-CN5419531039_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.MumblesSwansea2026_ZH-CN5419531039_1920x1080.jpg",
+        "img_id": "MumblesSwansea2026",
+        "title": "从铁轨到潮汐",
+        "description": "曼布尔斯码头，斯旺西，威尔士 (© Helen Hotson/Shutterstock)",
+        "copyright": "曼布尔斯码头，斯旺西，威尔士 (© Helen Hotson/Shutterstock)",
+        "markets": [
+            "zh-CN"
+        ]
+    },
     "MouflonAutumn": {
         "sort_key": "20261010_MouflonAutumn",
         "date": "2026-10-10",
@@ -1149,7 +1162,8 @@
             "pl-PL",
             "pt-PT",
             "ko-KR",
-            "ru-RU"
+            "ru-RU",
+            "ja-JP"
         ]
     },
     "KochiaChina": {
