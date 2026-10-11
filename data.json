@@ -28,17 +28,18 @@
     "BabcockSP": {
         "sort_key": "20261010_BabcockSP",
         "date": "2026-10-10",
-        "url": "https://www.bing.com/th?id=OHR.BabcockSP_ZH-CN5266848536_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.BabcockSP_ZH-CN5266848536_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.BabcockSP_EN-GB3870597164_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.BabcockSP_EN-GB3870597164_1920x1080.jpg",
         "img_id": "BabcockSP",
-        "title": "秋色中转动的水轮",
-        "description": "格莱德溪磨坊，巴布科克州立公园，西弗吉尼亚州，美国 (© dszc/Getty Images)",
-        "copyright": "格莱德溪磨坊，巴布科克州立公园，西弗吉尼亚州，美国 (© dszc/Getty Images)",
+        "title": "Where autumn turns the wheel",
+        "description": "Glade Creek Grist Mill, Babcock State Park, West Virginia, United States (© dszc/Getty Images)",
+        "copyright": "Glade Creek Grist Mill, Babcock State Park, West Virginia, United States (© dszc/Getty Images)",
         "markets": [
             "zh-CN",
             "ja-JP",
             "es-ES",
-            "fr-FR"
+            "fr-FR",
+            "en-GB"
         ]
     },
     "ZaragozaBasilica": {
@@ -654,8 +655,8 @@
     "BearsEars": {
         "sort_key": "20260925_BearsEars",
         "date": "2026-09-25",
-        "url": "https://www.bing.com/th?id=OHR.BearsEars_EN-GB9519047413_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.BearsEars_EN-GB9519047413_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.BearsEars_EN-US9429791451_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.BearsEars_EN-US9429791451_1920x1080.jpg",
         "img_id": "BearsEars",
         "title": "The stories written across the land",
         "description": "Cedar Mesa and Muley Point near Bears Ears National Monument, Utah, USA (© Jeff Clay/Tandem Stills + Motion)",
