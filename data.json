@@ -1,4 +1,17 @@
 {
+    "PatrullaAguila": {
+        "sort_key": "20261011_PatrullaAguila",
+        "date": "2026-10-11",
+        "url": "https://www.bing.com/th?id=OHR.PatrullaAguila_ES-ES5090687481_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.PatrullaAguila_ES-ES5090687481_1920x1080.jpg",
+        "img_id": "PatrullaAguila",
+        "title": "Los colores de la hispanidad",
+        "description": "La Patrulla Águila sobrevuela durante el Desfile Militar del Día Nacional, Madrid, España (© Carlos Alvarez/Getty Images)",
+        "copyright": "La Patrulla Águila sobrevuela durante el Desfile Militar del Día Nacional, Madrid, España (© Carlos Alvarez/Getty Images)",
+        "markets": [
+            "es-ES"
+        ]
+    },
     "MumblesSwansea2026": {
         "sort_key": "20261011_MumblesSwansea2026",
         "date": "2026-10-11",
@@ -9,7 +22,10 @@
         "description": "曼布尔斯码头，斯旺西，威尔士 (© Helen Hotson/Shutterstock)",
         "copyright": "曼布尔斯码头，斯旺西，威尔士 (© Helen Hotson/Shutterstock)",
         "markets": [
-            "zh-CN"
+            "zh-CN",
+            "de-DE",
+            "fr-FR",
+            "it-IT"
         ]
     },
     "MouflonAutumn": {
