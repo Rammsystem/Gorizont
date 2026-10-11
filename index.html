@@ -238,6 +238,12 @@
         .nav-btn.prev { left: 35px; }
         .nav-btn.next { right: 35px; }
 
+        .nav-btn:disabled {
+            opacity: 0.25;
+            cursor: default;
+            pointer-events: none;
+        }
+
         .nav-btn[hidden] {
             display: none !important;
         }
@@ -311,7 +317,7 @@
 <body>
     <h1>Горизонт</h1>
 
-    <main class="grid" id="gallery" aria-live="polite" aria-busy="true"></main>
+    <main class="grid" id="gallery" aria-busy="true"></main>
 
     <noscript>
         <p class="status">Для работы архива необходим JavaScript.</p>
@@ -420,7 +426,12 @@
         }
 
         function getImageAlt(item) {
-            return item.title || item.copyright || 'Обои Bing';
+            if (item?.title && item.title !== 'Info') {
+                return item.title;
+            }
+            const copyright = item?.copyright || item?.description || '';
+            const cleaned = copyright.replace(/\s*\(©.*$/, '').trim();
+            return cleaned || 'Обои Bing';
         }
 
         function openViewer(index) {
@@ -429,15 +440,32 @@
 
             currentIndex = index;
             downloadFallbackItem = null;
-            previouslyFocused = document.activeElement;
 
             if (!viewer.open) {
+                previouslyFocused = document.activeElement;
                 viewer.showModal();
                 document.body.style.overflow = 'hidden';
             }
 
-            prevBtn.hidden = index <= 0;
-            nextBtn.hidden = index >= galleryItems.length - 1;
+            const isFirst = index <= 0;
+            const isLast = index >= galleryItems.length - 1;
+
+            if (isLast && document.activeElement === nextBtn) {
+                if (!isFirst) {
+                    prevBtn.focus();
+                } else {
+                    closeBtn.focus();
+                }
+            } else if (isFirst && document.activeElement === prevBtn) {
+                if (!isLast) {
+                    nextBtn.focus();
+                } else {
+                    closeBtn.focus();
+                }
+            }
+
+            prevBtn.disabled = isFirst;
+            nextBtn.disabled = isLast;
 
             bigImage.alt = getImageAlt(item);
             bigImage.style.opacity = '0';
@@ -707,7 +735,10 @@
             downloadFallbackItem = null;
             setDownloadState('Скачать UHD');
 
-            previouslyFocused?.focus?.();
+            if (previouslyFocused && document.contains(previouslyFocused)) {
+                previouslyFocused.focus();
+            }
+            previouslyFocused = null;
         });
 
         // Глобальные горячие клавиши
