@@ -1,4 +1,30 @@
 {
+    "KidsDay": {
+        "sort_key": "20261012_KidsDay",
+        "date": "2026-10-12",
+        "url": "https://www.bing.com/th?id=OHR.KidsDay_PT-BR1347488359_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.KidsDay_PT-BR1347488359_1920x1080.jpg",
+        "img_id": "KidsDay",
+        "title": "Um mundo de miriti",
+        "description": "Brinquedos tradicionais de miriti expostos durante o Círio de Nazaré em Belém, Pará (© Ricardo Lima/Getty Images)",
+        "copyright": "Brinquedos tradicionais de miriti expostos durante o Círio de Nazaré em Belém, Pará (© Ricardo Lima/Getty Images)",
+        "markets": [
+            "pt-BR"
+        ]
+    },
+    "HeartLakeTG": {
+        "sort_key": "20261012_HeartLakeTG",
+        "date": "2026-10-12",
+        "url": "https://www.bing.com/th?id=OHR.HeartLakeTG_EN-CA2157233427_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.HeartLakeTG_EN-CA2157233427_1920x1080.jpg",
+        "img_id": "HeartLakeTG",
+        "title": "Hearts filled with gratitude",
+        "description": "Baker Lake near East Bolton, Quebec (© SEBASTIEN ST-JEAN/Contributor/Getty Images)",
+        "copyright": "Baker Lake near East Bolton, Quebec (© SEBASTIEN ST-JEAN/Contributor/Getty Images)",
+        "markets": [
+            "en-CA"
+        ]
+    },
     "PatrullaAguila": {
         "sort_key": "20261011_PatrullaAguila",
         "date": "2026-10-11",
