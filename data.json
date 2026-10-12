@@ -1,4 +1,17 @@
 {
+    "WhiteHouse": {
+        "sort_key": "20261012_WhiteHouse",
+        "date": "2026-10-12",
+        "url": "https://www.bing.com/th?id=OHR.WhiteHouse_EN-US6161912809_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.WhiteHouse_EN-US6161912809_1920x1080.jpg",
+        "img_id": "WhiteHouse",
+        "title": "A landscape of living history",
+        "description": "White House Ruin at Canyon de Chelly National Monument in Arizona (© Ingo Arndt/Minden Pictures)",
+        "copyright": "White House Ruin at Canyon de Chelly National Monument in Arizona (© Ingo Arndt/Minden Pictures)",
+        "markets": [
+            "en-US"
+        ]
+    },
     "KidsDay": {
         "sort_key": "20261012_KidsDay",
         "date": "2026-10-12",
@@ -52,7 +65,14 @@
             "de-DE",
             "fr-FR",
             "it-IT",
-            "en-GB"
+            "en-GB",
+            "en-AU",
+            "en-NZ",
+            "nl-NL",
+            "pl-PL",
+            "pt-PT",
+            "ko-KR",
+            "ru-RU"
         ]
     },
     "MouflonAutumn": {
