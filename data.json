@@ -15,19 +15,20 @@
     "PlitviceAutumn": {
         "sort_key": "20261012_PlitviceAutumn",
         "date": "2026-10-12",
-        "url": "https://www.bing.com/th?id=OHR.PlitviceAutumn_ZH-CN5646237897_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.PlitviceAutumn_ZH-CN5646237897_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.PlitviceAutumn_EN-GB4470740504_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.PlitviceAutumn_EN-GB4470740504_1920x1080.jpg",
         "img_id": "PlitviceAutumn",
-        "title": "蓝与绿的交响曲",
-        "description": "普利特维采湖群国家公园，克罗地亚 (© Jan Wlodarczyk/Alamy)",
-        "copyright": "普利特维采湖群国家公园，克罗地亚 (© Jan Wlodarczyk/Alamy)",
+        "title": "A symphony in blue and green",
+        "description": "Plitvice Lakes National Park, Croatia (© Jan Wlodarczyk/Alamy)",
+        "copyright": "Plitvice Lakes National Park, Croatia (© Jan Wlodarczyk/Alamy)",
         "markets": [
             "zh-CN",
             "ja-JP",
             "de-DE",
             "es-ES",
             "fr-FR",
-            "it-IT"
+            "it-IT",
+            "en-GB"
         ]
     },
     "KidsDay": {
@@ -638,8 +639,8 @@
     "AmberHall": {
         "sort_key": "20260927_AmberHall",
         "date": "2026-09-27",
-        "url": "https://www.bing.com/th?id=OHR.AmberHall_EN-GB9719100676_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.AmberHall_EN-GB9719100676_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.AmberHall_EN-US9930812541_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.AmberHall_EN-US9930812541_1920x1080.jpg",
         "img_id": "AmberHall",
         "title": "History with a view",
         "description": "Sattais Katcheri Hall in Amber Fort near Jaipur, Rajasthan, India (© R.M. Nunes/Getty Images)",
