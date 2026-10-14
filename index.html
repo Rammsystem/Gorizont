@@ -214,9 +214,9 @@
             stroke-width: 2.6;
             stroke-linecap: round;
             stroke-linejoin: round;
-         }
+        }
 
-            .close svg {
+        .close svg {
             width: 20px;
             height: 20px;
             stroke-width: 2.5;
@@ -324,7 +324,7 @@
             </svg>
         </button>
 
-        <img id="bigImage" alt="" referrerpolicy="no-referrer">
+        <img id="bigImage" alt="" referrerpolicy="no-referrer" fetchpriority="high">
 
         <div class="controls">
             <button class="action-btn" id="download" type="button">Скачать UHD</button>
@@ -353,6 +353,7 @@
         let downloadFallbackItem = null;
         let downloadController = null;
         let sentinelObserver = null;
+        let activeUhdLoader = null;
         const preloadedUHD = new Set();
 
         function setDownloadState(label, isLoading = false) {
@@ -371,6 +372,15 @@
             if (downloadController) {
                 downloadController.abort();
                 downloadController = null;
+            }
+        }
+
+        function cancelUhdLoader() {
+            if (activeUhdLoader) {
+                activeUhdLoader.onload = null;
+                activeUhdLoader.onerror = null;
+                activeUhdLoader.src = '';
+                activeUhdLoader = null;
             }
         }
 
@@ -422,6 +432,7 @@
             preloadedUHD.add(url);
             const img = new Image();
             img.referrerPolicy = 'no-referrer';
+            img.fetchPriority = 'low';
             img.src = url;
         }
 
@@ -432,6 +443,7 @@
             currentIndex = index;
             downloadFallbackItem = null;
             cancelDownload();
+            cancelUhdLoader();
 
             if (!viewer.open) {
                 previouslyFocused = document.activeElement;
@@ -455,29 +467,62 @@
 
             const token = ++loadToken;
             bigImage.alt = item.img_id || 'Обои Bing';
-            bigImage.style.opacity = '0';
-            setDownloadState('Загрузка...', true);
+            bigImage.fetchPriority = 'high';
 
-            const targetSrc = item.url || item.preview;
-
-            bigImage.onload = () => {
-                if (token !== loadToken) return;
+            // Если есть и превью, и UHD — мгновенно показываем превью из кэша, а UHD грузим с высоким приоритетом
+            if (item.preview && item.url && item.preview !== item.url) {
+                bigImage.onload = null;
+                bigImage.onerror = null;
+                bigImage.src = item.preview;
                 bigImage.style.opacity = '1';
                 setDownloadState('Скачать UHD');
-                if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
-                if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
-            };
 
-            bigImage.onerror = () => {
-                if (token !== loadToken) return;
-                if (bigImage.src !== item.preview && item.preview) {
-                    bigImage.src = item.preview;
-                } else {
-                    setDownloadState('Ошибка загрузки', true);
-                }
-            };
+                const uhdLoader = new Image();
+                activeUhdLoader = uhdLoader;
+                uhdLoader.referrerPolicy = 'no-referrer';
+                uhdLoader.fetchPriority = 'high';
+                uhdLoader.decoding = 'async';
 
-            bigImage.src = targetSrc;
+                uhdLoader.onload = () => {
+                    if (token !== loadToken) return;
+                    activeUhdLoader = null;
+                    bigImage.src = item.url;
+                    preloadedUHD.add(item.url);
+                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
+                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
+                };
+
+                uhdLoader.onerror = () => {
+                    if (token !== loadToken) return;
+                    activeUhdLoader = null;
+                };
+
+                uhdLoader.src = item.url;
+            } else {
+                bigImage.style.opacity = '0';
+                setDownloadState('Загрузка...', true);
+
+                const targetSrc = item.url || item.preview;
+
+                bigImage.onload = () => {
+                    if (token !== loadToken) return;
+                    bigImage.style.opacity = '1';
+                    setDownloadState('Скачать UHD');
+                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
+                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
+                };
+
+                bigImage.onerror = () => {
+                    if (token !== loadToken) return;
+                    if (bigImage.src !== item.preview && item.preview) {
+                        bigImage.src = item.preview;
+                    } else {
+                        setDownloadState('Ошибка загрузки', true);
+                    }
+                };
+
+                bigImage.src = targetSrc;
+            }
         }
 
         function closeViewer() {
@@ -539,7 +584,24 @@
             img.src = primarySrc;
 
             card.append(img);
-            card.addEventListener('pointerenter', () => preloadUHD(item.url), { once: true });
+
+            // Предзагружаем UHD только при осознанном наведении (задержка 300 мс),
+            // чтобы при быстром скролле не забивать канал фоновыми 4K-файлами
+            let hoverTimer = null;
+            card.addEventListener('pointerenter', () => {
+                if (preloadedUHD.has(item.url)) return;
+                hoverTimer = setTimeout(() => {
+                    hoverTimer = null;
+                    preloadUHD(item.url);
+                }, 300);
+            });
+            card.addEventListener('pointerleave', () => {
+                if (hoverTimer) {
+                    clearTimeout(hoverTimer);
+                    hoverTimer = null;
+                }
+            });
+
             card.addEventListener('click', () => openViewer(index));
             return card;
         }
@@ -673,6 +735,7 @@
         viewer.addEventListener('close', () => {
             ++loadToken;
             cancelDownload();
+            cancelUhdLoader();
             releaseBlobURL();
 
             document.body.style.overflow = '';
@@ -698,6 +761,7 @@
 
         window.addEventListener('beforeunload', () => {
             cancelDownload();
+            cancelUhdLoader();
             releaseBlobURL();
         });
 
