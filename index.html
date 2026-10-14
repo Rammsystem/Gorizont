@@ -62,8 +62,8 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(max(360px, calc((100% - 96px) / 5)), 1fr));
+            gap: 24px;
         }
 
         .card {
