@@ -156,7 +156,6 @@ def fetch_wallpapers() -> None:
         print("Ошибка: не удалось получить данные ни для одного рынка.", file=sys.stderr)
         raise SystemExit(1)
 
-    # Обрабатываем в порядке списка MARKETS для предсказуемости
     for market in MARKETS:
         for image in market_results.get(market, []):
             urlbase = image.get("urlbase", "")
