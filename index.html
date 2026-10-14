@@ -27,11 +27,13 @@
             --card-bg: #22252a;
             --text: #fff;
             --text-muted: #c7c7c7;
-            --overlay: rgba(10, 10, 12, 0.92);
+            --overlay: rgba(15, 16, 18, 0.95);
             --accent: #0071e3;
-            --glass-bg: rgba(44, 44, 46, 0.65);
-            --glass-hover: rgba(68, 68, 72, 0.78);
-            --glass-border: rgba(255, 255, 255, 0.12);
+            --accent-hover: #0077ed;
+            --apple-btn-bg: #e8e8ed;
+            --apple-btn-hover: #d2d2d7;
+            --apple-icon: #6e6e73;
+            --apple-icon-hover: #1d1d1f;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
             --radius: 12px;
         }
@@ -49,7 +51,7 @@
             padding: 20px;
             min-height: 100vh;
             color: var(--text);
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", sans-serif;
             background: radial-gradient(circle at center, var(--bg-start) 0%, var(--bg-end) 100%);
         }
 
@@ -156,8 +158,7 @@
 
         .lightbox::backdrop {
             background: var(--overlay);
-            backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            backdrop-filter: blur(5px);
         }
 
         .lightbox img {
@@ -178,24 +179,21 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 44px;
-            height: 44px;
+            width: 36px;
+            height: 36px;
             margin: 0;
             padding: 0;
             border: none;
             border-radius: 50%;
-            background: var(--glass-bg);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 0.5px 0 0 var(--glass-border);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            color: rgba(255, 255, 255, 0.85);
+            background: var(--apple-btn-bg);
+            color: var(--apple-icon);
             cursor: pointer;
-            transition: background 0.2s ease, color 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
         }
 
         .close {
-            top: 24px;
-            right: 24px;
+            top: 28px;
+            right: 28px;
         }
 
         .nav-btn {
@@ -203,17 +201,17 @@
             transform: translateY(-50%);
         }
 
-        .nav-btn.prev { left: 24px; }
-        .nav-btn.next { right: 24px; }
+        .nav-btn.prev { left: 28px; }
+        .nav-btn.next { right: 28px; }
 
         .close svg,
         .nav-btn svg {
             display: block;
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             fill: none;
             stroke: currentColor;
-            stroke-width: 2;
+            stroke-width: 2.6;
             stroke-linecap: round;
             stroke-linejoin: round;
         }
@@ -226,14 +224,11 @@
         .nav-btn:hover,
         .nav-btn:focus-visible {
             outline: none;
-            background: var(--glass-hover);
-            color: #fff;
+            background: var(--apple-btn-hover);
+            color: var(--apple-icon-hover);
         }
 
-        .close:hover { transform: scale(1.06); }
         .close:active { transform: scale(0.95); }
-
-        .nav-btn:hover { transform: translateY(-50%) scale(1.06); }
         .nav-btn:active { transform: translateY(-50%) scale(0.95); }
 
         .close:focus-visible,
@@ -248,67 +243,50 @@
             pointer-events: none;
         }
 
-        .controls { margin-top: 18px; }
+        .controls { margin-top: 20px; }
 
         .action-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            height: 42px;
-            padding: 0 22px;
-            color: rgba(255, 255, 255, 0.92);
+            padding: 8px 18px;
+            min-height: 36px;
+            color: #fff;
             font-family: inherit;
             font-size: 14px;
-            font-weight: 500;
-            letter-spacing: -0.01em;
+            font-weight: 400;
+            line-height: 1.42859;
+            letter-spacing: -0.016em;
             border: none;
-            border-radius: 999px;
-            background: var(--glass-bg);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35), inset 0 0.5px 0 0 var(--glass-border);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-radius: 980px;
+            background: var(--accent);
             cursor: pointer;
-            transition: background 0.2s ease, color 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .action-btn svg {
-            width: 16px;
-            height: 16px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
+            transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
         }
 
         .action-btn:hover,
         .action-btn:focus-visible {
             outline: none;
-            background: var(--glass-hover);
-            color: #fff;
-            transform: scale(1.03);
+            background: var(--accent-hover);
         }
 
         .action-btn:focus-visible {
-            outline: 2px solid var(--accent);
+            outline: 2px solid #fff;
             outline-offset: 2px;
         }
 
-        .action-btn:active { transform: scale(0.97); }
-        .action-btn.loading { opacity: 0.6; pointer-events: none; }
+        .action-btn:active { transform: scale(0.98); }
+        .action-btn.loading { opacity: 0.65; pointer-events: none; }
         .status { color: var(--text-muted); text-align: center; }
 
         @media (max-width: 600px) {
             body { padding: 14px; }
             h1 { margin: 20px 0 24px; font-size: 26px; letter-spacing: 0.35em; padding-left: 0.35em; }
             .grid { grid-template-columns: 1fr; }
-            .close { top: 14px; right: 14px; width: 40px; height: 40px; }
-            .nav-btn { width: 40px; height: 40px; }
-            .nav-btn.prev { left: 10px; }
-            .nav-btn.next { right: 10px; }
+            .close { top: 16px; right: 16px; }
+            .nav-btn.prev { left: 12px; }
+            .nav-btn.next { right: 12px; }
             .controls { width: 100%; padding: 0 20px; display: flex; justify-content: center; }
-            .controls .action-btn { width: 100%; max-width: 260px; }
         }
     </style>
 </head>
@@ -343,12 +321,7 @@
         <img id="bigImage" alt="" referrerpolicy="no-referrer">
 
         <div class="controls">
-            <button class="action-btn" id="download" type="button">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 4v11m0 0l-4-4m4 4l4-4M5 19h14"></path>
-                </svg>
-                <span id="downloadText">Скачать UHD</span>
-            </button>
+            <button class="action-btn" id="download" type="button">Скачать UHD</button>
         </div>
     </dialog>
 
@@ -359,7 +332,6 @@
         const viewer = document.getElementById('viewer');
         const bigImage = document.getElementById('bigImage');
         const downloadBtn = document.getElementById('download');
-        const downloadText = document.getElementById('downloadText');
         const closeBtn = document.getElementById('close');
         const prevBtn = document.getElementById('prev');
         const nextBtn = document.getElementById('next');
@@ -378,7 +350,7 @@
         const preloadedUHD = new Set();
 
         function setDownloadState(label, isLoading = false) {
-            downloadText.textContent = label;
+            downloadBtn.textContent = label;
             downloadBtn.classList.toggle('loading', isLoading);
         }
 
