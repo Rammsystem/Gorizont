@@ -340,6 +340,7 @@
         let downloadFallbackItem = null;
         let downloadController = null;
         let sentinelObserver = null;
+        const preloadedUHD = new Set();
 
         function setDownloadState(label, isLoading = false) {
             downloadBtn.textContent = label;
@@ -403,13 +404,12 @@
             }
         }
 
-        function preloadNeighbor(index) {
-            const nextItem = galleryItems[index];
-            if (nextItem?.preview) {
-                const img = new Image();
-                img.referrerPolicy = 'no-referrer';
-                img.src = nextItem.preview;
-            }
+        function preloadUHD(url) {
+            if (!url || preloadedUHD.has(url)) return;
+            preloadedUHD.add(url);
+            const img = new Image();
+            img.referrerPolicy = 'no-referrer';
+            img.src = url;
         }
 
         function openViewer(index) {
@@ -442,35 +442,29 @@
 
             const token = ++loadToken;
             bigImage.alt = item.img_id || 'Обои Bing';
+            bigImage.style.opacity = '0';
+            setDownloadState('Загрузка...', true);
 
-            if (item.preview) {
-                bigImage.src = item.preview;
+            const targetSrc = item.url || item.preview;
+
+            bigImage.onload = () => {
+                if (token !== loadToken) return;
                 bigImage.style.opacity = '1';
                 setDownloadState('Скачать UHD');
-            } else {
-                bigImage.style.opacity = '0';
-                setDownloadState('Загрузка...', true);
-            }
+                if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
+                if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
+            };
 
-            if (item.url) {
-                const uhd = new Image();
-                uhd.referrerPolicy = 'no-referrer';
-                uhd.decoding = 'async';
-                uhd.onload = () => {
-                    if (token !== loadToken) return;
-                    bigImage.src = uhd.src;
-                    bigImage.style.opacity = '1';
-                    setDownloadState('Скачать UHD');
-                    preloadNeighbor(index + 1);
-                };
-                uhd.onerror = () => {
-                    if (token !== loadToken) return;
-                    if (!item.preview) {
-                        setDownloadState('Ошибка загрузки', true);
-                    }
-                };
-                uhd.src = item.url;
-            }
+            bigImage.onerror = () => {
+                if (token !== loadToken) return;
+                if (bigImage.src !== item.preview && item.preview) {
+                    bigImage.src = item.preview;
+                } else {
+                    setDownloadState('Ошибка загрузки', true);
+                }
+            };
+
+            bigImage.src = targetSrc;
         }
 
         function closeViewer() {
@@ -532,6 +526,7 @@
             img.src = primarySrc;
 
             card.append(img);
+            card.addEventListener('pointerenter', () => preloadUHD(item.url), { once: true });
             card.addEventListener('click', () => openViewer(index));
             return card;
         }
