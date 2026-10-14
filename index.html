@@ -33,7 +33,7 @@
             --border-hover: rgba(255, 255, 255, 0.5);
             --btn-bg: rgba(255, 255, 255, 0.08);
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-            --radius: 8px;
+            --radius: 12px;
         }
 
         * { box-sizing: border-box; }
@@ -327,7 +327,7 @@
         const prevBtn = document.getElementById('prev');
         const nextBtn = document.getElementById('next');
 
-        const PAGE_SIZE = 36;
+        const PAGE_SIZE = 40;
 
         let galleryItems = [];
         let renderedCount = 0;
@@ -493,7 +493,7 @@
             img.decoding = 'async';
             img.referrerPolicy = 'no-referrer';
 
-            if (index < 8) {
+            if (index < 15) {
                 img.loading = 'eager';
                 img.fetchPriority = 'high';
             } else {
