@@ -457,7 +457,8 @@
             "es-ES",
             "fr-FR",
             "it-IT",
-            "en-GB"
+            "en-GB",
+            "pt-BR"
         ]
     },
     "PerugiaAqueduct": {
@@ -497,7 +498,8 @@
             "pl-PL",
             "pt-PT",
             "ko-KR",
-            "ru-RU"
+            "ru-RU",
+            "en-CA"
         ]
     },
     "GreenLake": {
