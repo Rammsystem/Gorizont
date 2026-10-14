@@ -21,13 +21,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
       - name: Fetch Bing wallpapers
-        run: python fetch_bing.py
+        run: python3 fetch_bing.py
 
       - name: Commit and push changes
         run: |
