@@ -2,7 +2,7 @@ name: Bing Archive Auto-Update
 
 on:
   schedule:
-    - cron: "17 */2 * * *"   # Запуск каждые 2 часа (Bing обновляется раз в сутки)
+    - cron: "17 */2 * * *"
   workflow_dispatch:
 
 permissions:
@@ -10,7 +10,7 @@ permissions:
 
 concurrency:
   group: bing-archive-update
-  cancel-in-progress: true   # Отменяем зависшие предыдущие запуски
+  cancel-in-progress: true
 
 jobs:
   update:
@@ -39,9 +39,6 @@ jobs:
           NEW_COUNT=$(git diff --cached --numstat | awk '{s+=$1} END {print s+0}')
           git commit -m "Update Bing archive (+${NEW_COUNT} lines)"
 
-          # Retry через rebase: если между checkout и push кто-то запушил вручную,
-          # обычный push упадёт с non-fast-forward и данные потеряются до следующего запуска.
           git push -u origin HEAD || {
-            echo "Push отклонён — делаю rebase и повтор..."
             git pull --rebase origin main && git push -u origin HEAD
           }
