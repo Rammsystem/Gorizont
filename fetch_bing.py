@@ -1,66 +1,78 @@
+import gzip
 import json
 import os
+import re
 import sys
 import time
-import re
-import gzip
+import urllib.error
+import urllib.parse
+import urllib.request
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-import urllib.request
-import urllib.parse
-import urllib.error
 
-MARKETS = [
-    "en-US", "en-AU", "en-CA", "zh-CN", "de-DE", "es-ES", "fr-FR",
-    "it-IT", "ja-JP", "en-NZ", "en-GB", "nl-NL", "pl-PL", "pt-BR",
-    "pt-PT", "ko-KR", "ru-RU",
-]
+MARKETS = (
+    "en-US", "en-GB", "en-CA", "en-AU", "en-NZ",
+    "de-DE", "fr-FR", "es-ES", "it-IT", "nl-NL",
+    "pl-PL", "pt-BR", "pt-PT", "ru-RU", "ja-JP",
+    "zh-CN", "ko-KR",
+)
 
+PREFERRED_MARKETS = {"en-US", "en-GB"}
+API_URL = "https://www.bing.com/HPImageArchive.aspx"
 DATA_FILE = Path("data.json")
+REQUEST_TIMEOUT = 20
 
 HEADERS = {
     "User-Agent": (
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/127.0.0.0 Safari/537.36"
+        "Chrome/128.0.0.0 Safari/537.36"
     ),
     "Accept": "application/json",
     "Accept-Encoding": "gzip",
 }
 
-REQUEST_TIMEOUT = 30
-
 _MARKET_SUFFIX = re.compile(r"_(?:[A-Z]{2,3}(?:-[A-Z]{2,3})?)\d*$", re.IGNORECASE)
 
 
-def fetch_json_with_retry(api_url, params, headers, max_retries=3):
-    query_string = urllib.parse.urlencode(params)
-    url = f"{api_url}?{query_string}"
-    req = urllib.request.Request(url, headers=headers)
-    retry_status_codes = {429, 500, 502, 503, 504}
+def fetch_json_with_retry(params: dict, max_retries: int = 3) -> dict:
+    url = f"{API_URL}?{urllib.parse.urlencode(params)}"
+    req = urllib.request.Request(url, headers=HEADERS)
+    retry_codes = {429, 500, 502, 503, 504}
 
     for attempt in range(max_retries + 1):
         try:
             with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT) as response:
                 body = response.read()
-                encoding = (response.info().get("Content-Encoding") or "").lower()
-                if "gzip" in encoding:
+                if "gzip" in (response.info().get("Content-Encoding") or "").lower():
                     body = gzip.decompress(body)
                 return json.loads(body.decode("utf-8"))
         except urllib.error.HTTPError as error:
             error.close()
-            if error.code in retry_status_codes and attempt < max_retries:
-                time.sleep(1 * (2 ** attempt))
+            if error.code in retry_codes and attempt < max_retries:
+                time.sleep(2 ** attempt)
                 continue
             raise
-        except (urllib.error.URLError, TimeoutError, OSError) as error:
+        except (urllib.error.URLError, TimeoutError, OSError):
             if attempt < max_retries:
-                time.sleep(1 * (2 ** attempt))
+                time.sleep(2 ** attempt)
                 continue
             raise
+    return {}
 
 
-def load_database():
+def normalize_url(url: str) -> str:
+    return (url or "").replace("/th?id=", "/th/id/")
+
+
+def get_image_id(urlbase: str, start_date: str) -> str:
+    raw_id = urlbase.split("?id=OHR.", 1)[1] if "?id=OHR." in urlbase else urlbase.rsplit("/", 1)[-1]
+    raw_id = raw_id.split("&", 1)[0]
+    return _MARKET_SUFFIX.sub("", raw_id) or f"bing-{start_date}"
+
+
+def load_database() -> dict[str, dict]:
     if not DATA_FILE.exists():
         return {}
     try:
@@ -69,158 +81,104 @@ def load_database():
     except Exception as error:
         print(f"Ошибка чтения файла {DATA_FILE}: {error}", file=sys.stderr)
         raise SystemExit(1) from error
+
     if not isinstance(data, dict):
         print(f"Ошибка: файл {DATA_FILE} должен содержать JSON-объект.", file=sys.stderr)
         raise SystemExit(1)
 
     cleaned_db = {}
     for old_id, entry in data.items():
-        fresh_id = _MARKET_SUFFIX.sub("", entry.get("img_id", old_id))
-        if entry.get("sort_key"):
-            entry["sort_key"] = _MARKET_SUFFIX.sub("", entry["sort_key"])
-        if fresh_id not in cleaned_db:
-            entry["img_id"] = fresh_id
-            cleaned_db[fresh_id] = entry
-        else:
-            for m in entry.get("markets", []):
-                if m not in cleaned_db[fresh_id].setdefault("markets", []):
-                    cleaned_db[fresh_id]["markets"].append(m)
-            if not cleaned_db[fresh_id].get("description") and entry.get("description"):
-                cleaned_db[fresh_id]["description"] = entry["description"]
-                cleaned_db[fresh_id]["copyright"] = entry.get("copyright")
+        clean_id = _MARKET_SUFFIX.sub("", entry.get("img_id", old_id))
+        sort_key = _MARKET_SUFFIX.sub("", entry.get("sort_key", f"{entry.get('date', '').replace('-', '')}_{clean_id}"))
+        if clean_id not in cleaned_db:
+            cleaned_db[clean_id] = {
+                "sort_key": sort_key,
+                "img_id": clean_id,
+                "url": normalize_url(entry.get("url", "")),
+                "preview": normalize_url(entry.get("preview", "")),
+            }
     return cleaned_db
 
 
-def get_image_id(urlbase, start_date):
-    if "?id=OHR." in urlbase:
-        raw_id = urlbase.split("?id=OHR.", 1)[1]
-    else:
-        raw_id = urlbase.rsplit("/", 1)[-1]
-    raw_id = raw_id.split("&", 1)[0]
-    raw_id = _MARKET_SUFFIX.sub("", raw_id)
-    return raw_id or f"bing-{start_date}"
+def fetch_market(market: str) -> tuple[str, list[dict]]:
+    images = []
+    seen = set()
+    for page_idx in (0, 7):
+        params = {"format": "js", "idx": page_idx, "n": 8, "mkt": market}
+        payload = fetch_json_with_retry(params)
+        page = payload.get("images", [])
+        if not isinstance(page, list):
+            raise ValueError("Поле images имеет неправильный формат")
+        for img in page:
+            if isinstance(img, dict):
+                key = (img.get("urlbase"), img.get("startdate"))
+                if key not in seen:
+                    seen.add(key)
+                    images.append(img)
+    return market, images
 
 
-def build_entry(image, clean_id):
-    urlbase = image.get("urlbase") or ""
-    start_date = image.get("startdate") or ""
-    copyright_text = (image.get("copyright") or "").strip()
-    title = image.get("title") or clean_id
-    if title == "Info":
-        title = clean_id
-    return {
-        "sort_key": f"{start_date}_{clean_id}",
-        "date": f"{start_date[:4]}-{start_date[4:6]}-{start_date[6:]}",
-        "url": f"https://www.bing.com{urlbase}_UHD.jpg",
-        "preview": f"https://www.bing.com{urlbase}_1920x1080.jpg",
-        "img_id": clean_id,
-        "title": title,
-        "description": copyright_text,
-        "copyright": copyright_text,
-        "markets": [],
-    }
+def write_database(data: dict) -> None:
+    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
+    temporary_path = None
+    try:
+        with NamedTemporaryFile(
+            mode="w", encoding="utf-8", dir=DATA_FILE.parent,
+            prefix=f"{DATA_FILE.name}.", suffix=".tmp", delete=False,
+        ) as tmp:
+            json.dump(data, tmp, ensure_ascii=False, indent=2)
+            tmp.write("\n")
+            temporary_path = Path(tmp.name)
+        os.replace(temporary_path, DATA_FILE)
+    except OSError as error:
+        if temporary_path and temporary_path.exists():
+            temporary_path.unlink(missing_ok=True)
+        print(f"Ошибка записи файла {DATA_FILE}: {error}", file=sys.stderr)
+        raise SystemExit(1) from error
 
 
-# Предпочтительные рынки для метаданных: их текст перезаписывает CJK-версии.
-PREFERRED_MARKETS = ("en-US", "en-GB")
-_CJK = re.compile(r"[\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af]")
-
-
-def _is_latin(text):
-    return not _CJK.search(text or "")
-
-
-def update_entry(entry, image, market):
-    copyright_text = (image.get("copyright") or "").strip()
-    markets = entry.setdefault("markets", [])
-    if market not in markets:
-        markets.append(market)
-    if not entry.get("description") and copyright_text:
-        entry["description"] = copyright_text
-    if not entry.get("copyright") and copyright_text:
-        entry["copyright"] = copyright_text
-    if not entry.get("title") or entry["title"] == "Info":
-        new_title = image.get("title") or entry["img_id"]
-        if new_title != "Info":
-            entry["title"] = new_title
-    # en-US/en-GB перепривязывают запись, если сохранён CJK/Info-текст
-    if (market in PREFERRED_MARKETS and copyright_text
-            and (not _is_latin(entry.get("description"))
-                 or not _is_latin(entry.get("title")))):
-        entry["description"] = copyright_text
-        entry["copyright"] = copyright_text
-        entry["title"] = image.get("title") or entry["title"]
-    # Preferred-рынки всегда перезаписывают url/preview для консистентности
-    if market in PREFERRED_MARKETS:
-        urlbase = image.get("urlbase") or ""
-        if urlbase:
-            entry["url"] = f"https://www.bing.com{urlbase}_UHD.jpg"
-            entry["preview"] = f"https://www.bing.com{urlbase}_1920x1080.jpg"
-
-
-def fetch_wallpapers():
+def fetch_wallpapers() -> None:
     database = load_database()
-    successful_markets = 0
-    received_images = 0
+    market_results = {}
 
-    for market in MARKETS:
-        api_url = "https://www.bing.com/HPImageArchive.aspx"
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        futures = {executor.submit(fetch_market, m): m for m in MARKETS}
+        for future in as_completed(futures):
+            market = futures[future]
+            try:
+                _, images = future.result()
+                market_results[market] = images
+                print(f"{market}: уникальных изображений — {len(images)}")
+            except Exception as error:
+                print(f"Ошибка для {market}: {error}", file=sys.stderr)
 
-        # Bing отдаёт максимум 8 картинок за запрос. Параметр idx задаёт смещение
-        # в днях от сегодняшней даты: idx=0 отдаёт дни 0..7, а idx=7 — дни 7..14.
-        # Окно (0, 7) за 2 запроса покрывает ~15 дней архива без дубликатов.
-        pages = (0, 7)
-        seen_on_market = set()
-
-        try:
-            images = []
-            for page_idx in pages:
-                params = {
-                    "format": "js",
-                    "idx": page_idx,
-                    "n": 8,          # <-- ВОТ ОТВЕТ НА ФЛАГ №1: не откатывалась
-                    "mkt": market,
-                }
-                payload = fetch_json_with_retry(api_url, params, HEADERS)
-                page = payload.get("images", [])
-                if not isinstance(page, list):
-                    raise ValueError("Поле images имеет неправильный формат")
-                images.extend(page)   # пустая страница = +0, не падает
-
-            successful_markets += 1
-            received_images += len(images)
-
-            for image in images:
-                if not isinstance(image, dict):
-                    continue
-                # защита от пересечения скользящих окон ВНУТРИ рынка
-                dedup_key = (image.get("urlbase"), image.get("startdate"))
-                if dedup_key in seen_on_market:
-                    continue
-                seen_on_market.add(dedup_key)
-
-                urlbase = image.get("urlbase", "")
-                start_date = image.get("startdate", "")
-                if not urlbase or len(start_date) != 8 or not start_date.isdigit():
-                    continue
-                clean_id = get_image_id(urlbase, start_date)
-                if not clean_id:
-                    continue
-                if clean_id not in database:
-                    database[clean_id] = build_entry(image, clean_id)
-                update_entry(database[clean_id], image, market)
-
-            print(f"{market}: получено изображений — {len(images)} "
-                  f"(уникальных {len(seen_on_market)})")
-
-        except (urllib.error.URLError, TimeoutError, OSError) as error:
-            print(f"Ошибка запроса для {market}: {error}", file=sys.stderr)
-        except (ValueError, TypeError, KeyError) as error:
-            print(f"Ошибка обработки данных для {market}: {error}", file=sys.stderr)
-
-    if successful_markets == 0:
+    if not market_results:
         print("Ошибка: не удалось получить данные ни для одного рынка.", file=sys.stderr)
         raise SystemExit(1)
+
+    # Обрабатываем в порядке списка MARKETS для предсказуемости
+    for market in MARKETS:
+        for image in market_results.get(market, []):
+            urlbase = image.get("urlbase", "")
+            start_date = image.get("startdate", "")
+            if not urlbase or len(start_date) != 8 or not start_date.isdigit():
+                continue
+
+            clean_id = get_image_id(urlbase, start_date)
+            if not clean_id:
+                continue
+
+            base_path = normalize_url(f"https://www.bing.com{urlbase}")
+            if clean_id not in database:
+                database[clean_id] = {
+                    "sort_key": f"{start_date}_{clean_id}",
+                    "img_id": clean_id,
+                    "url": f"{base_path}_UHD.jpg",
+                    "preview": f"{base_path}_1920x1080.jpg",
+                }
+            elif market in PREFERRED_MARKETS:
+                database[clean_id]["url"] = f"{base_path}_UHD.jpg"
+                database[clean_id]["preview"] = f"{base_path}_1920x1080.jpg"
 
     sorted_database = dict(sorted(
         database.items(),
@@ -228,28 +186,8 @@ def fetch_wallpapers():
         reverse=True,
     ))
     write_database(sorted_database)
-    print(f"Архив обновлён. Успешных рынков: {successful_markets}/{len(MARKETS)}. "
-          f"Получено изображений: {received_images}. "
-          f"Всего уникальных записей: {len(sorted_database)}.")
-
-
-def write_database(data):
-    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-    temporary_path = None
-    try:
-        with NamedTemporaryFile(
-            mode="w", encoding="utf-8", dir=DATA_FILE.parent,
-            prefix=f"{DATA_FILE.name}.", suffix=".tmp", delete=False,
-        ) as temporary_file:
-            json.dump(data, temporary_file, ensure_ascii=False, indent=4)
-            temporary_file.write("\n")
-            temporary_path = Path(temporary_file.name)
-        os.replace(temporary_path, DATA_FILE)
-    except OSError as error:
-        if temporary_path and temporary_path.exists():
-            temporary_path.unlink(missing_ok=True)
-        print(f"Ошибка записи файла {DATA_FILE}: {error}", file=sys.stderr)
-        raise SystemExit(1) from error
+    print(f"Архив обновлён. Успешных рынков: {len(market_results)}/{len(MARKETS)}. "
+          f"Всего записей: {len(sorted_database)}.")
 
 
 if __name__ == "__main__":
