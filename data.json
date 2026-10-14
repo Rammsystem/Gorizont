@@ -444,19 +444,20 @@
     "AmmoniteFossils": {
         "sort_key": "20261002_AmmoniteFossils",
         "date": "2026-10-02",
-        "url": "https://www.bing.com/th?id=OHR.AmmoniteFossils_JA-JP8778940090_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.AmmoniteFossils_JA-JP8778940090_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.AmmoniteFossils_EN-GB4546470412_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.AmmoniteFossils_EN-GB4546470412_1920x1080.jpg",
         "img_id": "AmmoniteFossils",
-        "title": "古代の海に生息していた動物の化石",
-        "description": "アンモナイトの化石 (© J Nemchinova/Getty Images)",
-        "copyright": "アンモナイトの化石 (© J Nemchinova/Getty Images)",
+        "title": "Spirals through time",
+        "description": "Ammonite fossils from the Jurassic Period (© J Nemchinova/Getty Images)",
+        "copyright": "Ammonite fossils from the Jurassic Period (© J Nemchinova/Getty Images)",
         "markets": [
             "ja-JP",
             "zh-CN",
             "de-DE",
             "es-ES",
             "fr-FR",
-            "it-IT"
+            "it-IT",
+            "en-GB"
         ]
     },
     "PerugiaAqueduct": {
@@ -619,8 +620,8 @@
     "KasilofRiver": {
         "sort_key": "20260928_KasilofRiver",
         "date": "2026-09-28",
-        "url": "https://www.bing.com/th?id=OHR.KasilofRiver_EN-GB9796874794_UHD.jpg",
-        "preview": "https://www.bing.com/th?id=OHR.KasilofRiver_EN-GB9796874794_1920x1080.jpg",
+        "url": "https://www.bing.com/th?id=OHR.KasilofRiver_EN-US0047556055_UHD.jpg",
+        "preview": "https://www.bing.com/th?id=OHR.KasilofRiver_EN-US0047556055_1920x1080.jpg",
         "img_id": "KasilofRiver",
         "title": "Born of glaciers",
         "description": "The blue, glacier-fed waters of the Kasilof River, Alaska, USA (© jared lloyd/Getty Images)",
