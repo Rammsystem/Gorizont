@@ -55,7 +55,7 @@
             margin: 24px 0 32px;
             padding-left: 0.6em;
             text-align: center;
-            font-size: 54px;
+            font-size: 48px;
             font-weight: 300;
             letter-spacing: 0.6em;
             text-transform: uppercase;
@@ -158,10 +158,10 @@
         }
 
         .lightbox img {
-            width: 92%;
-            height: 84%;
-            max-width: 92%;
-            max-height: 84%;
+            width: 98%;
+            height: 88%;
+            max-width: 98%;
+            max-height: 88%;
             object-fit: contain;
             user-select: none;
             -webkit-user-drag: none;
@@ -169,49 +169,23 @@
             transition: opacity 0.25s ease;
         }
 
-        .close,
-        .nav-btn {
+        .close {
             position: absolute;
+            top: 35px;
+            right: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 54px;
-            height: 54px;
+            width: 50px;
+            height: 50px;
             margin: 0;
             padding: 0;
-            border: 1px solid rgba(255, 255, 255, 0.18);
+            border: 1px solid var(--border);
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(16px);
+            background: var(--btn-bg);
+            backdrop-filter: blur(12px);
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        .close {
-            top: 32px;
-            right: 32px;
-        }
-
-        .nav-btn {
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .nav-btn.prev { left: 32px; }
-        .nav-btn.next { right: 32px; }
-
-        .close svg,
-        .nav-btn svg {
-            display: block;
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: #fff;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            transition: transform 0.25s ease;
+            transition: all 0.3s ease;
         }
 
         .close:hover,
@@ -219,13 +193,9 @@
         .nav-btn:hover,
         .nav-btn:focus-visible {
             outline: none;
-            border-color: rgba(255, 255, 255, 0.45);
-            background: rgba(255, 255, 255, 0.18);
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.15);
         }
-
-        .close:hover svg { transform: rotate(90deg); }
-        .nav-btn.prev:hover svg { transform: translateX(-2px); }
-        .nav-btn.next:hover svg { transform: translateX(2px); }
 
         .close:focus-visible,
         .nav-btn:focus-visible {
@@ -233,30 +203,62 @@
             outline-offset: 2px;
         }
 
+        .close svg {
+            display: block;
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: var(--btn-bg);
+            backdrop-filter: blur(12px);
+            color: var(--text);
+            font-size: 22px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn.prev { left: 35px; }
+        .nav-btn.next { right: 35px; }
+
         .nav-btn:disabled {
-            opacity: 0.2;
+            opacity: 0.25;
             cursor: default;
             pointer-events: none;
         }
 
-        .controls {
-            margin-top: 28px;
-        }
+        .controls { margin-top: 20px; }
 
         .action-btn {
-            padding: 15px 42px 15px calc(42px + 0.25em);
+            padding: 14px 34px;
             color: var(--text);
-            font-size: 13px;
-            font-weight: 400;
-            letter-spacing: 0.25em;
+            font-size: 14px;
+            font-weight: 200;
+            letter-spacing: 0.5em;
             text-transform: uppercase;
-            border: 1px solid rgba(255, 255, 255, 0.22);
+            border: 1px solid var(--border);
             border-radius: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(16px);
+            background: var(--btn-bg);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(12px);
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: all 0.35s ease;
         }
 
         .action-btn:hover,
@@ -303,20 +305,12 @@
     <dialog class="lightbox" id="viewer" aria-label="Просмотр обоев">
         <button class="close" id="close" type="button" aria-label="Закрыть просмотр">
             <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M18 6L6 18M6 6l12 12"></path>
+                <path d="M 7 7 L 17 17 M 17 7 L 7 17"></path>
             </svg>
         </button>
 
-        <button class="nav-btn prev" id="prev" type="button" aria-label="Предыдущее изображение">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M15 18l-6-6 6-6"></path>
-            </svg>
-        </button>
-        <button class="nav-btn next" id="next" type="button" aria-label="Следующее изображение">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M9 18l6-6-6-6"></path>
-            </svg>
-        </button>
+        <button class="nav-btn prev" id="prev" type="button" aria-label="Предыдущее изображение">&lsaquo;</button>
+        <button class="nav-btn next" id="next" type="button" aria-label="Следующее изображение">&rsaquo;</button>
 
         <img id="bigImage" alt="" referrerpolicy="no-referrer">
 
