@@ -441,7 +441,6 @@
             const token = ++loadToken;
             bigImage.alt = item.img_id || 'Обои Bing';
 
-            // 1. Мгновенно показываем уже закэшированное превью 1920x1080
             if (item.preview) {
                 bigImage.src = item.preview;
                 bigImage.style.opacity = '1';
@@ -451,7 +450,6 @@
                 setDownloadState('Загрузка...', true);
             }
 
-            // 2. В фоне подгружаем оригинал 4K UHD и бесшовно подменяем
             if (item.url) {
                 const uhd = new Image();
                 uhd.referrerPolicy = 'no-referrer';
