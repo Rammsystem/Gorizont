@@ -5,6 +5,12 @@
     "url": "https://www.bing.com/th/id/OHR.PortugueseLibrary_JA-JP3230226750_UHD.jpg",
     "preview": "https://www.bing.com/th/id/OHR.PortugueseLibrary_JA-JP3230226750_1920x1080.jpg"
   },
+  "BerlinLibrary": {
+    "sort_key": "20261023_BerlinLibrary",
+    "img_id": "BerlinLibrary",
+    "url": "https://www.bing.com/th/id/OHR.BerlinLibrary_DE-DE5145605761_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.BerlinLibrary_DE-DE5145605761_1920x1080.jpg"
+  },
   "YellowstoneWolves": {
     "sort_key": "20261022_YellowstoneWolves",
     "img_id": "YellowstoneWolves",
