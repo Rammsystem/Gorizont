@@ -11,6 +11,12 @@
     "url": "https://www.bing.com/th/id/OHR.CarbonaraRomeMarket_IT-IT4675824754_UHD.jpg",
     "preview": "https://www.bing.com/th/id/OHR.CarbonaraRomeMarket_IT-IT4675824754_1920x1080.jpg"
   },
+  "BSTEnds2026": {
+    "sort_key": "20261024_BSTEnds2026",
+    "img_id": "BSTEnds2026",
+    "url": "https://www.bing.com/th/id/OHR.BSTEnds2026_EN-GB5502884225_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.BSTEnds2026_EN-GB5502884225_1920x1080.jpg"
+  },
   "PortugueseLibrary": {
     "sort_key": "20261023_PortugueseLibrary",
     "img_id": "PortugueseLibrary",
@@ -200,8 +206,8 @@
   "CormorantsFlight": {
     "sort_key": "20261009_CormorantsFlight",
     "img_id": "CormorantsFlight",
-    "url": "https://www.bing.com/th/id/OHR.CormorantsFlight_EN-GB3315477514_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.CormorantsFlight_EN-GB3315477514_1920x1080.jpg"
+    "url": "https://www.bing.com/th/id/OHR.CormorantsFlight_EN-US5972403355_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.CormorantsFlight_EN-US5972403355_1920x1080.jpg"
   },
   "MayotteOctopus": {
     "sort_key": "20261008_MayotteOctopus",
