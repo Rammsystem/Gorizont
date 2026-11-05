@@ -1,4 +1,10 @@
 {
+  "FireworksBattersea": {
+    "sort_key": "20261105_FireworksBattersea",
+    "img_id": "FireworksBattersea",
+    "url": "https://www.bing.com/th/id/OHR.FireworksBattersea_EN-GB4505786809_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.FireworksBattersea_EN-GB4505786809_1920x1080.jpg"
+  },
   "StileCrossing": {
     "sort_key": "20261104_StileCrossing",
     "img_id": "StileCrossing",
@@ -146,8 +152,8 @@
   "VietnamBridge": {
     "sort_key": "20261020_VietnamBridge",
     "img_id": "VietnamBridge",
-    "url": "https://www.bing.com/th/id/OHR.VietnamBridge_EN-GB5180652549_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.VietnamBridge_EN-GB5180652549_1920x1080.jpg"
+    "url": "https://www.bing.com/th/id/OHR.VietnamBridge_EN-US6907946681_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.VietnamBridge_EN-US6907946681_1920x1080.jpg"
   },
   "BrownSloth": {
     "sort_key": "20261019_BrownSloth",
