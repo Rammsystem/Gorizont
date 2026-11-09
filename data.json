@@ -2,8 +2,14 @@
   "TrianaSpain": {
     "sort_key": "20261108_TrianaSpain",
     "img_id": "TrianaSpain",
-    "url": "https://www.bing.com/th/id/OHR.TrianaSpain_JA-JP2076026093_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.TrianaSpain_JA-JP2076026093_1920x1080.jpg"
+    "url": "https://www.bing.com/th/id/OHR.TrianaSpain_EN-GB4312074959_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.TrianaSpain_EN-GB4312074959_1920x1080.jpg"
+  },
+  "MauerBerlin": {
+    "sort_key": "20261108_MauerBerlin",
+    "img_id": "MauerBerlin",
+    "url": "https://www.bing.com/th/id/OHR.MauerBerlin_DE-DE4395338070_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.MauerBerlin_DE-DE4395338070_1920x1080.jpg"
   },
   "DiwaliLamps": {
     "sort_key": "20261107_DiwaliLamps",
