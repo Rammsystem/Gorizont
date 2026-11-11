@@ -1,9 +1,21 @@
 {
+  "PoppiesField": {
+    "sort_key": "20261111_PoppiesField",
+    "img_id": "PoppiesField",
+    "url": "https://www.bing.com/th/id/OHR.PoppiesField_EN-GB3947926925_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.PoppiesField_EN-GB3947926925_1920x1080.jpg"
+  },
   "Atlantica": {
     "sort_key": "20261110_Atlantica",
     "img_id": "Atlantica",
     "url": "https://www.bing.com/th/id/OHR.Atlantica_JA-JP3902829738_UHD.jpg",
     "preview": "https://www.bing.com/th/id/OHR.Atlantica_JA-JP3902829738_1920x1080.jpg"
+  },
+  "ArmisticeTriomphe": {
+    "sort_key": "20261110_ArmisticeTriomphe",
+    "img_id": "ArmisticeTriomphe",
+    "url": "https://www.bing.com/th/id/OHR.ArmisticeTriomphe_FR-FR3844367700_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.ArmisticeTriomphe_FR-FR3844367700_1920x1080.jpg"
   },
   "RoseIsland": {
     "sort_key": "20261109_RoseIsland",
@@ -110,8 +122,8 @@
   "PondCypress": {
     "sort_key": "20261026_PondCypress",
     "img_id": "PondCypress",
-    "url": "https://www.bing.com/th/id/OHR.PondCypress_EN-GB5711949030_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.PondCypress_EN-GB5711949030_1920x1080.jpg"
+    "url": "https://www.bing.com/th/id/OHR.PondCypress_EN-US0123444779_UHD.jpg",
+    "preview": "https://www.bing.com/th/id/OHR.PondCypress_EN-US0123444779_1920x1080.jpg"
   },
   "Nazare": {
     "sort_key": "20261026_Nazare",
