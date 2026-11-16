@@ -547,9 +547,9 @@
             img.decoding = 'async';
             img.referrerPolicy = 'no-referrer';
 
-            if (index < 15) {
+            if (index < 6) {
                 img.loading = 'eager';
-                img.fetchPriority = 'high';
+                img.fetchPriority = index < 2 ? 'high' : 'auto';
             } else {
                 img.loading = 'lazy';
             }
@@ -649,6 +649,12 @@
             sentinelObserver.observe(sentinel);
         }
 
+        function toThumb(url) {
+            if (!url) return '';
+            const sep = url.includes('?') ? '&' : '?';
+            return url + sep + 'w=480&h=270&rs=1&c=7';
+        }
+
         function renderGallery(data) {
             const rawItems = Array.isArray(data) ? data : Object.values(data || {});
             const validItems = [];
@@ -659,7 +665,9 @@
                     validItems.push({
                         img_id: item.img_id,
                         url: item.url ? item.url.replace('/th?id=', '/th/id/') : '',
-                        preview: item.preview ? item.preview.replace('/th?id=', '/th/id/') : '',
+                        preview: item.preview
+                            ? toThumb(item.preview.replace('/th?id=', '/th/id/'))
+                            : (item.url ? toThumb(item.url.replace('/th?id=', '/th/id/')) : ''),
                     });
                 }
             }
@@ -759,7 +767,7 @@
             if (event.key === 'ArrowRight') navigate(1);
         });
 
-        window.addEventListener('beforeunload', () => {
+        window.addEventListener('pagehide', () => {
             cancelDownload();
             cancelUhdLoader();
             releaseBlobURL();
