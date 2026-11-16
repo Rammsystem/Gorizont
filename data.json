@@ -3,109 +3,332 @@
     "sort_key": "20261115_GilaCliff",
     "img_id": "GilaCliff",
     "url": "https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "Built to last",
+    "copyright": "Gila Cliff Dwellings National Monument, New Mexico, USA (© Chiara Salvadori/Getty Images)"
   },
   "FirstFrost": {
     "sort_key": "20261114_FirstFrost",
     "img_id": "FirstFrost",
     "url": "https://www.bing.com/th/id/OHR.FirstFrost_EN-GB4338987849_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.FirstFrost_EN-GB4338987849_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.FirstFrost_EN-GB4338987849_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "Frosty foliage",
+    "copyright": "Frozen azalea with red leaves (© avoferten/Shutterstock)"
   },
   "BlueHK": {
     "sort_key": "20261113_BlueHK",
     "img_id": "BlueHK",
     "url": "https://www.bing.com/th/id/OHR.BlueHK_EN-GB3274323919_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.BlueHK_EN-GB3274323919_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.BlueHK_EN-GB3274323919_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "The only way is up",
+    "copyright": "Victoria Harbour, Hong Kong, China (© Juan Romero/Cavan Images)"
   },
   "AbrahamCanada": {
     "sort_key": "20261112_AbrahamCanada",
     "img_id": "AbrahamCanada",
     "url": "https://www.bing.com/th/id/OHR.AbrahamCanada_EN-GB1908527515_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.AbrahamCanada_EN-GB1908527515_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.AbrahamCanada_EN-GB1908527515_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "Hidden depths",
+    "copyright": "Abraham Lake in Alberta, Canada (© Guang Cao/Getty Images)"
   },
   "SunsetFlags": {
     "sort_key": "20261111_SunsetFlags",
     "img_id": "SunsetFlags",
     "url": "https://www.bing.com/th/id/OHR.SunsetFlags_EN-US1046151448_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.SunsetFlags_EN-US1046151448_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.SunsetFlags_EN-US1046151448_1920x1080.jpg",
+    "markets": [
+      "EN-US"
+    ],
+    "market": "EN-US",
+    "title": "A salute in red, white, and blue",
+    "copyright": "American flags in a public park in upstate New York (© Matt Champlin/Getty Images)"
   },
   "PoppiesField": {
     "sort_key": "20261111_PoppiesField",
     "img_id": "PoppiesField",
     "url": "https://www.bing.com/th/id/OHR.PoppiesField_EN-GB3947926925_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.PoppiesField_EN-GB3947926925_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.PoppiesField_EN-GB3947926925_1920x1080.jpg",
+    "markets": [
+      "EN-GB"
+    ],
+    "market": "EN-GB",
+    "title": "We will remember them",
+    "copyright": "A field of poppies (© lloyd-horgan/Getty Images)"
   },
   "NorthWindow": {
     "sort_key": "20261111_NorthWindow",
     "img_id": "NorthWindow",
     "url": "https://www.bing.com/th/id/OHR.NorthWindow_EN-GB5518413161_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.NorthWindow_EN-GB5518413161_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.NorthWindow_EN-GB5518413161_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "Architecture without an architect",
+    "copyright": "North Window, Arches National Park, Moab, Utah, USA (© lightphoto/Getty Images)"
   },
   "Atlantica": {
     "sort_key": "20261110_Atlantica",
     "img_id": "Atlantica",
     "url": "https://www.bing.com/th/id/OHR.Atlantica_JA-JP3902829738_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.Atlantica_JA-JP3902829738_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.Atlantica_JA-JP3902829738_1920x1080.jpg",
+    "markets": [
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ]
   },
   "ArmisticeTriomphe": {
     "sort_key": "20261110_ArmisticeTriomphe",
     "img_id": "ArmisticeTriomphe",
     "url": "https://www.bing.com/th/id/OHR.ArmisticeTriomphe_FR-FR3844367700_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.ArmisticeTriomphe_FR-FR3844367700_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.ArmisticeTriomphe_FR-FR3844367700_1920x1080.jpg",
+    "markets": [
+      "FR-FR"
+    ]
   },
   "RoseIsland": {
     "sort_key": "20261109_RoseIsland",
     "img_id": "RoseIsland",
     "url": "https://www.bing.com/th/id/OHR.RoseIsland_EN-GB4222638797_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.RoseIsland_EN-GB4222638797_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.RoseIsland_EN-GB4222638797_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "Licensed to chill",
+    "copyright": "Aerial view of Rose Island, The Bahamas (© Abstract Aerial Art/Getty Images)"
   },
   "TrianaSpain": {
     "sort_key": "20261108_TrianaSpain",
     "img_id": "TrianaSpain",
     "url": "https://www.bing.com/th/id/OHR.TrianaSpain_EN-GB4312074959_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.TrianaSpain_EN-GB4312074959_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.TrianaSpain_EN-GB4312074959_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "Where art finds its rhythm",
+    "copyright": "Historic district of Triana, Seville, Spain (© Andrzej Rostek/Getty Images)"
   },
   "MauerBerlin": {
     "sort_key": "20261108_MauerBerlin",
     "img_id": "MauerBerlin",
     "url": "https://www.bing.com/th/id/OHR.MauerBerlin_DE-DE4395338070_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.MauerBerlin_DE-DE4395338070_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.MauerBerlin_DE-DE4395338070_1920x1080.jpg",
+    "markets": [
+      "DE-DE"
+    ]
   },
   "DiwaliLamps": {
     "sort_key": "20261107_DiwaliLamps",
     "img_id": "DiwaliLamps",
     "url": "https://www.bing.com/th/id/OHR.DiwaliLamps_EN-GB4404345220_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.DiwaliLamps_EN-GB4404345220_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.DiwaliLamps_EN-GB4404345220_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "A celebration that shines",
+    "copyright": "Lanterns for Diwali in Mumbai, Maharashtra, India (© Dinodia Photo/Getty Images)"
   },
   "DakotaBison": {
     "sort_key": "20261106_DakotaBison",
     "img_id": "DakotaBison",
     "url": "https://www.bing.com/th/id/OHR.DakotaBison_EN-GB4535875354_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.DakotaBison_EN-GB4535875354_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.DakotaBison_EN-GB4535875354_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "Roaming the grasslands",
+    "copyright": "A bison in the grasslands of Theodore Roosevelt National Park, North Dakota, USA (© Tandem Stock/Adobe Stock)"
   },
   "PipiwaiTrail": {
     "sort_key": "20261105_PipiwaiTrail",
     "img_id": "PipiwaiTrail",
     "url": "https://www.bing.com/th/id/OHR.PipiwaiTrail_EN-GB4651327269_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.PipiwaiTrail_EN-GB4651327269_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.PipiwaiTrail_EN-GB4651327269_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "A green tunnel through Maui",
+    "copyright": "Bamboo forest, Pīpīwai Trail, Haleakalā National Park, Maui, Hawaii, USA (© MNStudio/Getty Images)"
   },
   "FireworksBattersea": {
     "sort_key": "20261105_FireworksBattersea",
     "img_id": "FireworksBattersea",
     "url": "https://www.bing.com/th/id/OHR.FireworksBattersea_EN-GB4505786809_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.FireworksBattersea_EN-GB4505786809_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.FireworksBattersea_EN-GB4505786809_1920x1080.jpg",
+    "markets": [
+      "EN-GB"
+    ],
+    "market": "EN-GB",
+    "title": "Remember, remember",
+    "copyright": "Fireworks over Battersea Power Station, London (© Michael Lee/Getty Images)"
   },
   "StileCrossing": {
     "sort_key": "20261104_StileCrossing",
     "img_id": "StileCrossing",
     "url": "https://www.bing.com/th/id/OHR.StileCrossing_EN-US9052435517_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.StileCrossing_EN-US9052435517_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.StileCrossing_EN-US9052435517_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-US",
+    "title": "One step closer to the summit",
+    "copyright": "Wooden stile at a stone wall, Black Crag, Lake District, England (© Alex Treadway/Getty Images)"
   },
   "AutumnChina": {
     "sort_key": "20261103_AutumnChina",
     "img_id": "AutumnChina",
     "url": "https://www.bing.com/th/id/OHR.AutumnChina_EN-GB4167994080_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.AutumnChina_EN-GB4167994080_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.AutumnChina_EN-GB4167994080_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "Paddling a painted forest",
+    "copyright": "People rowing among colourful bald cypress, Xuancheng, Anhui, China (© Jackal Pan/Getty Images)"
   },
   "NativeBaskets": {
     "sort_key": "20261101_NativeBaskets",
@@ -117,7 +340,23 @@
     "sort_key": "20261101_HudsonBear",
     "img_id": "HudsonBear",
     "url": "https://www.bing.com/th/id/OHR.HudsonBear_EN-GB3657065728_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.HudsonBear_EN-GB3657065728_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.HudsonBear_EN-GB3657065728_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "ROW",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "A future written in ice",
+    "copyright": "Polar bear and cubs by Hudson Bay, Manitoba, Canada (© Danita Delimont/Adobe Stock)"
   },
   "SchwarzwaldAutumn": {
     "sort_key": "20261031_SchwarzwaldAutumn",
@@ -129,7 +368,22 @@
     "sort_key": "20261031_AlpineBraies",
     "img_id": "AlpineBraies",
     "url": "https://www.bing.com/th/id/OHR.AlpineBraies_EN-GB4055015386_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.AlpineBraies_EN-GB4055015386_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.AlpineBraies_EN-GB4055015386_1920x1080.jpg",
+    "markets": [
+      "EN-US",
+      "EN-GB",
+      "EN-CA",
+      "DE-DE",
+      "FR-FR",
+      "ES-ES",
+      "IT-IT",
+      "PT-BR",
+      "JA-JP",
+      "ZH-CN"
+    ],
+    "market": "EN-GB",
+    "title": "Peace among the peaks",
+    "copyright": "Lake Braies, Fanes‑Sennes‑Braies Nature Park, Dolomites, Italy (© leonid_tit/Getty Images)"
   },
   "FrankfurtHalloween": {
     "sort_key": "20261030_FrankfurtHalloween",
@@ -447,7 +701,10 @@
     "sort_key": "20261002_Camburiu",
     "img_id": "Camburiu",
     "url": "https://www.bing.com/th/id/OHR.Camburiu_PT-BR9036477210_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.Camburiu_PT-BR9036477210_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.Camburiu_PT-BR9036477210_1920x1080.jpg",
+    "markets": [
+      "ROW"
+    ]
   },
   "BrandenburgGateFireworks": {
     "sort_key": "20261002_BrandenburgGateFireworks",
@@ -1281,7 +1538,10 @@
     "sort_key": "20260730_DeltaEbro",
     "img_id": "DeltaEbro",
     "url": "https://www.bing.com/th/id/OHR.DeltaEbro_ES-ES3023885514_UHD.jpg",
-    "preview": "https://www.bing.com/th/id/OHR.DeltaEbro_ES-ES3023885514_1920x1080.jpg"
+    "preview": "https://www.bing.com/th/id/OHR.DeltaEbro_ES-ES3023885514_1920x1080.jpg",
+    "markets": [
+      "ROW"
+    ]
   },
   "WildJackalFriends": {
     "sort_key": "20260729_WildJackalFriends",
