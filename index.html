@@ -1,837 +1,771 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Горизонт — архив обоев Bing в UHD</title>
-<meta name="description" content="Горизонт — автоматический архив ежедневных обоев Bing из 17 регионов мира в оригинальном 4K UHD. Поиск, фильтры, избранное, скачивание.">
-<meta name="theme-color" content="#070B18">
-<meta name="color-scheme" content="dark">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://www.bing.com data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
-<link rel="canonical" href="https://gorizont.isvii.ru/">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Горизонт — архив обоев Bing в UHD">
-<meta property="og:description" content="Каждый день Bing показывает миру новый рассвет. Мы сохраняем его — навсегда, в оригинальном 4K.">
-<meta property="og:url" content="https://gorizont.isvii.ru/">
-<meta property="og:image" content="https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_1920x1080.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cg stroke='%23FF9E4F' stroke-width='5' stroke-linecap='round' fill='none'%3E%3Cpath d='M32 6v8M13 13l6 6M51 13l-6 6M6 32h8M58 32h-8'/%3E%3C/g%3E%3Cpath d='M14 42a18 18 0 0 1 36 0Z' fill='%23FF9E4F'/%3E%3Cpath d='M22 38a12 12 0 0 1 7-9' fill='none' stroke='%23FFE7C7' stroke-width='4' stroke-linecap='round'/%3E%3Crect x='6' y='48' width='52' height='7' rx='3.5' fill='%238F927B'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://www.bing.com">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
-<link rel="preload" href="data.json" as="fetch" crossorigin>
-<!--LATEST:PRELOAD:START-->
-<link rel="preload" as="image" fetchpriority="high" href="https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_1366x768.jpg" imagesrcset="https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_1366x768.jpg 1366w, https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_1920x1080.jpg 1920w" imagesizes="100vw">
-<!--LATEST:PRELOAD:END-->
-<style>
-:root{
-  --sky-0:#070B18;--sky-1:#0C1226;--sky-2:#131B36;--sky-3:#1B2547;
-  --line:rgba(124,140,190,.18);--ink:#F2ECDF;--dim:#A7AEC4;--faint:#8A93B0;
-  --sun:#FF9E4F;--sun-hi:#FFC46B;--dawn:#FF5C7A;--dawn-hi:#FF8FA6;
-  --sea:#39C6E8;--sea-hi:#7FDCF4;--blue:#5AA9FF;--meadow:#57D98B;
-  --warn:#FFB020;--danger:#FF6B6B;--violet:#C084FC;--horizon:#9BA37F;
-  --navH:64px;
-  --grad-horizon:linear-gradient(90deg,var(--sea),var(--sun-hi) 35%,var(--sun) 55%,var(--dawn) 80%,var(--violet));
-  --grad-primary:linear-gradient(100deg,var(--sun-hi),var(--sun) 45%,var(--dawn));
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scrollbar-gutter:stable}
-html.lb-open{overflow:hidden}
-body{font-family:"Manrope",system-ui,"Segoe UI",sans-serif;font-size:16px;line-height:1.55;color:var(--ink);
-  background:linear-gradient(180deg,var(--sky-0),var(--sky-1) 26%,#10173A 52%,var(--sky-1) 78%,var(--sky-0)) fixed;
-  padding-top:var(--navH);min-height:100vh;overflow-x:hidden}
-body::after{content:"";position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E")}
-::selection{background:var(--sun);color:#1A0E05}
-img{max-width:100%;display:block}
-a{color:var(--sea-hi);text-decoration:none}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-:focus-visible{outline:2px solid var(--sea);outline-offset:2px;border-radius:6px}
-*{scrollbar-width:thin;scrollbar-color:var(--sun) var(--sky-1)}
-::-webkit-scrollbar{width:10px;height:8px}
-::-webkit-scrollbar-track{background:var(--sky-1)}
-::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--sun),var(--dawn));border-radius:8px;border:2px solid var(--sky-1)}
-::-webkit-scrollbar-thumb:hover{background:var(--sun-hi)}
-.container{max-width:1280px;margin:0 auto;padding:0 24px}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.ic{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-kbd{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--sky-3);border:1px solid var(--line);border-radius:6px;padding:2px 7px;color:var(--ink)}
-.sky{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
-.orb{position:absolute;border-radius:50%;opacity:.5;will-change:transform}
-.o1{width:60vmax;height:60vmax;left:-18vmax;top:-22vmax;background:radial-gradient(circle,rgba(255,158,79,.16),transparent 62%);animation:d1 52s ease-in-out infinite alternate}
-.o2{width:52vmax;height:52vmax;right:-16vmax;top:8vmax;background:radial-gradient(circle,rgba(255,92,122,.13),transparent 60%);animation:d2 64s ease-in-out infinite alternate}
-.o3{width:56vmax;height:56vmax;left:12vmax;bottom:-28vmax;background:radial-gradient(circle,rgba(57,198,232,.12),transparent 60%);animation:d3 70s ease-in-out infinite alternate}
-@keyframes d1{to{transform:translate(9vmax,7vmax) scale(1.12)}}
-@keyframes d2{to{transform:translate(-8vmax,10vmax) scale(.92)}}
-@keyframes d3{to{transform:translate(10vmax,-8vmax) scale(1.08)}}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 18px;border-radius:12px;font-weight:800;font-size:14px;line-height:1;min-height:42px;transition:transform .2s,box-shadow .25s,filter .2s,border-color .2s,color .2s}
-.btn-primary{background:var(--grad-primary);color:#221004;box-shadow:0 6px 20px rgba(255,124,90,.25)}
-.btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 10px 28px rgba(255,124,90,.4)}
-.btn-primary:disabled{opacity:.65;cursor:default;transform:none;filter:none}
-.btn-ghost{background:rgba(27,37,71,.6);border:1px solid var(--line);color:var(--ink)}
-.btn-ghost:hover{border-color:var(--sea);color:var(--sea-hi);box-shadow:0 0 0 3px rgba(57,198,232,.12)}
-.btn-icon{width:42px;height:42px;padding:0}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:700;background:rgba(255,158,79,.14);color:var(--sun-hi);border:1px solid rgba(255,158,79,.3);background:color-mix(in srgb,var(--h,var(--sun)) 15%,transparent);color:color-mix(in srgb,var(--h,var(--sun)) 62%,#fff);border-color:color-mix(in srgb,var(--h,var(--sun)) 38%,transparent)}
-.skip{position:fixed;top:-60px;left:12px;z-index:100;background:var(--sun);color:#1A0E05;font-weight:800;padding:10px 14px;border-radius:10px;transition:top .2s}
-.skip:focus{top:10px}
-.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:var(--navH);background:rgba(7,11,24,.72);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid var(--line);transition:box-shadow .3s,background .3s}
-.nav.scrolled{background:rgba(7,11,24,.9);box-shadow:0 10px 34px rgba(0,0,0,.45)}
-.nav-inner{height:100%;display:flex;align-items:center;gap:14px}
-.brand{display:flex;align-items:center;gap:10px;color:var(--ink)}
-.brand svg{width:30px;height:30px}
-.brand b{font-family:"Unbounded",sans-serif;font-weight:800;font-size:14px;letter-spacing:.08em}
-.nav-links{display:flex;gap:2px;margin-left:8px}
-.nav-links a{position:relative;padding:9px 13px;border-radius:10px;font-size:13.5px;font-weight:700;color:var(--dim);transition:color .2s,background .2s}
-.nav-links a:hover{color:var(--ink);background:var(--sky-3)}
-.nav-links a.active{color:var(--sun-hi)}
-.nav-links a.active::after{content:"";position:absolute;left:13px;right:13px;bottom:4px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--sun),var(--dawn))}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
-.nav-fav{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border-radius:12px;border:1px solid var(--line);background:rgba(27,37,71,.55);font-weight:800;font-size:13px;color:var(--dawn-hi);transition:border-color .2s,box-shadow .2s}
-.nav-fav:hover{border-color:var(--dawn);box-shadow:0 0 0 3px rgba(255,92,122,.14)}
-.nav-fav .ic{width:17px;height:17px}
-.hero{position:relative;min-height:min(92vh,880px);display:flex;align-items:flex-end;overflow:hidden;padding:110px 0 150px}
-.hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.06);opacity:0;transition:opacity .9s ease;will-change:transform}
-.hero.loaded .hero-img{opacity:1}
-.hero::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(7,11,24,.72),transparent 58%),linear-gradient(180deg,rgba(7,11,24,.3),rgba(7,11,24,.06) 34%,rgba(7,11,24,.88) 80%,var(--sky-0))}
-.horizon-bar{position:absolute;left:0;right:0;bottom:0;height:3px;z-index:3;background:var(--grad-horizon);box-shadow:0 0 26px rgba(255,158,79,.55)}
-.hero-content{position:relative;z-index:2;width:100%}
-.eyebrow{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--sun-hi)}
-.hero h1{font-family:"Unbounded",sans-serif;font-weight:800;font-size:clamp(2.4rem,9vw,7rem);line-height:.98;text-transform:uppercase;margin:14px 0 16px;background:linear-gradient(92deg,var(--sun-hi),var(--sun) 30%,var(--dawn) 62%,var(--sea));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(255,124,90,.25))}
-@supports not (background-clip:text){.hero h1{color:var(--sun-hi)}}
-.hero-sub{max-width:560px;font-size:clamp(15px,1.6vw,18px);font-weight:600;text-shadow:0 2px 14px rgba(0,0,0,.6)}
-.today-panel{margin-top:30px;display:flex;flex-direction:column;gap:12px}
-.today-chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.today-name{font-family:"Unbounded",sans-serif;font-weight:600;font-size:clamp(1.15rem,3vw,1.7rem)}
-.today-actions{display:flex;flex-wrap:wrap;gap:10px}
-.today-meta{font-size:13px;color:var(--dim)}
-.hero-imgnote{display:none;font-size:13px;color:var(--warn)}
-.hero.img-failed .hero-imgnote{display:block}
-.scroll-cue{position:absolute;left:50%;bottom:112px;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--dim);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;animation:bob 2.4s ease-in-out infinite}
-.scroll-cue .ic{width:18px;height:18px;transform:rotate(180deg);color:var(--sun)}
-@keyframes bob{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,8px)}}
-.rise{opacity:0;animation:riseIn .8s cubic-bezier(.2,.7,.2,1) forwards}
-@keyframes riseIn{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-.pulse{position:relative;z-index:5;margin-top:-96px}
-.pulse-card{background:linear-gradient(160deg,#151D3E,#0F1530);border:1px solid var(--line);border-radius:20px;padding:24px 26px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
-.stats{display:flex;flex-wrap:wrap;gap:14px 38px;align-items:baseline}
-.stat b{display:block;font-family:"Unbounded",sans-serif;font-weight:700;font-size:27px;line-height:1.15}
-.stat span{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
-.s-sun b{color:var(--sun-hi)}.s-sea b{color:var(--sea-hi)}.s-meadow b{color:var(--meadow)}.s-dawn b{color:var(--dawn-hi)}
-.range-line{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--dim)}
-.range-line .ic{width:15px;height:15px;color:var(--sun)}
-.pulse-divider{height:1px;margin:18px 0 14px;background:linear-gradient(90deg,transparent,var(--line) 20%,var(--line) 80%,transparent)}
-.pulse-head{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-bottom:10px}
-.pulse-head b{font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
-.pulse-head span{font-size:12px;color:var(--faint)}
-.month-bars{display:flex;align-items:flex-end;gap:7px;overflow-x:auto;padding:4px 2px 8px}
-.mbar{flex:none;width:38px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:4px 2px;border-radius:9px;transition:background .2s}
-.mbar:hover{background:rgba(27,37,71,.7)}
-.mbar i{display:block;width:100%;border-radius:6px 6px 3px 3px;background:var(--h);height:var(--v);min-height:6px;transition:transform .2s,filter .2s}
-.mbar:hover i{transform:translateY(-2px);filter:brightness(1.2)}
-.mbar em{font-style:normal;font-size:11px;font-weight:800;color:var(--dim)}
-.mbar small{font-size:10.5px;color:var(--faint);white-space:nowrap}
-.mbar.active{background:rgba(255,158,79,.12);outline:1.5px solid var(--sun)}
-.mbar.active em,.mbar.active small{color:var(--sun-hi)}
-section{scroll-margin-top:calc(var(--navH) + 14px)}
-.sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px 20px;margin-bottom:22px}
-.sec-head h2{font-family:"Unbounded",sans-serif;font-weight:700;font-size:clamp(1.35rem,3.2vw,2.1rem);line-height:1.2}
-.sec-head h2::after{content:"";display:block;width:74px;height:3px;margin-top:10px;border-radius:3px;background:linear-gradient(90deg,var(--acc,var(--sun)),var(--dawn))}
-.sec-head p{color:var(--dim);font-size:14.5px;max-width:560px}
-.sec-eyebrow{width:100%;font-size:11.5px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--acc,var(--sun))}
-.res-count{margin-left:auto;font-size:13px;font-weight:800;color:var(--sea-hi);background:rgba(57,198,232,.1);border:1px solid rgba(57,198,232,.3);padding:7px 13px;border-radius:999px}
-.archive{padding:74px 0 30px;--acc:var(--sea)}
-.toolbar{position:sticky;top:var(--navH);z-index:30;margin:0 -24px 24px;padding:12px 24px;background:rgba(12,18,38,.88);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-block:1px solid var(--line)}
-.toolbar-inner{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
-.field{display:flex;flex-direction:column;gap:4px}
-.field>span{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
-.search-field{flex:1 1 230px;min-width:200px;position:relative}
-.search-field .ic{position:absolute;left:12px;bottom:11px;width:17px;height:17px;color:var(--faint);pointer-events:none}
-.search-field kbd{position:absolute;right:10px;bottom:9px;pointer-events:none}
-input[type=search]{width:100%;height:42px;padding:0 40px 0 38px;border-radius:12px;border:1px solid var(--line);background:var(--sky-3);color:var(--ink);font:inherit;font-size:14px;transition:border-color .2s,box-shadow .2s}
-input[type=search]::placeholder{color:var(--faint)}
-input[type=search]:focus{outline:none;border-color:var(--sea);box-shadow:0 0 0 3px rgba(57,198,232,.15)}
-select{height:42px;min-width:112px;padding:0 30px 0 12px;border-radius:12px;border:1px solid var(--line);background:var(--sky-3) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23A7AEC4' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat right 11px center;color:var(--ink);font:inherit;font-size:13.5px;font-weight:600;appearance:none;-webkit-appearance:none;cursor:pointer}
-select:focus{outline:none;border-color:var(--sea);box-shadow:0 0 0 3px rgba(57,198,232,.15)}
-.seg{display:flex;height:42px;border:1px solid var(--line);border-radius:12px;background:var(--sky-3);overflow:hidden}
-.seg button{width:44px;display:grid;place-items:center;color:var(--dim);transition:background .2s,color .2s}
-.seg button[aria-pressed=true]{background:var(--grad-primary);color:#221004}
-.fav-toggle{display:inline-flex;align-items:center;gap:7px;height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--sky-3);font-size:13px;font-weight:800;color:var(--dim);transition:all .2s}
-.fav-toggle .ic{width:16px;height:16px}
-.fav-toggle:hover{border-color:var(--dawn);color:var(--dawn-hi)}
-.fav-toggle[aria-pressed=true]{background:rgba(255,92,122,.14);border-color:var(--dawn);color:var(--dawn-hi)}
-.fav-toggle[aria-pressed=true] .ic{fill:currentColor}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
-.grid.compact{grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px}
-.card{background:var(--sky-2);border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;content-visibility:auto;contain-intrinsic-size:auto 300px;transition:transform .25s,border-color .25s,box-shadow .3s}
-.card:hover{transform:translateY(-4px);border-color:rgba(255,158,79,.5);box-shadow:0 14px 36px rgba(255,124,90,.14)}
-.card-media{position:relative;display:block;aspect-ratio:5/3;overflow:hidden;background:var(--sky-3)}
-.card-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-.card:hover .card-media img{transform:scale(1.06)}
-.card-date,.card-mkt{position:absolute;top:10px;font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
-.card-date{left:10px;background:rgba(7,11,24,.72);color:var(--ink)}
-.card-mkt{right:10px;background:rgba(7,11,24,.66);color:color-mix(in srgb,var(--h,var(--sun)) 70%,#fff);border:1px solid color-mix(in srgb,var(--h,var(--sun)) 45%,transparent)}
-.card-body{display:flex;align-items:center;gap:8px;padding:12px 12px 12px 15px}
-.card-txt{min-width:0;flex:1}
-.card-txt h3{font-size:14.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.card-txt p{font-size:12px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.grid.compact .card-txt p{display:none}
-.fav{width:40px;height:40px;flex:none;display:grid;place-items:center;border-radius:11px;color:var(--faint);transition:color .2s,background .2s,transform .15s}
-.fav:hover{color:var(--dawn-hi);background:rgba(255,92,122,.12);transform:scale(1.08)}
-.fav[aria-pressed=true]{color:var(--dawn)}
-.fav[aria-pressed=true] .ic{fill:currentColor}
-.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease var(--d,0ms),transform .6s cubic-bezier(.2,.7,.2,1) var(--d,0ms)}
-.reveal.in{opacity:1;transform:none}
-.sk-card{aspect-ratio:5/3.9;border-radius:16px;border:1px solid var(--line);background:linear-gradient(100deg,var(--sky-2) 38%,var(--sky-3) 50%,var(--sky-2) 62%);background-size:220% 100%;animation:shimmer 1.4s linear infinite}
-@keyframes shimmer{to{background-position:-120% 0}}
-.more-row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;padding:28px 0 6px}
-.more-row span{font-size:13px;color:var(--dim)}
-#sentinel{height:2px}
-.panel{display:none;flex-direction:column;align-items:center;text-align:center;gap:12px;padding:64px 20px}
-.panel.show{display:flex}
-.panel svg{width:72px;height:72px;opacity:.9}
-.panel h3{font-family:"Unbounded",sans-serif;font-weight:600;font-size:19px}
-.panel p{color:var(--dim);font-size:14px;max-width:460px}
-.panel code{display:inline-block;background:var(--sky-3);border:1px solid var(--line);border-radius:8px;padding:3px 9px;font-size:13px;color:var(--sun-hi)}
-dialog.lb{border:0;padding:0;background:transparent;width:min(1180px,94vw);max-width:none;max-height:none;overflow:visible}
-dialog.lb::backdrop{background:rgba(4,7,16,.84);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
-.lb-shell{background:var(--sky-2);border:1px solid var(--line);border-radius:20px;overflow:hidden auto;max-height:calc(100vh - 28px);box-shadow:0 44px 130px rgba(0,0,0,.65);animation:lbIn .28s cubic-bezier(.2,.7,.2,1)}
-@keyframes lbIn{from{opacity:0;transform:scale(.965) translateY(10px)}to{opacity:1;transform:none}}
-.lb-top{display:flex;align-items:center;gap:14px;padding:14px 16px;border-bottom:1px solid var(--line)}
-.lb-count{flex:none;font-size:12.5px;font-weight:800;color:var(--sea-hi);background:rgba(57,198,232,.1);border:1px solid rgba(57,198,232,.3);padding:5px 11px;border-radius:999px;font-variant-numeric:tabular-nums}
-.lb-titles{min-width:0;flex:1}
-.lb-titles h3{font-family:"Unbounded",sans-serif;font-weight:600;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lb-titles p{font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lb-media{position:relative;background:#05080F;min-height:min(56vh,420px);display:grid;place-items:center}
-.lb-media img{width:100%;height:auto;max-height:66vh;object-fit:contain;transition:opacity .35s}
-.lb-media.loading img{opacity:0}
-.lb-media.loading::after{content:"";position:absolute;width:46px;height:46px;border-radius:50%;border:3px solid rgba(255,158,79,.22);border-top-color:var(--sun);animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.lb-fallback{display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--dim);font-size:14px;text-align:center;padding:20px}
-.lb-fallback .ic{width:34px;height:34px;color:var(--warn)}
-.lb-media.failed .lb-fallback{display:flex}
-.lb-media.failed::after{display:none}
-.lb-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:rgba(7,11,24,.72);border:1px solid var(--line);color:var(--ink);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);transition:all .2s}
-.lb-nav:hover{border-color:var(--sun);color:var(--sun-hi);box-shadow:0 0 0 4px rgba(255,158,79,.15)}
-.lb-prev{left:14px}.lb-next{right:14px}
-.lb-bottom{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:14px 16px}
-.lb-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.lb-orig{font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:5px}
-.lb-orig .ic{width:14px;height:14px}
-.lb-actions{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.lb-fav{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:rgba(27,37,71,.6);display:grid;place-items:center;color:var(--dim);transition:all .2s}
-.lb-fav:hover{border-color:var(--dawn);color:var(--dawn-hi)}
-.lb-fav[aria-pressed=true]{color:var(--dawn);border-color:var(--dawn);background:rgba(255,92,122,.14)}
-.lb-fav[aria-pressed=true] .ic{fill:currentColor}
-.about{padding:96px 0;--acc:var(--violet)}
-.about-grid{display:grid;grid-template-columns:380px 1fr;gap:52px;align-items:start}
-.about-left{position:sticky;top:calc(var(--navH) + 28px)}
-.about-left h2{font-family:"Unbounded",sans-serif;font-weight:700;font-size:clamp(1.4rem,3vw,2rem);line-height:1.25;margin:10px 0 16px}
-.about-left h2 em{font-style:normal;color:var(--sun-hi)}
-.about-left p{color:var(--dim);font-size:14.5px;margin-bottom:20px}
-.about-note{margin-top:18px;font-size:12.5px;color:var(--faint);border-left:2px solid var(--horizon);padding-left:12px}
-.steps{position:relative;display:flex;flex-direction:column;gap:16px}
-.steps::before{content:"";position:absolute;left:21px;top:26px;bottom:26px;width:2px;background:linear-gradient(180deg,var(--sun),var(--sea),var(--meadow));opacity:.5}
-.step{position:relative;display:grid;grid-template-columns:44px 1fr;gap:16px;background:var(--sky-2);border:1px solid var(--line);border-radius:16px;padding:18px}
-.step-ic{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:color-mix(in srgb,var(--h) 16%,transparent);color:color-mix(in srgb,var(--h) 70%,#fff);border:1px solid color-mix(in srgb,var(--h) 38%,transparent)}
-.step h3{font-size:15.5px;font-weight:800;display:flex;align-items:baseline;gap:9px}
-.step h3 small{font-family:"Unbounded",sans-serif;font-size:11px;color:var(--h);font-weight:600}
-.step p{font-size:13.5px;color:var(--dim);margin-top:5px}
-.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:22px}
-.fact{background:var(--sky-2);border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-align:center}
-.fact b{display:block;font-family:"Unbounded",sans-serif;font-weight:700;font-size:17px;color:var(--h)}
-.fact span{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
-.markets{margin-top:22px}
-.markets>b{display:block;font-size:12px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--dim);margin-bottom:10px}
-.market-cloud{display:flex;flex-wrap:wrap;gap:7px}
-footer{position:relative;padding:52px 0 34px;margin-top:40px}
-footer::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad-horizon);opacity:.8}
-.foot-grid{display:flex;flex-wrap:wrap;gap:26px 48px;align-items:flex-start}
-.foot-brand{display:flex;align-items:center;gap:12px}
-.foot-brand svg{width:40px;height:40px}
-.foot-brand b{font-family:"Unbounded",sans-serif;font-weight:800;font-size:15px;letter-spacing:.08em;display:block}
-.foot-brand span{font-size:13px;color:var(--dim)}
-.foot-links{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:14px;font-weight:700}
-.foot-links a{display:inline-flex;align-items:center;gap:6px;color:var(--dim);transition:color .2s}
-.foot-links a:hover{color:var(--sun-hi)}
-.foot-links .ic{width:16px;height:16px}
-.foot-hints{margin-left:auto;display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12.5px;color:var(--dim);align-items:center}
-.foot-legal{margin-top:26px;font-size:12.5px;color:var(--faint);display:flex;flex-wrap:wrap;gap:6px 22px}
-.toasts{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:95;display:flex;flex-direction:column;gap:8px;align-items:center;width:min(560px,92vw);pointer-events:none}
-.toast{pointer-events:auto;display:flex;align-items:center;gap:10px;max-width:100%;background:var(--sky-3);border:1px solid var(--line);border-left:3px solid var(--h,var(--meadow));border-radius:12px;padding:11px 16px;font-size:13.5px;font-weight:600;box-shadow:0 16px 44px rgba(0,0,0,.5);animation:toastIn .3s cubic-bezier(.2,.7,.2,1)}
-.toast::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--h,var(--meadow));box-shadow:0 0 10px var(--h,var(--meadow))}
-.toast.out{opacity:0;transform:translateY(8px);transition:all .3s}
-@keyframes toastIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-.to-top{position:fixed;right:22px;bottom:22px;z-index:40;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--grad-primary);color:#221004;box-shadow:0 10px 28px rgba(255,124,90,.4);opacity:0;pointer-events:none;transform:translateY(10px);transition:all .3s}
-.to-top.show{opacity:1;pointer-events:auto;transform:none}
-.to-top:hover{filter:brightness(1.1)}
-@media (max-width:1000px){.about-grid{grid-template-columns:1fr;gap:30px}.about-left{position:static}}
-@media (max-width:760px){
-  .container{padding:0 16px}
-  .nav-links{display:none}
-  .nav-right .btn-primary .btn-label{display:none}
-  .nav-right .btn-primary{width:42px;padding:0}
-  .hero{padding:90px 0 130px;min-height:88vh}
-  .pulse{margin-top:-64px}.pulse-card{padding:18px 16px}
-  .stats{gap:12px 24px}.stat b{font-size:22px}
-  .toolbar{margin:0 -16px 20px;padding:10px 16px}
-  .scroll-cue{display:none}.foot-hints{margin-left:0}
-}
-@media (max-width:600px){
-  .grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,230px),1fr))}
-  .grid.compact{grid-template-columns:repeat(auto-fill,minmax(158px,1fr))}
-  .lb-actions .btn .btn-label{display:none}
-  .lb-actions .btn{width:42px;padding:0}
-  .lb-titles h3{font-size:15px}
-  .lb-nav{width:40px;height:40px}.lb-prev{left:8px}.lb-next{right:8px}
-  .res-count{margin-left:0}
-}
-@media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .rise,.reveal{opacity:1;transform:none}
-  .hero-img{transform:none}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Личный архив Bing Wallpaper UHD">
+    <meta name="theme-color" content="#141517">
+    <title>Горизонт | Архив Bing</title>
+    <meta name="referrer" content="no-referrer">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="canonical" href="https://gorizont.isvii.ru/">
+    <link rel="dns-prefetch" href="https://www.bing.com">
+    <link rel="preconnect" href="https://www.bing.com">
+    <link rel="preload" href="data.json" as="fetch" crossorigin="anonymous">
+
+    <meta property="og:title" content="Горизонт | Архив Bing">
+    <meta property="og:description" content="Коллекция лучших обоев Bing в формате UHD.">
+    <meta property="og:url" content="https://gorizont.isvii.ru/">
+    <meta property="og:image" content="https://gorizont.isvii.ru/favicon.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <style>
+        :root {
+            --bg-start: #2a2d32;
+            --bg-end: #141517;
+            --card-bg: #22252a;
+            --text: #fff;
+            --text-muted: #c7c7c7;
+            --overlay: rgba(15, 16, 18, 0.95);
+            --accent: #0071e3;
+            --accent-hover: #0077ed;
+            --apple-btn-bg: #e8e8ed;
+            --apple-btn-hover: #d2d2d7;
+            --apple-icon: #6e6e73;
+            --apple-icon-hover: #1d1d1f;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            --radius: 12px;
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scrollbar-gutter: stable;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", sans-serif;
+            background: radial-gradient(circle at center, var(--bg-start) 0%, var(--bg-end) 100%);
+        }
+
+        h1 {
+            margin: 24px 0 32px;
+            padding-left: 0.6em;
+            text-align: center;
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(max(360px, calc((100% - 96px) / 5)), 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            padding: 0;
+            overflow: hidden;
+            border: 0;
+            border-radius: var(--radius);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            content-visibility: auto;
+            contain-intrinsic-size: auto 200px;
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .card:hover {
+            outline: none;
+            transform: scale(1.02);
+        }
+
+        .card:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 4px;
+            transform: scale(1.02);
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.04) 50%,
+                transparent 100%
+            );
+            transform: translateX(-100%);
+            animation: shimmer 1.8s infinite ease-in-out;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .card.is-loaded::before {
+            opacity: 0;
+            animation: none;
+        }
+
+        .card img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .card img.loaded { opacity: 1; }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            border: none;
+            background: transparent;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            max-width: none;
+            max-height: none;
+        }
+
+        .lightbox[open] {
+            display: flex;
+        }
+
+        .lightbox::backdrop {
+            background: var(--overlay);
+            backdrop-filter: blur(5px);
+        }
+
+        .lightbox img {
+            width: 98%;
+            height: 88%;
+            max-width: 98%;
+            max-height: 88%;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .close,
+        .nav-btn {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            margin: 0;
+            padding: 0;
+            border: none;
+            border-radius: 50%;
+            background: var(--apple-btn-bg);
+            color: var(--apple-icon);
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .close {
+            top: 28px;
+            right: 28px;
+        }
+
+        .nav-btn {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .nav-btn.prev { left: 28px; }
+        .nav-btn.next { right: 28px; }
+
+        .close svg,
+        .nav-btn svg {
+            display: block;
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.6;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .close svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2.5;
+        }
+
+        .nav-btn.prev svg { transform: translateX(-1px); }
+        .nav-btn.next svg { transform: translateX(1px); }
+
+        .close:hover,
+        .close:focus-visible,
+        .nav-btn:hover,
+        .nav-btn:focus-visible {
+            outline: none;
+            background: var(--apple-btn-hover);
+            color: var(--apple-icon-hover);
+        }
+
+        .close:active { transform: scale(0.95); }
+        .nav-btn:active { transform: translateY(-50%) scale(0.95); }
+
+        .close:focus-visible,
+        .nav-btn:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .controls { margin-top: 20px; }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 18px;
+            min-height: 36px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42859;
+            letter-spacing: -0.016em;
+            border: none;
+            border-radius: 980px;
+            background: var(--accent);
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.15s ease, opacity 0.2s ease;
+        }
+
+        .action-btn:hover,
+        .action-btn:focus-visible {
+            outline: none;
+            background: var(--accent-hover);
+        }
+
+        .action-btn:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        .action-btn:active { transform: scale(0.98); }
+        .action-btn.loading { opacity: 0.65; pointer-events: none; }
+        .status { color: var(--text-muted); text-align: center; }
+
+        @media (max-width: 600px) {
+            body { padding: 14px; }
+            h1 { margin: 20px 0 24px; font-size: 26px; letter-spacing: 0.35em; padding-left: 0.35em; }
+            .grid { grid-template-columns: 1fr; }
+            .close { top: 16px; right: 16px; }
+            .nav-btn.prev { left: 12px; }
+            .nav-btn.next { right: 12px; }
+            .controls { width: 100%; padding: 0 20px; display: flex; justify-content: center; }
+        }
+    </style>
 </head>
+
 <body>
-<a class="skip" href="#archive">Перейти к архиву</a>
+    <h1>Горизонт</h1>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
-<symbol id="logo-sun" viewBox="0 0 64 64"><g stroke="#FF9E4F" stroke-width="5" stroke-linecap="round" fill="none"><path d="M32 6v8M13 13l6 6M51 13l-6 6M6 32h8M58 32h-8"/></g><path d="M14 42a18 18 0 0 1 36 0Z" fill="#FF9E4F"/><path d="M22 38a12 12 0 0 1 7-9" fill="none" stroke="#FFE7C7" stroke-width="4" stroke-linecap="round"/><rect x="6" y="48" width="52" height="7" rx="3.5" fill="#8F927B"/></symbol>
-<symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.8-4.5 4.2 1.1 6-5.4-3-5.4 3 1.1-6L3.2 9.4l6.1-.8z"/></symbol>
-<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14"/></symbol>
-<symbol id="i-external" viewBox="0 0 24 24"><path d="M14 5h5v5M19 5l-8 8M19 13v6H5V5h6"/></symbol>
-<symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5h10"/></symbol>
-<symbol id="i-expand" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
-<symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
-<symbol id="i-prev" viewBox="0 0 24 24"><path d="M14.5 5.5L8 12l6.5 6.5"/></symbol>
-<symbol id="i-next" viewBox="0 0 24 24"><path d="M9.5 5.5L16 12l-6.5 6.5"/></symbol>
-<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></symbol>
-<symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M3 7h4l10 10h4m0 0l-3-3m3 3l-3 3M3 17h4l2.5-2.5M14.5 9.5L17 7h4m0 0l-3-3m3 3l-3 3"/></symbol>
-<symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 2 6M4 10V4m0 6h6"/></symbol>
-<symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><rect x="13" y="13" width="7" height="7" rx="1.5"/></symbol>
-<symbol id="i-rows" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="4" rx="1.5"/><rect x="4" y="12" width="16" height="4" rx="1.5"/><path d="M4 19h16"/></symbol>
-<symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5m0 0l-6 6m6-6l6 6"/></symbol>
-<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3L2.5 20h19zM12 9.5v4.5m0 3v.5"/></symbol>
-<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></symbol>
-<symbol id="i-code" viewBox="0 0 24 24"><path d="M8 6l-5 6 5 6M16 6l5 6-5 6"/></symbol>
-<symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.8"/><path d="M4.5 5.5v13c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8v-13M4.5 12c0 1.5 3.4 2.8 7.5 2.8s7.5-1.3 7.5-2.8"/></symbol>
-<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></symbol>
-<symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56 0-.28-.01-1.02-.02-2-3.2.7-3.88-1.54-3.88-1.54-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .96-.31 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.19-1.49 3.15-1.18 3.15-1.18.62 1.59.23 2.76.11 3.05.73.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12 0 1.53-.01 2.76-.01 3.14 0 .31.21.67.8.56A10.52 10.52 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/></symbol>
-</defs></svg>
+    <main class="grid" id="gallery" aria-busy="true"></main>
 
-<div class="sky" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+    <noscript>
+        <p class="status">Для работы архива необходим JavaScript.</p>
+    </noscript>
 
-<header class="nav" id="nav">
-  <div class="container nav-inner">
-    <a class="brand" href="#today" aria-label="Горизонт — на главную"><svg aria-hidden="true"><use href="#logo-sun"/></svg><b>ГОРИЗОНТ</b></a>
-    <nav class="nav-links" aria-label="Разделы">
-      <a href="#today" data-nav="today" class="active">Сегодня</a>
-      <a href="#archive" data-nav="archive">Архив</a>
-      <a href="#about" data-nav="about">О проекте</a>
-    </nav>
-    <div class="nav-right">
-      <button class="nav-fav" id="navFav" aria-label="Показать избранное"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><span id="navFavCount">0</span></button>
-      <button class="btn btn-primary" id="randomBtn"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg><span class="btn-label">Случайный кадр</span></button>
-    </div>
-  </div>
-</header>
+    <dialog class="lightbox" id="viewer" aria-label="Просмотр обоев">
+        <button class="close" id="close" type="button" aria-label="Закрыть просмотр">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M15.5 4.5L4.5 15.5M4.5 4.5l11 11"></path>
+            </svg>
+        </button>
 
-<main>
-<section class="hero" id="today" aria-label="Кадр дня">
-  <!--LATEST:IMG:START-->
-  <img class="hero-img" id="heroImg" alt="Built to last — обои Bing (20261115)" width="1366" height="768" fetchpriority="high" loading="eager" decoding="async" referrerpolicy="no-referrer" sizes="100vw" srcset="https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_1366x768.jpg 1366w, https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_1920x1080.jpg 1920w" src="https://www.bing.com/th/id/OHR.GilaCliff_EN-GB1863069273_1366x768.jpg">
-  <!--LATEST:IMG:END-->
-  <div class="horizon-bar" aria-hidden="true"></div>
-  <div class="container hero-content">
-    <p class="eyebrow rise" style="animation-delay:.05s">Ежедневный архив Bing · 17 рынков · UHD</p>
-    <h1 class="rise" style="animation-delay:.15s">Горизонт</h1>
-    <p class="hero-sub rise" style="animation-delay:.25s">Каждый день Bing показывает миру новый рассвет — и он исчезает через сутки. Мы сохраняем его навсегда, в оригинальном 4K.</p>
-    <div class="today-panel rise" style="animation-delay:.35s">
-      <div class="today-chips">
-        <span class="chip" style="--h:var(--sun)"><svg class="ic" style="width:13px;height:13px" aria-hidden="true"><use href="#i-clock"/></svg><span id="heroDate">15 ноября 2026</span></span>
-        <span class="chip" id="heroMkt" style="--h:var(--sea)">EN-GB</span>
-      </div>
-      <p class="today-name" id="heroName">Gila Cliff</p>
-      <div class="today-actions">
-        <button class="btn btn-primary" id="heroView" disabled><svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg>Смотреть</button>
-        <button class="btn btn-ghost" id="heroDl" disabled><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Скачать UHD</button>
-      </div>
-      <p class="today-meta" id="heroMeta">Загружаем архив…</p>
-      <p class="hero-imgnote" id="heroImgNote">Изображение недоступно — откройте оригинал из лайтбокса.</p>
-    </div>
-  </div>
-  <div class="scroll-cue" aria-hidden="true"><span>К архиву</span><svg class="ic"><use href="#i-up"/></svg></div>
-</section>
+        <button class="nav-btn prev" id="prev" type="button" aria-label="Предыдущее изображение">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14.5 6.5L9 12l5.5 5.5"></path>
+            </svg>
+        </button>
+        <button class="nav-btn next" id="next" type="button" aria-label="Следующее изображение">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9.5 6.5L15 12l-5.5 5.5"></path>
+            </svg>
+        </button>
 
-<section class="pulse" id="pulse" aria-label="Статистика архива">
-  <div class="container">
-    <div class="pulse-card reveal">
-      <h2 class="sr-only">Статистика архива</h2>
-      <div class="stats">
-        <div class="stat s-sun"><b id="statTotal" data-count="0">—</b><span>кадров</span></div>
-        <div class="stat s-sea"><b id="statDays" data-count="0">—</b><span>дней</span></div>
-        <div class="stat s-meadow"><b id="statMkts" data-count="0">—</b><span>рынков</span></div>
-        <div class="stat s-dawn"><b id="statFavs" data-count="0">0</b><span>в избранном</span></div>
-      </div>
-      <p class="range-line"><svg class="ic" aria-hidden="true"><use href="#i-clock"/></svg><span id="rangeLine">Архив загружается…</span></p>
-      <div class="pulse-divider" aria-hidden="true"></div>
-      <div class="pulse-head"><b>Пульс архива</b><span>клик по столбцу — фильтр по месяцу</span></div>
-      <div class="month-bars" id="monthBars" role="group" aria-label="Кадров по месяцам"></div>
-    </div>
-  </div>
-</section>
+        <img id="bigImage" alt="" referrerpolicy="no-referrer" fetchpriority="high">
 
-<section class="archive" id="archive" aria-label="Архив обоев">
-  <div class="container">
-    <div class="sec-head reveal">
-      <p class="sec-eyebrow">Коллекция</p>
-      <h2>Архив рассветов</h2>
-      <p>Ищите по названию, дате и региону, фильтруйте, сохраняйте любимые кадры и скачивайте оригиналы UHD.</p>
-      <span class="res-count" id="resCount" aria-live="polite">—</span>
-    </div>
-    <div class="toolbar">
-      <div class="toolbar-inner">
-        <label class="field search-field"><span>Поиск</span>
-          <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
-          <input type="search" id="searchInput" placeholder="Название, дата 2026-11-15, регион…" aria-label="Поиск по архиву">
-          <kbd aria-hidden="true">/</kbd>
-        </label>
-        <label class="field"><span>Год</span><select id="yearSel"><option value="">Все</option></select></label>
-        <label class="field"><span>Месяц</span><select id="monthSel"><option value="">Все</option><option value="01">Январь</option><option value="02">Февраль</option><option value="03">Март</option><option value="04">Апрель</option><option value="05">Май</option><option value="06">Июнь</option><option value="07">Июль</option><option value="08">Август</option><option value="09">Сентябрь</option><option value="10">Октябрь</option><option value="11">Ноябрь</option><option value="12">Декабрь</option></select></label>
-        <label class="field"><span>Рынок</span><select id="marketSel"><option value="">Все</option></select></label>
-        <label class="field"><span>Сортировка</span><select id="sortSel"><option value="new">Сначала новые</option><option value="old">Сначала старые</option><option value="name">По названию</option><option value="rand">Случайно</option></select></label>
-        <div class="field"><span>Избранное</span><button class="fav-toggle" id="favToggle" aria-pressed="false"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg><span id="favCount">0</span></button></div>
-        <div class="field"><span>Плотность</span><div class="seg" role="group" aria-label="Плотность сетки"><button id="densCozy" aria-pressed="true" aria-label="Крупная сетка" title="Крупная сетка"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg></button><button id="densCompact" aria-pressed="false" aria-label="Компактная сетка" title="Компактная сетка"><svg class="ic" aria-hidden="true"><use href="#i-rows"/></svg></button></div></div>
-        <div class="field"><span>&nbsp;</span><button class="btn btn-ghost btn-icon" id="resetBtn" aria-label="Сбросить фильтры" title="Сбросить фильтры"><svg class="ic" aria-hidden="true"><use href="#i-reset"/></svg></button></div>
-      </div>
-    </div>
-    <div class="grid" id="grid" aria-busy="true"></div>
-    <div id="sentinel" aria-hidden="true"></div>
-    <div class="more-row" id="moreRow" hidden>
-      <button class="btn btn-ghost" id="moreBtn"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Показать ещё</button>
-      <span id="shownInfo" aria-live="polite"></span>
-    </div>
-    <div class="panel" id="emptyState">
-      <svg aria-hidden="true"><use href="#logo-sun"/></svg>
-      <h3>Ничего не найдено</h3>
-      <p>Попробуйте изменить запрос или сбросить фильтры — в архиве точно есть рассвет для вас.</p>
-      <button class="btn btn-primary" id="emptyReset"><svg class="ic" aria-hidden="true"><use href="#i-reset"/></svg>Сбросить фильтры</button>
-    </div>
-    <div class="panel" id="errorState">
-      <svg class="ic" style="width:56px;height:56px;color:var(--warn)" aria-hidden="true"><use href="#i-alert"/></svg>
-      <h3>Не удалось загрузить архив</h3>
-      <p id="errorHint">Проверьте соединение и попробуйте ещё раз.</p>
-      <button class="btn btn-primary" id="errorRetry"><svg class="ic" aria-hidden="true"><use href="#i-reset"/></svg>Повторить</button>
-    </div>
-  </div>
-</section>
+        <div class="controls">
+            <button class="action-btn" id="download" type="button">Скачать UHD</button>
+        </div>
+    </dialog>
 
-<section class="about" id="about" aria-label="О проекте">
-  <div class="container about-grid">
-    <div class="about-left reveal">
-      <p class="sec-eyebrow">Под капотом</p>
-      <h2>Как работает <em>«Горизонт»</em></h2>
-      <p>Каждые два часа GitHub Actions запускает Python-сборщик: он опрашивает 17 региональных версий Bing, дедуплицирует кадры и дописывает новые ссылки в data.json. Сами изображения не хранятся в репозитории — архив бережёт прямые CDN-ссылки на оригиналы UHD и обновляет кадр дня прямо в HTML этой страницы.</p>
-      <a class="btn btn-ghost" href="https://github.com/Rammsystem/Gorizont" target="_blank" rel="noopener noreferrer"><svg class="ic" aria-hidden="true"><use href="#i-github"/></svg>Репозиторий на GitHub</a>
-      <p class="about-note">Код — MIT. Изображения © Microsoft Bing и их правообладателей; архив хранит только ссылки.</p>
-    </div>
-    <div>
-      <div class="steps">
-        <div class="step reveal" style="--h:var(--sun);--d:0ms"><div class="step-ic"><svg class="ic" aria-hidden="true"><use href="#i-code"/></svg></div><div><h3><small>01</small>Сборщик</h3><p>fetch_bing.py · 17 рынков · ретраи и дедупликация · запуск каждые 2 часа по cron · инъекция свежего LCP-кадра в index.html.</p></div></div>
-        <div class="step reveal" style="--h:var(--sea);--d:80ms"><div class="step-ic"><svg class="ic" aria-hidden="true"><use href="#i-db"/></svg></div><div><h3><small>02</small>Хранилище</h3><p>data.json в репозитории · прямые ссылки на UHD-оригиналы · названия и подписи из API · коммиты только при изменениях.</p></div></div>
-        <div class="step reveal" style="--h:var(--meadow);--d:160ms"><div class="step-ic"><svg class="ic" aria-hidden="true"><use href="#i-eye"/></svg></div><div><h3><small>03</small>Просмотрщик</h3><p>Чистый HTML/CSS/JS без фреймворков · адаптивные thumbnails вместо тяжёлых превью · dialog-лайтбокс · избранное в localStorage · эта страница.</p></div></div>
-      </div>
-      <div class="facts">
-        <div class="fact reveal" style="--h:var(--sun-hi);--d:0ms"><b>0</b><span>зависимостей</span></div>
-        <div class="fact reveal" style="--h:var(--sea-hi);--d:60ms"><b>4K</b><span>UHD-оригиналы</span></div>
-        <div class="fact reveal" style="--h:var(--meadow);--d:120ms"><b>17</b><span>рынков мира</span></div>
-        <div class="fact reveal" style="--h:var(--dawn-hi);--d:180ms"><b>2 ч</b><span>цикл обновления</span></div>
-      </div>
-      <div class="markets reveal">
-        <b>География архива</b>
-        <div class="market-cloud" id="marketCloud"></div>
-      </div>
-    </div>
-  </div>
-</section>
-</main>
+    <script>
+        'use strict';
 
-<footer>
-  <div class="container">
-    <div class="foot-grid">
-      <div class="foot-brand"><svg aria-hidden="true"><use href="#logo-sun"/></svg><div><b>ГОРИЗОНТ</b><span>Каждый рассвет сохраняется.</span></div></div>
-      <nav class="foot-links" aria-label="Ссылки">
-        <a href="https://github.com/Rammsystem/Gorizont" target="_blank" rel="noopener noreferrer"><svg class="ic" aria-hidden="true"><use href="#i-github"/></svg>GitHub</a>
-        <a href="https://www.bing.com" target="_blank" rel="noopener noreferrer"><svg class="ic" aria-hidden="true"><use href="#i-external"/></svg>Bing</a>
-        <a href="#today"><svg class="ic" aria-hidden="true"><use href="#i-up"/></svg>Наверх</a>
-      </nav>
-      <div class="foot-hints"><span><kbd>/</kbd> поиск</span><span><kbd>←</kbd><kbd>→</kbd> листать</span><span><kbd>Esc</kbd> закрыть</span></div>
-    </div>
-    <div class="foot-legal"><span id="footUpdated">Обновляется каждые 2 часа через GitHub Actions.</span><span>Изображения © Microsoft Bing и правообладателей — архив хранит только ссылки. Код: MIT.</span></div>
-  </div>
-</footer>
+        const gallery = document.getElementById('gallery');
+        const viewer = document.getElementById('viewer');
+        const bigImage = document.getElementById('bigImage');
+        const downloadBtn = document.getElementById('download');
+        const closeBtn = document.getElementById('close');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
 
-<dialog class="lb" id="lb" aria-labelledby="lbTitle">
-  <div class="lb-shell">
-    <div class="lb-top">
-      <span class="lb-count" id="lbCount">1 / 1</span>
-      <div class="lb-titles"><h3 id="lbTitle">Кадр</h3><p id="lbSub"></p></div>
-      <button class="btn btn-ghost btn-icon" id="lbClose" aria-label="Закрыть (Esc)"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
-    </div>
-    <div class="lb-media loading" id="lbMedia">
-      <img id="lbImg" alt="" decoding="async" referrerpolicy="no-referrer">
-      <button class="lb-nav lb-prev" id="lbPrev" aria-label="Предыдущий кадр (←)"><svg class="ic" aria-hidden="true"><use href="#i-prev"/></svg></button>
-      <button class="lb-nav lb-next" id="lbNext" aria-label="Следующий кадр (→)"><svg class="ic" aria-hidden="true"><use href="#i-next"/></svg></button>
-      <div class="lb-fallback"><svg class="ic" aria-hidden="true"><use href="#i-alert"/></svg><p>Превью недоступно.</p><a id="lbFallbackLink" href="#" target="_blank" rel="noopener noreferrer">Открыть оригинал ↗</a></div>
-    </div>
-    <div class="lb-bottom">
-      <div class="lb-meta">
-        <span class="chip" style="--h:var(--sun)" id="lbDate">—</span>
-        <span class="chip" id="lbMkt" style="--h:var(--sea)">—</span>
-        <a class="lb-orig" id="lbOrig" href="#" target="_blank" rel="noopener noreferrer">Оригинал<svg class="ic" aria-hidden="true"><use href="#i-external"/></svg></a>
-      </div>
-      <div class="lb-actions">
-        <button class="lb-fav" id="lbFav" data-fav="" aria-pressed="false" aria-label="В избранное"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></button>
-        <button class="btn btn-ghost" id="copyBtn"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg><span class="btn-label">Ссылка</span></button>
-        <button class="btn btn-ghost" id="fsBtn"><svg class="ic" aria-hidden="true"><use href="#i-expand"/></svg><span class="btn-label" id="fsLabel">Экран</span></button>
-        <a class="btn btn-ghost" id="openBtn" href="#" target="_blank" rel="noopener noreferrer" hidden><svg class="ic" aria-hidden="true"><use href="#i-external"/></svg><span class="btn-label">Открыть UHD</span></a>
-        <button class="btn btn-primary" id="dlBtn"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><span class="btn-label" id="dlLabel">Скачать UHD</span></button>
-      </div>
-    </div>
-  </div>
-</dialog>
+        const PAGE_SIZE = 40;
 
-<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
-<button class="to-top" id="toTop" aria-label="Наверх"><svg class="ic" aria-hidden="true"><use href="#i-up"/></svg></button>
-<noscript><div class="container" style="padding:40px 24px;text-align:center"><h2 style="font-family:Unbounded,sans-serif">Для работы архива необходим JavaScript</h2><p style="color:#A7AEC4;margin-top:8px">Включите JavaScript или смотрите обои напрямую на bing.com.</p></div></noscript>
+        let galleryItems = [];
+        let renderedCount = 0;
+        let currentIndex = -1;
+        let blobURL = null;
+        let loadToken = 0;
+        let previouslyFocused = null;
+        let downloadFallbackItem = null;
+        let downloadController = null;
+        let sentinelObserver = null;
+        let activeUhdLoader = null;
+        const preloadedUHD = new Set();
 
-<script type="module">
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-const motionOK=!matchMedia('(prefers-reduced-motion: reduce)').matches;
-const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const cssEsc=s=>window.CSS&&CSS.escape?CSS.escape(s):s;
-const debounce=(f,ms)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>f(...a),ms)}};
-const REGIONS={'en-US':'США','en-GB':'Великобритания','en-CA':'Канада','en-AU':'Австралия','en-NZ':'Новая Зеландия','de-DE':'Германия','fr-FR':'Франция','es-ES':'Испания','it-IT':'Италия','nl-NL':'Нидерланды','pl-PL':'Польша','pt-BR':'Бразилия','pt-PT':'Португалия','ru-RU':'Россия','ja-JP':'Япония','zh-CN':'Китай','ko-KR':'Корея','ROW':'Весь мир'};
-const MONTHS=['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
-const MSHORT=['янв','фев','мар','апр','май','июн','июл','авг','сен','окт','ноя','дек'];
-const PALETTE=['#FF9E4F','#39C6E8','#FF5C7A','#57D98B','#5AA9FF','#FFB020','#C084FC','#9BA37F'];
-const fmtLong=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',year:'numeric'});
-const fmtShort=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'short'});
-const PAGE=24;
-const state={all:[],filtered:[],shown:0,favs:new Set(),q:'',year:'',month:'',market:'',favOnly:false,sort:'new',
-  lbList:[],lbIndex:-1,lbOpen:false,lastFocus:null,dlCtl:null,dlUrl:null,dlTimer:0,corsBlocked:false,loading:false};
-try{state.favs=new Set(JSON.parse(localStorage.getItem('gorizont:favs')||'[]'))}catch{}
-const grid=$('#grid'),dlg=$('#lb'),lbImg=$('#lbImg'),lbMedia=$('#lbMedia'),toasts=$('#toasts'),
-  searchInput=$('#searchInput'),yearSel=$('#yearSel'),monthSel=$('#monthSel'),marketSel=$('#marketSel'),sortSel=$('#sortSel'),
-  favToggle=$('#favToggle'),dlBtn=$('#dlBtn'),dlLabel=$('#dlLabel'),openBtn=$('#openBtn'),hero=$('#today'),heroImg=$('#heroImg');
-const humanize=id=>id.replace(/([A-Z]+)([A-Z][a-z])/g,'$1 $2').replace(/([a-z\d])([A-Z])/g,'$1 $2').replace(/([A-Za-z])(\d)/g,'$1 $2').replace(/(\d)([A-Za-z])/g,'$1 $2');
-const hueFor=code=>{let h=0;for(const c of code)h+=c.charCodeAt(0);return PALETTE[h%PALETTE.length]};
-const sized=(url,px)=>url.replace(/_(?:UHD|\d+x\d+)\.jpg$/,'_'+px+'.jpg');
-function normalize(raw){
-  const t=x=>String(x??'').trim(),out=[];
-  for(const[k,v]of Object.entries(raw||{})){
-    if(!v||typeof v!=='object')continue;
-    const id=t(v.img_id||k),sortKey=t(v.sort_key),url=t(v.url).replace('/th?id=','/th/id/');
-    let preview=t(v.preview).replace('/th?id=','/th/id/')||url.replace('_UHD.jpg','_1920x1080.jpg');
-    if(!id||!url||sortKey.length<8)continue;
-    const y=sortKey.slice(0,4),m=sortKey.slice(4,6),d=sortKey.slice(6,8);
-    const date=new Date(Date.UTC(+y,+m-1,+d));if(isNaN(date))continue;
-    const market=t(v.market)||(url.match(/_([A-Z]{2}-[A-Z]{2}|ROW)\d+_/)||[])[1]||'ROW';
-    const name=t(v.title)||humanize(id);
-    out.push({id,sortKey,url,preview,name,caption:t(v.copyright),date,iso:`${y}-${m}-${d}`,ym:`${y}-${m}`,year:y,month:m,market,region:REGIONS[market]||market});
-  }
-  out.sort((a,b)=>b.sortKey.localeCompare(a.sortKey));return out;
-}
-function toast(msg,type='ok',ms=3200){
-  const hues={ok:'var(--meadow)',info:'var(--blue)',warn:'var(--warn)',err:'var(--danger)'};
-  const el=document.createElement('div');el.className='toast';el.style.setProperty('--h',hues[type]||hues.ok);el.textContent=msg;
-  toasts.appendChild(el);while(toasts.children.length>3)toasts.firstChild.remove();
-  setTimeout(()=>{el.classList.add('out');setTimeout(()=>el.remove(),350)},ms);
-}
-function imgFallback(img){
-  if(img.dataset.fb)return;img.dataset.fb='1';
-  const full=img.dataset.full;if(full){img.removeAttribute('srcset');img.removeAttribute('sizes');img.src=full;}
-}
-grid.addEventListener('error',e=>{if(e.target.tagName==='IMG')imgFallback(e.target)},true);
-heroImg.addEventListener('error',()=>{if(!heroImg.dataset.fb){imgFallback(heroImg)}else{hero.classList.add('img-failed')}});
-lbImg.addEventListener('error',()=>{if(!lbImg.dataset.fb){lbImg.dataset.fb='1';const e=state.lbList[state.lbIndex];if(e){lbImg.src=e.preview;return}}lbMedia.classList.remove('loading');lbMedia.classList.add('failed')});
-lbImg.addEventListener('load',()=>{lbMedia.classList.remove('loading');lbMedia.classList.add('ready')});
-heroImg.addEventListener('load',()=>hero.classList.add('loaded'));
-if(heroImg.complete&&heroImg.naturalWidth)hero.classList.add('loaded');
+        function setDownloadState(label, isLoading = false) {
+            downloadBtn.textContent = label;
+            downloadBtn.classList.toggle('loading', isLoading);
+        }
 
-const revealIO='IntersectionObserver'in window?new IntersectionObserver(es=>{for(const en of es)if(en.isIntersecting){en.target.classList.add('in');revealIO.unobserve(en.target)}},{threshold:.1,rootMargin:'0px 0px -5% 0px'}):null;
-const observeReveals=root=>{$$('.reveal:not(.in)',root||document).forEach(el=>revealIO?revealIO.observe(el):el.classList.add('in'));if(root&&root.classList?.contains('reveal'))revealIO?revealIO.observe(root):root.classList.add('in')};
-observeReveals();
+        function releaseBlobURL() {
+            if (blobURL) {
+                URL.revokeObjectURL(blobURL);
+                blobURL = null;
+            }
+        }
 
-function cardHTML(e,i){
-  const fav=state.favs.has(e.id),t400=sized(e.preview,'400x240'),t958=sized(e.preview,'958x510'),t1366=sized(e.preview,'1366x768');
-  const alt=`${e.name} — обои Bing за ${fmtLong.format(e.date)}`;
-  return `<article class="card reveal" style="--d:${(i%12)*35}ms">
-<a class="card-media" href="#${esc(e.id)}" data-open="${esc(e.id)}" aria-label="Открыть: ${esc(e.name)}, ${esc(fmtLong.format(e.date))}">
-<img src="${esc(t400)}" srcset="${esc(t400)} 400w, ${esc(t958)} 958w, ${esc(t1366)} 1366w" sizes="(min-width:1000px) 300px, (min-width:640px) 46vw, 92vw" data-full="${esc(e.preview)}" alt="${esc(alt)}" width="400" height="240" loading="lazy" decoding="async" referrerpolicy="no-referrer">
-<span class="card-date">${esc(fmtShort.format(e.date))}</span><span class="card-mkt" style="--h:${hueFor(e.market)}">${esc(e.market)}</span></a>
-<div class="card-body"><div class="card-txt"><h3>${esc(e.name)}</h3><p>${esc(e.iso)} · ${esc(e.region)}</p></div>
-<button class="fav" data-fav="${esc(e.id)}" aria-pressed="${fav}" aria-label="В избранное: ${esc(e.name)}" title="В избранное"><svg class="ic" aria-hidden="true"><use href="#i-star"/></svg></button></div></article>`;
-}
-function appendPage(){
-  const slice=state.filtered.slice(state.shown,state.shown+PAGE);if(!slice.length)return;
-  grid.insertAdjacentHTML('beforeend',slice.map((e,i)=>cardHTML(e,i)).join(''));
-  state.shown+=slice.length;observeReveals(grid);updateInfo();
-  requestAnimationFrame(()=>{if(state.shown<state.filtered.length){const r=$('#sentinel').getBoundingClientRect();if(r.top<innerHeight+800)appendPage()}});
-}
-function updateInfo(){
-  const n=state.filtered.length,total=state.all.length;
-  $('#resCount').textContent=n===total?`${total} кадров`:`Найдено ${n} из ${total}`;
-  $('#shownInfo').textContent=`Показано ${Math.min(state.shown,n)} из ${n}`;
-  const more=state.shown<n;$('#moreRow').hidden=!more&&n>0?true:!more;
-  $('#moreBtn').hidden=!more;$('#emptyState').classList.toggle('show',!state.loading&&n===0);
-  grid.setAttribute('aria-busy',String(state.loading));
-}
-function applyFilters(){
-  if(!state.all.length)return;
-  const q=state.q.toLowerCase();
-  let list=state.all.filter(e=>(!state.year||e.year===state.year)&&(!state.month||e.month===state.month)&&(!state.market||e.market===state.market)&&(!state.favOnly||state.favs.has(e.id))&&(!q||e.name.toLowerCase().includes(q)||e.id.toLowerCase().includes(q)||e.iso.includes(q)||e.market.toLowerCase().includes(q)||e.region.toLowerCase().includes(q)||e.caption.toLowerCase().includes(q)));
-  if(state.sort==='old')list.sort((a,b)=>a.sortKey.localeCompare(b.sortKey));
-  else if(state.sort==='name')list.sort((a,b)=>a.name.localeCompare(b.name,'en'));
-  else if(state.sort==='rand'){for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]]}}
-  else list.sort((a,b)=>b.sortKey.localeCompare(a.sortKey));
-  state.filtered=list;state.shown=0;grid.innerHTML='';appendPage();updateInfo();updateMonthActive();
-}
-grid.addEventListener('click',ev=>{
-  const fav=ev.target.closest('[data-fav]');
-  if(fav){ev.preventDefault();toggleFav(fav.dataset.fav);return}
-  const a=ev.target.closest('[data-open]')||ev.target.closest('.card')?.querySelector('[data-open]');
-  if(a){ev.preventDefault();openLightbox(a.dataset.open,true)}
-});
-$('#moreBtn').addEventListener('click',appendPage);
-if('IntersectionObserver'in window)new IntersectionObserver(es=>{if(es[0].isIntersecting&&!state.loading&&state.shown<state.filtered.length)appendPage()},{rootMargin:'800px'}).observe($('#sentinel'));
+        function cancelDownload() {
+            if (downloadController) {
+                downloadController.abort();
+                downloadController = null;
+            }
+        }
 
-function toggleFav(id){
-  const on=!state.favs.has(id);on?state.favs.add(id):state.favs.delete(id);
-  try{localStorage.setItem('gorizont:favs',JSON.stringify([...state.favs]))}catch{}
-  $$(`[data-fav="${cssEsc(id)}"]`).forEach(b=>b.setAttribute('aria-pressed',String(on)));
-  syncFavCounts();toast(on?'Добавлено в избранное':'Убрано из избранного',on?'ok':'info',1800);
-  if(state.favOnly)applyFilters();
-}
-function syncFavCounts(){const n=state.favs.size;$('#navFavCount').textContent=n;$('#favCount').textContent=n;const sf=$('#statFavs');sf.textContent=n;sf.dataset.count=n}
-syncFavCounts();
+        function cancelUhdLoader() {
+            if (activeUhdLoader) {
+                activeUhdLoader.onload = null;
+                activeUhdLoader.onerror = null;
+                activeUhdLoader.src = '';
+                activeUhdLoader = null;
+            }
+        }
 
-function buildFacets(){
-  const years=[...new Set(state.all.map(e=>e.year))].sort().reverse();
-  yearSel.insertAdjacentHTML('beforeend',years.map(y=>`<option value="${y}">${y}</option>`).join(''));
-  const mkts=[...new Set(state.all.map(e=>e.market))].sort();
-  marketSel.insertAdjacentHTML('beforeend',mkts.map(m=>`<option value="${esc(m)}">${esc(m)} — ${esc(REGIONS[m]||m)}</option>`).join(''));
-  $('#marketCloud').innerHTML=Object.entries(REGIONS).map(([m,r])=>`<span class="chip" style="--h:${hueFor(m)}">${esc(m)} · ${esc(r)}</span>`).join('');
-}
-function buildHero(){
-  const e=state.all[0];if(!e)return;
-  if(!heroImg.src.includes(e.id)){
-    heroImg.dataset.fb='';hero.classList.remove('img-failed');
-    const a=sized(e.preview,'1366x768'),b=e.preview;
-    heroImg.srcset=`${a} 1366w, ${b} 1920w`;heroImg.sizes='100vw';heroImg.src=a;
-  }
-  heroImg.alt=`${e.name} — обои Bing за ${fmtLong.format(e.date)}`;
-  $('#heroName').textContent=e.name;$('#heroDate').textContent=fmtLong.format(e.date);
-  const mkt=$('#heroMkt');mkt.textContent=`${e.market} · ${e.region}`;mkt.style.setProperty('--h',hueFor(e.market));
-  $('#heroMeta').textContent=`Кадр дня · ${state.all.length} кадров в архиве · оригинал UHD`;
-  $('#heroView').disabled=false;$('#heroDl').disabled=false;
-  $('#footUpdated').textContent=`Последний кадр: ${fmtLong.format(e.date)}. Обновляется каждые 2 часа через GitHub Actions.`;
-}
-$('#heroView').addEventListener('click',()=>{if(state.all[0])openLightbox(state.all[0].id,true)});
-$('#heroDl').addEventListener('click',()=>{if(!state.all[0])return;openLightbox(state.all[0].id,true);startDownload()});
-function buildStats(){
-  const days=new Set(state.all.map(e=>e.iso)).size,mkts=new Set(state.all.map(e=>e.market)).size;
-  const set=(id,v)=>{const el=$(id);el.dataset.count=v;el.textContent=v};
-  set('#statTotal',state.all.length);set('#statDays',days);set('#statMkts',mkts);syncFavCounts();
-  const first=state.all[state.all.length-1],last=state.all[0];
-  $('#rangeLine').textContent=`${fmtShort.format(first.date)} — ${fmtLong.format(last.date)} ·collector каждые 2 часа`.replace('collector','сборщик');
-}
-if('IntersectionObserver'in window&&motionOK){
-  const io=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;io.disconnect();
-    $$('.stat b').forEach(el=>{const target=+el.dataset.count||0,t0=performance.now(),dur=800;
-      const step=t=>{const p=Math.min(1,(t-t0)/dur);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)})},{threshold:.4});
-  io.observe($('#pulse'));
-}
-function buildMonths(){
-  const map=new Map();for(const e of state.all)map.set(e.ym,(map.get(e.ym)||0)+1);
-  const keys=[...map.keys()].sort(),max=Math.max(...map.values());
-  $('#monthBars').innerHTML=keys.map((ym,i)=>{
-    const[y,m]=ym.split('-'),c=map.get(ym),h=Math.round(c/max*56)+8;
-    const label=`${MSHORT[+m-1]}${(m==='01'||i===0)?' '+y.slice(2):''}`;
-    return `<button class="mbar" data-ym="${ym}" aria-pressed="false" aria-label="${MONTHS[+m-1]} ${y}: ${c} кадров" title="${MONTHS[+m-1]} ${y} — ${c} кадров" style="--h:${PALETTE[i%PALETTE.length]};--v:${h}px"><em>${c}</em><i></i><small>${label}</small></button>`;
-  }).join('');
-}
-$('#monthBars').addEventListener('click',ev=>{
-  const b=ev.target.closest('[data-ym]');if(!b)return;
-  const[y,m]=b.dataset.ym.split('-');
-  if(state.year===y&&state.month===m){state.year='';state.month='';yearSel.value='';monthSel.value=''}
-  else{state.year=y;state.month=m;yearSel.value=y;monthSel.value=m}
-  applyFilters();$('#archive').scrollIntoView({behavior:motionOK?'smooth':'auto'});
-});
-function updateMonthActive(){$$('#monthBars .mbar').forEach(b=>{const on=!!state.year&&!!state.month&&b.dataset.ym===`${state.year}-${state.month}`;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))})}
+        async function downloadImage(item) {
+            if (!item?.url) return;
 
-searchInput.addEventListener('input',debounce(()=>{state.q=searchInput.value.trim();applyFilters()},140));
-yearSel.addEventListener('change',()=>{state.year=yearSel.value;applyFilters()});
-monthSel.addEventListener('change',()=>{state.month=monthSel.value;applyFilters()});
-marketSel.addEventListener('change',()=>{state.market=marketSel.value;applyFilters()});
-sortSel.addEventListener('change',()=>{state.sort=sortSel.value;applyFilters()});
-favToggle.addEventListener('click',()=>{state.favOnly=!state.favOnly;favToggle.setAttribute('aria-pressed',String(state.favOnly));applyFilters()});
-$('#navFav').addEventListener('click',()=>{state.favOnly=true;favToggle.setAttribute('aria-pressed','true');applyFilters();$('#archive').scrollIntoView({behavior:motionOK?'smooth':'auto'})});
-function setDensity(compact){grid.classList.toggle('compact',compact);$('#densCozy').setAttribute('aria-pressed',String(!compact));$('#densCompact').setAttribute('aria-pressed',String(compact));try{localStorage.setItem('gorizont:density',compact?'compact':'cozy')}catch{}}
-$('#densCozy').addEventListener('click',()=>setDensity(false));
-$('#densCompact').addEventListener('click',()=>setDensity(true));
-try{if(localStorage.getItem('gorizont:density')==='compact')setDensity(true)}catch{}
-function resetFilters(){state.q='';state.year='';state.month='';state.market='';state.favOnly=false;state.sort='new';
-  searchInput.value='';yearSel.value='';monthSel.value='';marketSel.value='';sortSel.value='new';favToggle.setAttribute('aria-pressed','false');applyFilters()}
-$('#resetBtn').addEventListener('click',resetFilters);
-$('#emptyReset').addEventListener('click',resetFilters);
-$('#randomBtn').addEventListener('click',()=>{if(!state.all.length)return;openLightbox(state.all[Math.floor(Math.random()*state.all.length)].id,true)});
+            cancelDownload();
 
-function setHash(id,push){try{const url=id?'#'+encodeURIComponent(id):location.pathname+location.search;push?history.pushState(null,'',url):history.replaceState(null,'',url)}catch{}}
-function openLightbox(id,push){
-  const inF=state.filtered.findIndex(e=>e.id===id);
-  state.lbList=inF>-1?state.filtered:state.all;
-  state.lbIndex=state.lbList.findIndex(e=>e.id===id);if(state.lbIndex<0)return;
-  if(!state.lbOpen)state.lastFocus=document.activeElement;
-  renderLb(push);
-  if(!dlg.open){typeof dlg.showModal==='function'?dlg.showModal():dlg.setAttribute('open','')}
-  document.documentElement.classList.add('lb-open');dlg.appendChild(toasts);state.lbOpen=true;
-}
-function renderLb(push){
-  const e=state.lbList[state.lbIndex];cancelDownload();
-  lbMedia.classList.add('loading');lbMedia.classList.remove('failed');lbImg.dataset.fb='';
-  lbImg.alt=`${e.name} — обои Bing за ${fmtLong.format(e.date)}`;lbImg.src=e.preview;
-  if(lbImg.complete&&lbImg.naturalWidth){lbMedia.classList.remove('loading')}
-  $('#lbTitle').textContent=e.name;$('#lbSub').textContent=e.caption||`${e.region} · ${e.id}`;
-  $('#lbCount').textContent=`${state.lbIndex+1} / ${state.lbList.length}`;
-  $('#lbDate').textContent=fmtLong.format(e.date);
-  const m=$('#lbMkt');m.textContent=`${e.market} · ${e.region}`;m.style.setProperty('--h',hueFor(e.market));
-  $('#lbOrig').href=e.url;$('#lbFallbackLink').href=e.url;
-  const fav=$('#lbFav');fav.dataset.fav=e.id;fav.setAttribute('aria-pressed',String(state.favs.has(e.id)));
-  dlBtn.hidden=state.corsBlocked;openBtn.hidden=!state.corsBlocked;openBtn.href=e.url;
-  setHash(e.id,push);
-  const n=state.lbList[(state.lbIndex+1)%state.lbList.length];if(n&&n.id!==e.id){const im=new Image();im.referrerPolicy='no-referrer';im.src=n.preview}
-}
-function navLb(dir){if(!state.lbList.length)return;state.lbIndex=(state.lbIndex+dir+state.lbList.length)%state.lbList.length;renderLb(false)}
-function closeLb(){if(dlg.open&&typeof dlg.close==='function')dlg.close();else{dlg.removeAttribute('open');onLbClose()}}
-function onLbClose(){
-  cancelDownload();state.lbOpen=false;document.documentElement.classList.remove('lb-open');
-  document.body.appendChild(toasts);setHash(null,false);
-  const f=state.lastFocus;
-  if(f&&f.isConnected&&typeof f.focus==='function')f.focus({preventScroll:true});
-  else grid.querySelector('[data-open]')?.focus({preventScroll:true});
-}
-dlg.addEventListener('close',onLbClose);
-dlg.addEventListener('click',ev=>{if(ev.target===dlg)closeLb()});
-$('#lbClose').addEventListener('click',closeLb);
-$('#lbPrev').addEventListener('click',()=>navLb(-1));
-$('#lbNext').addEventListener('click',()=>navLb(1));
-$('#lbFav').addEventListener('click',()=>{const id=$('#lbFav').dataset.fav;if(id)toggleFav(id)});
-window.addEventListener('hashchange',()=>{
-  const id=decodeURIComponent(location.hash.slice(1));
-  if(id&&state.all.some(e=>e.id===id)){
-    if(state.lbOpen){const i=state.lbList.findIndex(x=>x.id===id);if(i>-1&&i!==state.lbIndex){state.lbIndex=i;renderLb(false)}else if(i<0)openLightbox(id,false)}
-    else openLightbox(id,false);
-  }else if(!id&&state.lbOpen)closeLb();
-});
-document.addEventListener('keydown',e=>{
-  if(state.lbOpen){
-    if(e.key==='ArrowRight'){e.preventDefault();navLb(1)}
-    else if(e.key==='ArrowLeft'){e.preventDefault();navLb(-1)}
-    else if(e.key==='Escape'&&typeof dlg.showModal!=='function')closeLb();
-    return;
-  }
-  if(e.key==='/'&&!/^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)){e.preventDefault();searchInput.focus();searchInput.select()}
-});
-function cancelDownload(){
-  if(state.dlCtl){state.dlCtl.abort();state.dlCtl=null}
-  clearTimeout(state.dlTimer);
-  if(state.dlUrl){URL.revokeObjectURL(state.dlUrl);state.dlUrl=null}
-  dlBtn.disabled=false;dlLabel.textContent='Скачать UHD';
-}
-async function startDownload(){
-  const e=state.lbList[state.lbIndex];if(!e)return;
-  if(state.corsBlocked){dlBtn.hidden=true;openBtn.hidden=false;openBtn.href=e.url;toast('Нажмите «Открыть UHD» и сохраните файл через меню браузера.','info');return}
-  cancelDownload();state.dlCtl=new AbortController();dlBtn.disabled=true;dlLabel.textContent='Скачивание…';
-  try{
-    const res=await fetch(e.url,{mode:'cors',signal:state.dlCtl.signal});
-    if(!res.ok)throw new Error('http');
-    let blob;const total=+res.headers.get('Content-Length')||0;
-    if(res.body&&total){
-      const reader=res.body.getReader(),chunks=[];let got=0;
-      for(;;){const{done,value}=await reader.read();if(done)break;chunks.push(value);got+=value.length;dlLabel.textContent=Math.min(99,Math.round(got/total*100))+'%'}
-      blob=new Blob(chunks,{type:'image/jpeg'});
-    }else blob=await res.blob();
-    state.dlUrl=URL.createObjectURL(blob);
-    const a=document.createElement('a');a.href=state.dlUrl;a.download=`Gorizont_${e.id}_UHD.jpg`;
-    document.body.appendChild(a);a.click();a.remove();
-    dlLabel.textContent='Сохранено ✓';toast('UHD-файл сохранён','ok');
-    state.dlTimer=setTimeout(()=>{if(state.dlUrl){URL.revokeObjectURL(state.dlUrl);state.dlUrl=null}dlBtn.disabled=false;dlLabel.textContent='Скачать UHD'},4000);
-  }catch(err){
-    if(err&&err.name==='AbortError')return;
-    state.corsBlocked=true;dlBtn.hidden=true;openBtn.hidden=false;openBtn.href=e.url;
-    dlBtn.disabled=false;dlLabel.textContent='Скачать UHD';
-    toast('Bing блокирует прямое скачивание (CORS). Кнопка переключена на «Открыть UHD» — сохраните файл через меню браузера.','warn',5200);
-  }
-}
-dlBtn.addEventListener('click',startDownload);
-$('#copyBtn').addEventListener('click',async()=>{
-  const e=state.lbList[state.lbIndex];if(!e)return;
-  const base=location.origin&&location.origin!=='null'?location.origin+location.pathname:location.href.split('#')[0];
-  const link=base+'#'+encodeURIComponent(e.id);
-  try{await navigator.clipboard.writeText(link);toast('Ссылка на кадр скопирована','ok')}
-  catch{try{const ta=document.createElement('textarea');ta.value=link;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast('Ссылка на кадр скопирована','ok')}catch{toast('Не удалось скопировать ссылку','err')}}
-});
-const fsBtn=$('#fsBtn');
-if(!document.fullscreenEnabled)fsBtn.hidden=true;
-fsBtn.addEventListener('click',()=>{
-  if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
-  else dlg.requestFullscreen?.().catch(()=>toast('Полноэкранный режим недоступен','warn'));
-});
-document.addEventListener('fullscreenchange',()=>{$('#fsLabel').textContent=document.fullscreenElement?'Свернуть':'Экран'});
-window.addEventListener('pagehide',()=>{if(state.dlUrl)URL.revokeObjectURL(state.dlUrl)});
+            const controller = new AbortController();
+            downloadController = controller;
+            downloadFallbackItem = null;
+            setDownloadState('Загрузка...', true);
 
-const nav=$('#nav'),toTop=$('#toTop');let ticking=false,heroH=hero.offsetHeight;
-addEventListener('resize',()=>{heroH=hero.offsetHeight},{passive:true});
-addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{ticking=false;const y=scrollY;
-  nav.classList.toggle('scrolled',y>8);toTop.classList.toggle('show',y>900);
-  if(motionOK&&y<heroH)heroImg.style.transform=`translateY(${y*.22}px) scale(1.06)`;})}},{passive:true});
-toTop.addEventListener('click',()=>scrollTo({top:0,behavior:motionOK?'smooth':'auto'}));
-if('IntersectionObserver'in window){
-  const links=new Map($$('.nav-links a').map(a=>[a.dataset.nav,a]));
-  new IntersectionObserver(es=>{for(const en of es)if(en.isIntersecting){links.forEach(a=>a.classList.remove('active'));links.get(en.target.id)?.classList.add('active')}},{rootMargin:'-40% 0px -55% 0px'}).observe(hero);
-  const io2=new IntersectionObserver(es=>{for(const en of es)if(en.isIntersecting){links.forEach(a=>a.classList.remove('active'));links.get(en.target.id)?.classList.add('active')}},{rootMargin:'-40% 0px -55% 0px'});
-  io2.observe($('#archive'));io2.observe($('#about'));
-}
+            try {
+                const response = await fetch(item.url, {
+                    referrerPolicy: 'no-referrer',
+                    signal: controller.signal,
+                });
 
-const pendingHash=decodeURIComponent(location.hash.slice(1));
-async function init(){
-  if(state.loading)return;state.loading=true;
-  $('#errorState').classList.remove('show');$('#emptyState').classList.remove('show');
-  grid.innerHTML=Array.from({length:12},()=>'<div class="sk-card" aria-hidden="true"></div>').join('');
-  grid.setAttribute('aria-busy','true');
-  try{
-    const res=await fetch('data.json',{cache:'no-cache'});
-    if(!res.ok)throw new Error('http');
-    const entries=normalize(await res.json());
-    if(!entries.length)throw new Error('empty');
-    state.all=entries;state.loading=false;
-    buildFacets();buildHero();buildStats();buildMonths();
-    state.q=searchInput.value.trim();state.year=yearSel.value;state.month=monthSel.value;state.market=marketSel.value;state.sort=sortSel.value;
-    applyFilters();
-    if(pendingHash&&entries.some(e=>e.id===pendingHash))openLightbox(pendingHash,false);
-  }catch{
-    state.loading=false;grid.innerHTML='';grid.setAttribute('aria-busy','false');
-    $('#errorHint').innerHTML=location.protocol==='file:'
-      ?'Откройте сайт через локальный сервер: <code>python -m http.server 8000</code> → <code>http://localhost:8000</code>'
-      :'Проверьте соединение и попробуйте ещё раз.';
-    $('#errorState').classList.add('show');$('#resCount').textContent='ошибка';
-  }
-}
-$('#errorRetry').addEventListener('click',init);
-init();
-</script>
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const blob = await response.blob();
+
+                releaseBlobURL();
+                blobURL = URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = blobURL;
+                link.download = `${item.img_id || 'BING_IMAGE'}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                setDownloadState('Скачать UHD');
+            } catch (error) {
+                if (error.name === 'AbortError') return;
+                downloadFallbackItem = item;
+                setDownloadState('Открыть UHD');
+            } finally {
+                if (downloadController === controller) {
+                    downloadController = null;
+                    downloadBtn.classList.remove('loading');
+                }
+            }
+        }
+
+        function preloadUHD(url) {
+            if (!url || preloadedUHD.has(url)) return;
+            preloadedUHD.add(url);
+            const img = new Image();
+            img.referrerPolicy = 'no-referrer';
+            img.fetchPriority = 'low';
+            img.src = url;
+        }
+
+        function openViewer(index) {
+            const item = galleryItems[index];
+            if (!item) return;
+
+            currentIndex = index;
+            downloadFallbackItem = null;
+            cancelDownload();
+            cancelUhdLoader();
+
+            if (!viewer.open) {
+                previouslyFocused = document.activeElement;
+                viewer.showModal();
+                document.body.style.overflow = 'hidden';
+            }
+
+            const isFirst = index <= 0;
+            const isLast = index >= galleryItems.length - 1;
+
+            if (isLast && document.activeElement === nextBtn) {
+                (!isFirst ? prevBtn : closeBtn).focus();
+            } else if (isFirst && document.activeElement === prevBtn) {
+                (!isLast ? nextBtn : closeBtn).focus();
+            } else if (document.activeElement !== nextBtn && document.activeElement !== prevBtn) {
+                closeBtn.focus();
+            }
+
+            prevBtn.disabled = isFirst;
+            nextBtn.disabled = isLast;
+
+            const token = ++loadToken;
+            bigImage.alt = item.img_id || 'Обои Bing';
+            bigImage.fetchPriority = 'high';
+
+            // Если есть и превью, и UHD — мгновенно показываем превью из кэша, а UHD грузим с высоким приоритетом
+            if (item.preview && item.url && item.preview !== item.url) {
+                bigImage.onload = null;
+                bigImage.onerror = null;
+                bigImage.src = item.preview;
+                bigImage.style.opacity = '1';
+                setDownloadState('Скачать UHD');
+
+                const uhdLoader = new Image();
+                activeUhdLoader = uhdLoader;
+                uhdLoader.referrerPolicy = 'no-referrer';
+                uhdLoader.fetchPriority = 'high';
+                uhdLoader.decoding = 'async';
+
+                uhdLoader.onload = () => {
+                    if (token !== loadToken) return;
+                    activeUhdLoader = null;
+                    bigImage.src = item.url;
+                    preloadedUHD.add(item.url);
+                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
+                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
+                };
+
+                uhdLoader.onerror = () => {
+                    if (token !== loadToken) return;
+                    activeUhdLoader = null;
+                };
+
+                uhdLoader.src = item.url;
+            } else {
+                bigImage.style.opacity = '0';
+                setDownloadState('Загрузка...', true);
+
+                const targetSrc = item.url || item.preview;
+
+                bigImage.onload = () => {
+                    if (token !== loadToken) return;
+                    bigImage.style.opacity = '1';
+                    setDownloadState('Скачать UHD');
+                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
+                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
+                };
+
+                bigImage.onerror = () => {
+                    if (token !== loadToken) return;
+                    if (bigImage.src !== item.preview && item.preview) {
+                        bigImage.src = item.preview;
+                    } else {
+                        setDownloadState('Ошибка загрузки', true);
+                    }
+                };
+
+                bigImage.src = targetSrc;
+            }
+        }
+
+        function closeViewer() {
+            if (viewer.open) viewer.close();
+        }
+
+        function navigate(direction) {
+            const next = currentIndex + direction;
+            if (next < 0 || next >= galleryItems.length) return;
+            openViewer(next);
+        }
+
+        function createCard(item, index) {
+            const card = document.createElement('button');
+            card.className = 'card';
+            card.type = 'button';
+            card.setAttribute('aria-label', `Открыть ${item.img_id || 'обои'}`);
+
+            const img = document.createElement('img');
+            img.alt = '';
+            img.setAttribute('aria-hidden', 'true');
+            img.decoding = 'async';
+            img.referrerPolicy = 'no-referrer';
+
+            if (index < 15) {
+                img.loading = 'eager';
+                img.fetchPriority = 'high';
+            } else {
+                img.loading = 'lazy';
+            }
+
+            const primarySrc = item.preview || item.url;
+            let retries = 0;
+
+            img.addEventListener('load', () => {
+                img.classList.add('loaded');
+                card.classList.add('is-loaded');
+            }, { once: true });
+
+            img.addEventListener('error', () => {
+                if (retries < 2) {
+                    retries++;
+                    setTimeout(() => {
+                        const current = img.src;
+                        if (current.includes('/th/id/')) {
+                            img.src = current.replace('/th/id/', '/th?id=');
+                        } else if (current.includes('/th?id=')) {
+                            img.src = current.replace('/th?id=', '/th/id/');
+                        } else {
+                            img.src = primarySrc;
+                        }
+                    }, 600 * retries);
+                } else {
+                    img.classList.add('loaded');
+                    card.classList.add('is-loaded');
+                }
+            });
+
+            img.src = primarySrc;
+
+            card.append(img);
+
+            // Предзагружаем UHD только при осознанном наведении (задержка 300 мс),
+            // чтобы при быстром скролле не забивать канал фоновыми 4K-файлами
+            let hoverTimer = null;
+            card.addEventListener('pointerenter', () => {
+                if (preloadedUHD.has(item.url)) return;
+                hoverTimer = setTimeout(() => {
+                    hoverTimer = null;
+                    preloadUHD(item.url);
+                }, 300);
+            });
+            card.addEventListener('pointerleave', () => {
+                if (hoverTimer) {
+                    clearTimeout(hoverTimer);
+                    hoverTimer = null;
+                }
+            });
+
+            card.addEventListener('click', () => openViewer(index));
+            return card;
+        }
+
+        function renderNextBatch() {
+            if (renderedCount >= galleryItems.length) return;
+
+            const nextBatch = galleryItems.slice(renderedCount, renderedCount + PAGE_SIZE);
+            const fragment = document.createDocumentFragment();
+
+            nextBatch.forEach((item, offset) => {
+                fragment.append(createCard(item, renderedCount + offset));
+            });
+
+            renderedCount += nextBatch.length;
+
+            const sentinel = document.getElementById('gallery-sentinel');
+            if (sentinel) {
+                gallery.insertBefore(fragment, sentinel);
+                if (renderedCount >= galleryItems.length) {
+                    sentinel.remove();
+                    if (sentinelObserver) sentinelObserver.disconnect();
+                }
+            } else {
+                gallery.append(fragment);
+            }
+        }
+
+        function setupInfiniteScroll() {
+            if (sentinelObserver) sentinelObserver.disconnect();
+
+            const sentinel = document.createElement('div');
+            sentinel.id = 'gallery-sentinel';
+            sentinel.style.width = '100%';
+            sentinel.style.height = '60px';
+            sentinel.style.gridColumn = '1 / -1';
+            gallery.append(sentinel);
+
+            sentinelObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    renderNextBatch();
+                }
+            }, { rootMargin: '300px 0px' });
+
+            sentinelObserver.observe(sentinel);
+        }
+
+        function renderGallery(data) {
+            const rawItems = Array.isArray(data) ? data : Object.values(data || {});
+            const validItems = [];
+
+            for (let i = 0; i < rawItems.length; i++) {
+                const item = rawItems[i];
+                if (item && (item.url || item.preview)) {
+                    validItems.push({
+                        img_id: item.img_id,
+                        url: item.url ? item.url.replace('/th?id=', '/th/id/') : '',
+                        preview: item.preview ? item.preview.replace('/th?id=', '/th/id/') : '',
+                    });
+                }
+            }
+
+            galleryItems = validItems;
+            gallery.setAttribute('aria-busy', 'false');
+
+            if (!validItems.length) {
+                gallery.innerHTML = '<p class="status">Архив пока пуст.</p>';
+                return;
+            }
+
+            renderedCount = 0;
+            gallery.replaceChildren();
+            renderNextBatch();
+
+            if (validItems.length > PAGE_SIZE) {
+                setupInfiniteScroll();
+            }
+        }
+
+        async function loadGallery() {
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                renderGallery(data);
+            } catch (error) {
+                console.error('Не удалось загрузить архив:', error);
+                gallery.setAttribute('aria-busy', 'false');
+                gallery.innerHTML = '<p class="status">Ошибка загрузки архива.</p>';
+            }
+        }
+
+        downloadBtn.addEventListener('click', () => {
+            if (downloadFallbackItem?.url) {
+                window.open(downloadFallbackItem.url, '_blank', 'noopener,noreferrer');
+                return;
+            }
+            if (currentIndex >= 0) {
+                downloadImage(galleryItems[currentIndex]);
+            }
+        });
+
+        closeBtn.addEventListener('click', closeViewer);
+        prevBtn.addEventListener('click', () => navigate(-1));
+        nextBtn.addEventListener('click', () => navigate(1));
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        viewer.addEventListener('touchstart', event => {
+            if (event.touches.length === 1) {
+                touchStartX = event.touches[0].clientX;
+                touchStartY = event.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        viewer.addEventListener('touchend', event => {
+            if (!viewer.open || event.changedTouches.length === 0) return;
+            const deltaX = event.changedTouches[0].clientX - touchStartX;
+            const deltaY = event.changedTouches[0].clientY - touchStartY;
+
+            if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+                navigate(deltaX < 0 ? 1 : -1);
+            }
+        }, { passive: true });
+
+        viewer.addEventListener('click', event => {
+            if (event.target === viewer) closeViewer();
+        });
+
+        viewer.addEventListener('close', () => {
+            ++loadToken;
+            cancelDownload();
+            cancelUhdLoader();
+            releaseBlobURL();
+
+            document.body.style.overflow = '';
+
+            bigImage.removeAttribute('src');
+            bigImage.style.opacity = '0';
+
+            currentIndex = -1;
+            downloadFallbackItem = null;
+            setDownloadState('Скачать UHD');
+
+            if (previouslyFocused && document.contains(previouslyFocused)) {
+                previouslyFocused.focus();
+            }
+            previouslyFocused = null;
+        });
+
+        document.addEventListener('keydown', event => {
+            if (!viewer.open) return;
+            if (event.key === 'ArrowLeft') navigate(-1);
+            if (event.key === 'ArrowRight') navigate(1);
+        });
+
+        window.addEventListener('beforeunload', () => {
+            cancelDownload();
+            cancelUhdLoader();
+            releaseBlobURL();
+        });
+
+        loadGallery();
+    </script>
 </body>
 </html>
