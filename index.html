@@ -1,774 +1,908 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Личный архив Bing Wallpaper UHD">
-    <meta name="color-scheme" content="light dark">
-    <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-    <title>Горизонт | Архив Bing</title>
-    <meta name="referrer" content="no-referrer">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="canonical" href="https://gorizont.isvii.ru/">
-    <link rel="dns-prefetch" href="https://www.bing.com">
-    <link rel="preconnect" href="https://www.bing.com">
-    <link rel="preload" href="data.json" as="fetch" crossorigin="anonymous">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#070b18">
+<title>Горизонт — архив обоев дня Bing в UHD</title>
+<meta name="description" content="Горизонт — независимый архив ежедневных обоев Bing. Просмотр, избранное и скачивание в UHD 3840×2160.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b18'/%3E%3Ccircle cx='32' cy='28' r='14' fill='%23ffb02e'/%3E%3Crect x='8' y='40' width='48' height='4' rx='2' fill='%23ff4d8d'/%3E%3Crect x='14' y='48' width='36' height='4' rx='2' fill='%235b6cff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Unbounded:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070b18; --bg2:#0b1226; --surface:#10182f; --surface2:#172140;
+  --line:rgba(148,163,216,.16); --line2:rgba(148,163,216,.28);
+  --ink:#f2ecdf; --muted:#93a0c2; --faint:#5c6a92;
+  --indigo:#5b6cff; --violet:#8b5cf6; --magenta:#ff4d8d; --amber:#ffb02e; --orange:#ff7a3d; --teal:#2dd4bf;
+  --ok:#3ddc97; --warn:#ffc53d; --danger:#ff5d73; --info:#5ea2ff;
+  --dusk:linear-gradient(100deg,#5b6cff,#8b5cf6 34%,#ff4d8d 66%,#ffb02e);
+  --header-h:64px; --card-min:330px; --ease:cubic-bezier(.22,.9,.28,1);
+  --sbw:0px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth;scrollbar-color:#6a5bd8 #0b1226}
+body{
+  font:500 15px/1.5 "Manrope",system-ui,"Segoe UI",Roboto,sans-serif;
+  background:var(--bg); color:var(--ink); min-height:100vh; overflow-x:hidden;
+}
+::selection{background:var(--magenta);color:#16060d}
+::-webkit-scrollbar{width:11px;height:9px}
+::-webkit-scrollbar-track{background:#0b1226}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#5b6cff,#8b5cf6 55%,#ff4d8d);border-radius:8px;border:2px solid #0b1226}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#ffb02e,#ff4d8d)}
+:focus-visible{outline:2px solid var(--amber);outline-offset:2px;border-radius:8px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+img{display:block}
+svg{display:block}
 
-    <meta property="og:title" content="Горизонт | Архив Bing">
-    <meta property="og:description" content="Коллекция лучших обоев Bing в формате UHD.">
-    <meta property="og:url" content="https://gorizont.isvii.ru/">
-    <meta property="og:image" content="https://gorizont.isvii.ru/favicon.png">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
+/* ------- фон: небо, сияние, зерно ------- */
+.sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  background:
+    radial-gradient(1100px 620px at 82% -12%, rgba(139,92,246,.20), transparent 62%),
+    radial-gradient(900px 560px at 8% 4%, rgba(91,108,255,.16), transparent 60%),
+    radial-gradient(1200px 700px at 55% 118%, rgba(255,77,141,.10), transparent 60%),
+    linear-gradient(180deg,#0a1024 0%, #070b18 46%, #080a16 100%);
+}
+.sky i{position:absolute;border-radius:50%;opacity:.5;will-change:transform}
+.sky .a1{width:56vw;height:56vw;left:-14vw;top:-22vw;background:radial-gradient(circle,rgba(91,108,255,.14),transparent 65%);animation:drift1 46s ease-in-out infinite alternate}
+.sky .a2{width:48vw;height:48vw;right:-16vw;top:6vh;background:radial-gradient(circle,rgba(255,122,61,.10),transparent 65%);animation:drift2 58s ease-in-out infinite alternate}
+.sky .a3{width:40vw;height:40vw;left:26vw;bottom:-24vw;background:radial-gradient(circle,rgba(45,212,191,.07),transparent 65%);animation:drift1 64s ease-in-out infinite alternate-reverse}
+@keyframes drift1{to{transform:translate3d(6vw,4vh,0)}}
+@keyframes drift2{to{transform:translate3d(-5vw,6vh,0)}}
+.grain{position:fixed;inset:-40px;z-index:999;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");}
 
-    <style>
-        :root {
-            color-scheme: light dark;
-            --bg: #f5f5f7;
-            --surface: #e8e8ed;
-            --text: #1d1d1f;
-            --muted: #6e6e73;
-            --accent: #0071e3;
-            --accent-hover: #0077ed;
-            --ctl-bg: rgba(60, 60, 67, 0.12);
-            --ctl-bg-hover: rgba(60, 60, 67, 0.2);
-            --ctl-fg: #1d1d1f;
-            --shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
-            --gap: 20px;
-            --pad: clamp(16px, 3vw, 44px);
-            --radius: 18px;
-            --spring: cubic-bezier(0.32, 0.72, 0, 1);
-        }
+/* ------- шапка ------- */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--header-h);
+  display:flex;align-items:center;gap:14px;padding:0 clamp(14px,4vw,40px);padding-right:calc(clamp(14px,4vw,40px) + var(--sbw));
+  background:rgba(8,11,24,.66);backdrop-filter:blur(16px) saturate(1.3);-webkit-backdrop-filter:blur(16px) saturate(1.3);
+  border-bottom:1px solid var(--line);transition:box-shadow .3s,background .3s}
+.site-header.scrolled{background:rgba(7,10,22,.86);box-shadow:0 12px 40px rgba(3,5,12,.55)}
+.brand{display:flex;align-items:center;gap:11px;flex:none}
+.brand b{font:700 15px "Unbounded",sans-serif;letter-spacing:.14em;background:var(--dusk);-webkit-background-clip:text;background-clip:text;color:#ffb02e;-webkit-text-fill-color:transparent}
+.search{position:relative;flex:1;max-width:560px;min-width:110px}
+.search svg{position:absolute;left:12px;top:50%;translate:0 -50%;width:17px;height:17px;color:var(--faint);pointer-events:none}
+.search input{width:100%;height:40px;padding:0 38px 0 38px;border-radius:12px;border:1px solid var(--line);
+  background:rgba(23,33,64,.55);color:var(--ink);font:500 14px "Manrope",sans-serif;transition:border-color .2s,box-shadow .2s}
+.search input::placeholder{color:var(--faint)}
+.search input:focus{outline:none;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(91,108,255,.22)}
+.search .clr{position:absolute;right:6px;top:50%;translate:0 -50%;width:28px;height:28px;display:none;place-items:center;border-radius:8px;color:var(--muted)}
+.search .clr:hover{color:var(--ink);background:rgba(148,163,216,.12)}
+.search.has-value .clr{display:grid}
+.hbtn{position:relative;flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:12px;
+  border:1px solid var(--line);background:rgba(23,33,64,.55);color:var(--muted);transition:.2s}
+.hbtn svg{width:19px;height:19px}
+.hbtn:hover{color:var(--ink);border-color:var(--line2);transform:translateY(-1px)}
+.hbtn[aria-pressed="true"]{color:var(--magenta);border-color:rgba(255,77,141,.55);background:rgba(255,77,141,.12);box-shadow:0 0 18px rgba(255,77,141,.25)}
+.hbtn[aria-pressed="true"] svg path{fill:currentColor}
+.hbtn .n{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;
+  background:var(--magenta);color:#1c0710;font:800 10px/18px "Manrope";text-align:center}
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #000;
-                --surface: #1c1c1e;
-                --text: #f5f5f7;
-                --muted: #86868b;
-                --accent: #2997ff;
-                --accent-hover: #4aa8ff;
-                --ctl-bg: rgba(120, 120, 128, 0.32);
-                --ctl-bg-hover: rgba(120, 120, 128, 0.48);
-                --ctl-fg: #f5f5f7;
-                --shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-            }
-        }
+/* ------- герой ------- */
+main{position:relative;z-index:1;padding-top:var(--header-h)}
+.hero{position:relative;padding:30px clamp(14px,4vw,40px) 0;overflow:hidden}
+.hero-row{display:flex;flex-wrap:wrap;align-items:flex-end;gap:18px 34px;position:relative;z-index:2}
+.hero h1{font:900 clamp(30px,5.4vw,58px)/1.04 "Unbounded",sans-serif;letter-spacing:.02em;
+  background:var(--dusk);-webkit-background-clip:text;background-clip:text;color:#ffb02e;-webkit-text-fill-color:transparent}
+.hero .sub{margin-top:9px;color:var(--muted);font-size:14px;max-width:520px}
+.hero .sub b{color:var(--teal);font-weight:800}
+.stats{display:flex;flex-wrap:wrap;gap:9px;margin-left:auto;padding-bottom:5px}
+.stat{display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:12px;border:1px solid var(--line);
+  background:rgba(16,24,47,.6);font-size:12.5px;color:var(--muted);white-space:nowrap}
+.stat i{width:7px;height:7px;border-radius:50%;background:var(--c,#ffb02e);box-shadow:0 0 10px var(--c,#ffb02e)}
+.stat b{color:var(--ink);font-weight:800}
+.horizon{width:calc(100% + clamp(28px,8vw,80px));margin:14px calc(-1 * clamp(14px,4vw,40px)) -2px;height:clamp(90px,14vw,170px);will-change:transform}
+.horizon .sun{animation:sunset 11s ease-in-out infinite alternate}
+.horizon .glow{animation:sunset 11s ease-in-out infinite alternate}
+@keyframes sunset{to{transform:translateY(9px)}}
+.horizon .star{animation:twinkle 3.4s ease-in-out infinite}
+.horizon .star:nth-of-type(2n){animation-delay:1.2s}
+.horizon .star:nth-of-type(3n){animation-delay:2.1s}
+@keyframes twinkle{0%,100%{opacity:.9}50%{opacity:.15}}
 
-        * { box-sizing: border-box; }
+/* ------- панель фильтров ------- */
+.toolbar{position:sticky;top:var(--header-h);z-index:90;border-block:1px solid var(--line);
+  background:rgba(9,13,28,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.tb-inner{display:flex;align-items:center;gap:12px;padding:11px clamp(14px,4vw,40px);overflow-x:auto;scrollbar-width:thin}
+.tb-inner::-webkit-scrollbar{height:6px}
+.sel{display:flex;flex-direction:column;gap:3px;flex:none}
+.sel span{font:800 9.5px "Manrope";letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.sel select{appearance:none;-webkit-appearance:none;height:36px;padding:0 32px 0 12px;border-radius:10px;
+  border:1px solid var(--line);background:var(--surface2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2393a0c2' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 11px center;
+  color:var(--ink);font:600 13px "Manrope";cursor:pointer;transition:border-color .2s}
+.sel select:hover{border-color:var(--line2)}
+.sel select:focus{outline:none;border-color:var(--indigo)}
+.sel select option{background:#10182f;color:#f2ecdf}
+.seg{display:flex;flex:none;align-self:flex-end;border:1px solid var(--line);border-radius:10px;overflow:hidden;height:36px}
+.seg button{width:38px;display:grid;place-items:center;color:var(--faint);transition:.2s}
+.seg button svg{width:16px;height:16px}
+.seg button:hover{color:var(--ink)}
+.seg button.on{background:rgba(91,108,255,.22);color:#aab6ff}
+.tb-right{display:flex;align-items:center;gap:12px;margin-left:auto;flex:none;align-self:flex-end;height:36px}
+.count{font:700 12.5px "Manrope";color:var(--muted);white-space:nowrap}
+.count b{color:var(--amber)}
+.reset{padding:7px 13px;border-radius:10px;border:1px solid rgba(255,197,61,.4);color:var(--warn);font:700 12px "Manrope);transition:.2s}
+.reset:hover{background:rgba(255,197,61,.12)}
 
-        html {
-            scrollbar-gutter: stable;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            background: var(--bg);
-        }
+/* ------- сетка ------- */
+.grid-wrap{padding:24px clamp(14px,4vw,40px) 70px}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(min(var(--card-min),100%),1fr))}
+.card{position:relative;aspect-ratio:16/9;border-radius:15px;overflow:hidden;cursor:zoom-in;
+  border:1px solid var(--line);background:var(--surface);opacity:0;transform:translateY(16px);
+  transition:box-shadow .3s,border-color .3s}
+.card.in{opacity:1;transform:none;transition:opacity .55s var(--ease) var(--d,0ms),transform .55s var(--ease) var(--d,0ms),box-shadow .3s,border-color .3s}
+.card:hover{border-color:rgba(139,92,246,.5);box-shadow:0 16px 44px rgba(4,6,14,.6),0 0 30px rgba(91,108,255,.16)}
+.card .ph{position:absolute;inset:0;background:linear-gradient(140deg,#131b36,#1a2344 48%,#221a3f)}
+.card .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 32%,rgba(148,163,216,.10) 50%,transparent 68%);
+  background-size:220% 100%;animation:shimmer 1.6s linear infinite}
+@keyframes shimmer{from{background-position:180% 0}to{background-position:-80% 0}}
+.card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.02);
+  transition:opacity .5s ease,transform .8s var(--ease);user-select:none;-webkit-user-drag:none}
+.card.is-loaded img{opacity:1;transform:scale(1)}
+.card.is-loaded .ph{opacity:0;transition:opacity .4s}
+.card:hover img{transform:scale(1.06)}
+.card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,7,16,.28),transparent 32%,transparent 52%,rgba(4,6,14,.88));pointer-events:none}
+.badge{position:absolute;top:10px;left:10px;padding:3px 8px;border-radius:7px;font:800 9.5px "Manrope";letter-spacing:.12em;
+  color:var(--teal);background:rgba(6,10,20,.55);border:1px solid rgba(45,212,191,.45);backdrop-filter:blur(6px)}
+.heart{position:absolute;top:8px;right:8px;width:34px;height:34px;display:grid;place-items:center;border-radius:10px;
+  color:#cdd5ee;background:rgba(6,10,20,.5);border:1px solid rgba(148,163,216,.25);backdrop-filter:blur(6px);transition:.2s;z-index:2}
+.heart svg{width:17px;height:17px}
+.heart:hover{transform:scale(1.1);color:#fff}
+.heart.on{color:var(--magenta);border-color:rgba(255,77,141,.6);background:rgba(40,8,22,.6)}
+.heart.on svg path{fill:currentColor}
+.card .meta{position:absolute;left:13px;right:52px;bottom:11px;pointer-events:none;z-index:1}
+.card .t{font:800 14.5px/1.25 "Manrope";text-shadow:0 2px 10px rgba(0,0,0,.6);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card .m{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:11.5px;color:#b9c2dd}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--c,#9aa7ff);box-shadow:0 0 8px var(--c,#9aa7ff);flex:none}
+.card .dl{position:absolute;right:9px;bottom:9px;width:36px;height:36px;display:grid;place-items:center;border-radius:10px;z-index:2;
+  color:#201205;background:linear-gradient(120deg,var(--amber),var(--orange));box-shadow:0 6px 18px rgba(255,140,50,.35);
+  opacity:0;translate:0 6px;transition:.25s var(--ease)}
+.card .dl svg{width:17px;height:17px}
+.card .dl:hover{filter:brightness(1.1)}
+.card:hover .dl,.card:focus-within .dl{opacity:1;translate:0 0}
+@media (hover:none){.card .dl{opacity:1;translate:0 0}}
+.card .err{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  background:linear-gradient(150deg,#131b36,#1c1533);color:var(--muted);font-size:12.5px;z-index:3}
+.card .err svg{width:26px;height:26px;color:var(--warn)}
+.card .err button{padding:6px 14px;border-radius:9px;border:1px solid rgba(94,162,255,.5);color:var(--info);font:700 12px "Manrope"}
+.card .err button:hover{background:rgba(94,162,255,.12)}
+.card.is-error .err{display:flex}
+.card.is-error img,.card.is-error .ph,.card.is-error .shade,.card.is-error .meta,.card.is-error .dl,.card.is-error .badge{display:none}
+.busy svg{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-        body {
-            min-height: 100vh;
-            margin: 0;
-            padding: 0 var(--pad) var(--pad);
-            color: var(--text);
-            background: var(--bg);
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
-        }
+/* ------- пустые/ошибочные состояния ------- */
+.panel{max-width:520px;margin:52px auto;padding:38px 30px;text-align:center;border-radius:18px;
+  border:1px solid var(--line);background:rgba(16,24,47,.7)}
+.panel svg{width:38px;height:38px;margin:0 auto 14px;color:var(--amber)}
+.panel h3{font:700 17px "Unbounded";margin-bottom:8px}
+.panel p{color:var(--muted);font-size:13.5px;margin-bottom:18px}
+.panel button{padding:10px 20px;border-radius:11px;background:linear-gradient(120deg,var(--amber),var(--orange));color:#201205;font:800 13px "Manrope"}
+.noscript{position:relative;z-index:2;margin:80px auto;max-width:480px;padding:20px;text-align:center;border-radius:14px;
+  border:1px solid rgba(255,197,61,.5);background:rgba(255,197,61,.1);color:var(--warn);font-weight:700}
 
-        .top { padding: clamp(28px, 4vw, 56px) 0 clamp(20px, 2.5vw, 32px); }
+/* ------- подвал ------- */
+footer{position:relative;z-index:1;border-top:1px solid var(--line);padding:26px clamp(14px,4vw,40px);
+  display:flex;flex-wrap:wrap;align-items:center;gap:14px 26px;background:rgba(8,11,24,.6)}
+footer .fbrand{display:flex;align-items:center;gap:9px;font:700 12px "Unbounded";letter-spacing:.12em;color:var(--muted)}
+footer p{font-size:12px;color:var(--faint);max-width:640px}
+.up{margin-left:auto;display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:11px;border:1px solid var(--line);
+  color:var(--muted);font:700 12px "Manrope";transition:.2s}
+.up svg{width:15px;height:15px}
+.up:hover{color:var(--amber);border-color:rgba(255,176,46,.5)}
 
-        h1 {
-            margin: 0;
-            font-size: clamp(40px, 6vw, 64px);
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -0.035em;
-        }
+/* ------- лайтбокс ------- */
+.lightbox{position:fixed;inset:0;z-index:300}
+.lb-backdrop{position:absolute;inset:0;background:rgba(4,6,14,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  opacity:0;transition:opacity .25s}
+.lb-shell{position:relative;z-index:1;height:100%;display:grid;grid-template-rows:auto 1fr auto auto;
+  padding:14px clamp(10px,3vw,30px) 12px;pointer-events:none;opacity:0;transform:scale(.985);transition:.28s var(--ease)}
+.lb-shell>*{pointer-events:auto}
+.lightbox.open .lb-backdrop{opacity:1}
+.lightbox.open .lb-shell{opacity:1;transform:none}
+.lb-top{display:flex;align-items:center;gap:14px;padding:2px 4px 12px}
+.lb-count{font:700 12px "Unbounded";letter-spacing:.14em;color:var(--muted)}
+.lb-quality{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;margin-left:auto}
+.lb-quality button{padding:7px 13px;font:800 11px "Manrope";letter-spacing:.1em;color:var(--faint);transition:.2s}
+.lb-quality button.on{background:rgba(45,212,191,.18);color:var(--teal)}
+.lb-close{width:40px;height:40px;display:grid;place-items:center;border-radius:11px;border:1px solid var(--line);
+  background:rgba(23,33,64,.6);color:var(--muted);transition:.2s}
+.lb-close svg{width:18px;height:18px}
+.lb-close:hover{color:var(--ink);border-color:var(--danger);box-shadow:0 0 16px rgba(255,93,115,.25)}
+.lb-stage{position:relative;min-height:0;display:flex;align-items:center;justify-content:center}
+.lb-stage img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;box-shadow:0 30px 90px rgba(0,0,0,.65);
+  opacity:0;transition:opacity .35s;user-select:none;-webkit-user-drag:none}
+.lb-stage img.on{opacity:1}
+.lb-spin{position:absolute;width:46px;height:46px;border-radius:50%;border:3px solid rgba(255,176,46,.18);border-top-color:var(--amber);animation:spin .9s linear infinite}
+.lb-nav{position:absolute;top:50%;translate:0 -50%;z-index:2;width:47px;height:47px;display:grid;place-items:center;border-radius:50%;
+  background:rgba(10,14,28,.62);border:1px solid var(--line2);color:var(--ink);backdrop-filter:blur(8px);transition:.2s}
+.lb-nav svg{width:21px;height:21px}
+.lb-nav:hover{border-color:var(--amber);color:var(--amber);box-shadow:0 0 20px rgba(255,176,46,.3)}
+.lb-nav.prev{left:10px}.lb-nav.next{right:10px}
+.lb-err{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted)}
+.lb-err svg{width:32px;height:32px;color:var(--warn)}
+.lb-err button{padding:8px 18px;border-radius:10px;border:1px solid rgba(94,162,255,.5);color:var(--info);font:700 13px "Manrope"}
+.lb-caption{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;padding:14px 4px 4px}
+.lb-info{min-width:0;flex:1}
+.lb-info h2{font:700 clamp(15px,2.2vw,20px)/1.2 "Unbounded";overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-info p{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:12.5px;color:var(--muted)}
+.lb-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.btn{display:flex;align-items:center;gap:8px;height:41px;padding:0 15px;border-radius:12px;border:1px solid var(--line);
+  background:rgba(23,33,64,.6);color:var(--ink);font:700 13px "Manrope";transition:.2s}
+.btn svg{width:17px;height:17px;flex:none}
+.btn:hover{border-color:var(--line2);transform:translateY(-1px)}
+.btn.fav.on{color:var(--magenta);border-color:rgba(255,77,141,.6);background:rgba(255,77,141,.12)}
+.btn.fav.on svg path{fill:currentColor}
+.btn-primary{display:flex;align-items:center;gap:9px;height:41px;padding:0 19px;border-radius:12px;
+  background:linear-gradient(120deg,var(--amber),var(--orange));color:#201205;font:800 13.5px "Manrope";
+  box-shadow:0 8px 26px rgba(255,140,50,.32);transition:.2s}
+.btn-primary svg{width:17px;height:17px}
+.btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.lb-hint{text-align:center;font-size:11px;color:var(--faint);padding-top:8px}
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-            gap: var(--gap);
-        }
+/* ------- тосты ------- */
+.toasts{position:fixed;left:50%;bottom:22px;translate:-50% 0;z-index:1000;display:flex;flex-direction:column;gap:9px;align-items:center;pointer-events:none;width:min(92vw,460px)}
+.toast{display:flex;align-items:center;gap:10px;padding:11px 17px;border-radius:13px;font:700 13px "Manrope";
+  background:rgba(13,19,38,.92);border:1px solid var(--line2);backdrop-filter:blur(10px);box-shadow:0 14px 40px rgba(0,0,0,.5);
+  animation:toast-in .3s var(--ease);max-width:100%}
+.toast svg{width:17px;height:17px;flex:none}
+.toast.ok{border-color:rgba(61,220,151,.5)}.toast.ok svg{color:var(--ok)}
+.toast.info{border-color:rgba(94,162,255,.5)}.toast.info svg{color:var(--info)}
+.toast.warn{border-color:rgba(255,197,61,.5)}.toast.warn svg{color:var(--warn)}
+.toast.err{border-color:rgba(255,93,115,.55)}.toast.err svg{color:var(--danger)}
+.toast.out{animation:toast-out .25s forwards}
+@keyframes toast-in{from{opacity:0;transform:translateY(14px) scale(.96)}}
+@keyframes toast-out{to{opacity:0;transform:translateY(10px) scale(.96)}}
 
-        .card {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            padding: 0;
-            overflow: hidden;
-            border: 0;
-            border-radius: var(--radius);
-            background: var(--surface);
-            cursor: pointer;
-            content-visibility: auto;
-            contain-intrinsic-size: auto 200px;
-            -webkit-tap-highlight-color: transparent;
-            transform: translateZ(0);
-            transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-
-        .card img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-
-        .card img.loaded { opacity: 1; }
-
-        @media (hover: hover) {
-            .card:hover {
-                z-index: 1;
-                transform: scale(1.03) translateZ(0);
-                box-shadow: var(--shadow);
-            }
-        }
-
-        .card:active { transform: scale(0.98); transition-duration: 0.15s; }
-
-        html[data-kb] .card:focus-visible {
-            outline: 3px solid var(--accent);
-            outline-offset: 3px;
-        }
-
-        .lightbox {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            width: 100%;
-            height: 100%;
-            max-width: none;
-            max-height: none;
-            margin: 0;
-            padding: 24px 88px 96px;
-            border: 0;
-            background: transparent;
-            color: var(--text);
-        }
-
-        .lightbox[open] {
-            display: grid;
-            grid-template: minmax(0, 1fr) / minmax(0, 1fr);
-        }
-
-        .lightbox::backdrop {
-            background: rgba(245, 245, 247, 0.86);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            backdrop-filter: blur(40px) saturate(180%);
-        }
-
-        @media (prefers-color-scheme: dark) {
-            .lightbox::backdrop { background: rgba(0, 0, 0, 0.82); }
-        }
-
-        .lightbox img {
-            width: 100%;
-            height: 100%;
-            min-width: 0;
-            min-height: 0;
-            object-fit: contain;
-            user-select: none;
-            -webkit-user-drag: none;
-            opacity: 0;
-            transition: opacity 0.25s ease;
-        }
-
-        .close,
-        .nav-btn {
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            margin: 0;
-            padding: 0;
-            border: 0;
-            border-radius: 50%;
-            background: var(--ctl-bg);
-            color: var(--ctl-fg);
-            cursor: pointer;
-            -webkit-backdrop-filter: blur(20px);
-            backdrop-filter: blur(20px);
-            transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.2s var(--spring);
-        }
-
-        .close { top: 20px; right: 20px; }
-        .nav-btn { top: 50%; margin-top: -20px; }
-        .nav-btn.prev { left: 24px; }
-        .nav-btn.next { right: 24px; }
-
-        .close svg,
-        .nav-btn svg {
-            display: block;
-            width: 20px;
-            height: 20px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 2.4;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .close:hover,
-        .nav-btn:hover { background: var(--ctl-bg-hover); }
-
-        .close:active,
-        .nav-btn:active { transform: scale(0.92); }
-
-        .lightbox button:focus { outline: none; }
-
-        html[data-kb] .close:focus-visible,
-        html[data-kb] .nav-btn:focus-visible,
-        html[data-kb] .action-btn:focus-visible {
-            outline: 3px solid var(--accent);
-            outline-offset: 3px;
-        }
-
-        .nav-btn:disabled {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .controls {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: max(28px, env(safe-area-inset-bottom));
-            display: flex;
-            justify-content: center;
-        }
-
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 44px;
-            padding: 0 24px;
-            color: #fff;
-            font: inherit;
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: -0.01em;
-            border: 0;
-            border-radius: 980px;
-            background: var(--accent);
-            cursor: pointer;
-            transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.2s var(--spring);
-        }
-
-        .action-btn:hover { background: var(--accent-hover); }
-        .action-btn:active { transform: scale(0.97); }
-        .action-btn.loading { opacity: 0.55; pointer-events: none; }
-
-        .status { color: var(--muted); text-align: center; grid-column: 1 / -1; padding: 48px 0; }
-
-        @media (max-width: 600px) {
-            :root { --gap: 12px; --radius: 14px; }
-            .lightbox { padding: 72px 0 96px; }
-            .close { top: 12px; right: 12px; }
-            .nav-btn.prev { left: 10px; }
-            .nav-btn.next { right: 10px; }
-        }
-    
+@media (max-width:760px){
+  .hero-row{gap:14px}
+  .stats{margin-left:0}
+  .lb-nav{width:40px;height:40px}
+  .lb-nav.prev{left:5px}.lb-nav.next{right:5px}
+  .lb-hint{display:none}
+  .btn span{display:none}
+  .btn{padding:0 12px}
+  .lb-shell{padding:10px 8px 10px}
+}
+@media (max-width:430px){.brand b{display:none}.stat{padding:7px 10px;font-size:11.5px}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .card{opacity:1;transform:none}
+}
 </style>
 </head>
-
 <body>
-    <header class="top">
+<div class="sky" aria-hidden="true"><i class="a1"></i><i class="a2"></i><i class="a3"></i></div>
+<div class="grain" aria-hidden="true"></div>
+<noscript><div class="noscript">Для работы архива необходим JavaScript.</div></noscript>
+
+<header class="site-header" id="top">
+  <a class="brand" href="#top" aria-label="Горизонт — наверх">
+    <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true">
+      <defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffb02e"/><stop offset="1" stop-color="#ff4d8d"/></linearGradient></defs>
+      <rect width="64" height="64" rx="15" fill="#10182f"/>
+      <circle cx="32" cy="28" r="13" fill="url(#lg)"/>
+      <rect x="9" y="40" width="46" height="4" rx="2" fill="#ff4d8d"/>
+      <rect x="15" y="48" width="34" height="4" rx="2" fill="#5b6cff"/>
+    </svg>
+    <b>ГОРИЗОНТ</b>
+  </a>
+  <div class="search" id="searchWrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg>
+    <input id="q" type="search" placeholder="Поиск по названию… ( / )" autocomplete="off" aria-label="Поиск">
+    <button class="clr" id="qClear" aria-label="Очистить поиск"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+  </div>
+  <button class="hbtn" id="btnRandom" title="Случайные обои" aria-label="Случайные обои">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+  </button>
+  <button class="hbtn" id="favToggle" aria-pressed="false" title="Показать избранное" aria-label="Показать избранное">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 21s-8-5.3-8-11a4.6 4.6 0 0 1 8-3.1A4.6 4.6 0 0 1 20 10c0 5.7-8 11-8 11z"/></svg>
+    <span class="n" id="favCount" hidden>0</span>
+  </button>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-row">
+      <div>
         <h1>Горизонт</h1>
-    </header>
+        <p class="sub">Архив обоев дня Bing. Каждый пейзаж — в оригинальном качестве <b>UHD&nbsp;3840×2160</b>, готовый к скачиванию.</p>
+      </div>
+      <div class="stats" id="stats" aria-live="polite"></div>
+    </div>
+    <svg class="horizon" id="horizonArt" viewBox="0 0 1440 180" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <radialGradient id="sunG" cx="50%" cy="38%" r="68%">
+          <stop offset="0%" stop-color="#ffd98a"/><stop offset="46%" stop-color="#ffb02e"/><stop offset="100%" stop-color="#ff4d8d"/>
+        </radialGradient>
+        <linearGradient id="r1G" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2c3766"/><stop offset="1" stop-color="#141c38"/>
+        </linearGradient>
+      </defs>
+      <circle class="star" cx="140" cy="30" r="1.6" fill="#aab6ff"/>
+      <circle class="star" cx="340" cy="18" r="1.2" fill="#f2ecdf"/>
+      <circle class="star" cx="560" cy="42" r="1.5" fill="#8b5cf6"/>
+      <circle class="star" cx="780" cy="22" r="1.2" fill="#aab6ff"/>
+      <circle class="star" cx="1250" cy="26" r="1.6" fill="#f2ecdf"/>
+      <circle class="star" cx="1400" cy="48" r="1.2" fill="#ff4d8d"/>
+      <circle class="glow" cx="1075" cy="96" r="86" fill="url(#sunG)" opacity=".16"/>
+      <circle class="sun" cx="1075" cy="96" r="46" fill="url(#sunG)"/>
+      <path d="M0 122 180 76 340 118 520 64 700 112 900 82 1100 124 1280 92 1440 116 V180 H0 Z" fill="url(#r1G)"/>
+      <path d="M0 146 220 110 420 142 640 104 860 140 1080 116 1260 146 1440 122 V180 H0 Z" fill="#0e1530"/>
+      <path d="M0 166 260 140 520 164 780 138 1040 162 1300 142 1440 160 V180 H0 Z" fill="#0a0f22"/>
+    </svg>
+  </section>
 
-    <main class="grid" id="gallery" aria-busy="true"></main>
-
-    <noscript>
-        <p class="status">Для работы архива необходим JavaScript.</p>
-    </noscript>
-
-    <dialog class="lightbox" id="viewer" aria-label="Просмотр обоев">
-        <button class="close" id="close" type="button" aria-label="Закрыть просмотр">
-            <svg viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M15 5L5 15M5 5l10 10"></path>
-            </svg>
+  <div class="toolbar" id="archive">
+    <div class="tb-inner">
+      <label class="sel"><span>Месяц</span><select id="selMonth"><option value="all">Все месяцы</option></select></label>
+      <label class="sel"><span>Регион</span><select id="selRegion"><option value="all">Все регионы</option></select></label>
+      <label class="sel"><span>Сортировка</span><select id="selSort">
+        <option value="desc">Сначала новые</option><option value="asc">Сначала старые</option>
+      </select></label>
+      <div class="seg" role="group" aria-label="Размер плиток">
+        <button id="denCozy" class="on" title="Крупные плитки" aria-label="Крупные плитки">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
         </button>
-
-        <button class="nav-btn prev" id="prev" type="button" aria-label="Предыдущее изображение">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M14.5 6.5L9 12l5.5 5.5"></path>
-            </svg>
+        <button id="denDense" title="Плотная сетка" aria-label="Плотная сетка">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h4v4H4zM10 4h4v4h-4zM16 4h4v4h-4zM4 10h4v4H4zM10 10h4v4h-4zM16 10h4v4h-4zM4 16h4v4H4zM10 16h4v4h-4zM16 16h4v4h-4z"/></svg>
         </button>
-        <button class="nav-btn next" id="next" type="button" aria-label="Следующее изображение">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M9.5 6.5L15 12l-5.5 5.5"></path>
-            </svg>
+      </div>
+      <div class="tb-right">
+        <span class="count" id="count"></span>
+        <button class="reset" id="btnReset" hidden>Сбросить фильтры</button>
+      </div>
+    </div>
+  </div>
+
+  <section class="grid-wrap">
+    <div class="grid" id="grid" aria-live="polite"></div>
+    <div class="panel" id="empty" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21M8.5 11h5"/></svg>
+      <h3 id="emptyTitle">Ничего не нашлось</h3>
+      <p id="emptyText">Попробуйте изменить запрос или ослабить фильтры.</p>
+      <button id="emptyReset">Сбросить фильтры</button>
+    </div>
+    <div class="panel" id="bootErr" hidden>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3 2.5 20h19L12 3zM12 10v4M12 17.2v.1"/></svg>
+      <h3>Не удалось загрузить архив</h3>
+      <p>Файл data.json недоступен. Убедитесь, что он лежит рядом со страницей и сайт открыт через веб-сервер.</p>
+      <button id="btnBootRetry">Повторить</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span class="fbrand">
+    <svg width="20" height="20" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="15" fill="#10182f"/><circle cx="32" cy="28" r="13" fill="#ffb02e"/><rect x="9" y="40" width="46" height="4" rx="2" fill="#ff4d8d"/><rect x="15" y="48" width="34" height="4" rx="2" fill="#5b6cff"/></svg>
+    ГОРИЗОНТ
+  </span>
+  <p>Независимый архив изображений дня Bing. Права на фотографии принадлежат их авторам. Архив пополняется скриптом fetch_bing.py.</p>
+  <button class="up" id="btnUp">Наверх
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+</footer>
+
+<div class="lightbox" id="lightbox" hidden>
+  <div class="lb-backdrop" data-lb="close"></div>
+  <div class="lb-shell" role="dialog" aria-modal="true" aria-label="Просмотр обоев">
+    <div class="lb-top">
+      <span class="lb-count" id="lbCount"></span>
+      <div class="lb-quality" role="group" aria-label="Качество просмотра">
+        <button data-q="hd" class="on">HD</button><button data-q="uhd">UHD</button>
+      </div>
+      <button class="lb-close" data-lb="close" aria-label="Закрыть">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+    <div class="lb-stage" id="lbStage">
+      <button class="lb-nav prev" data-lb="prev" aria-label="Предыдущие обои"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <div class="lb-spin" id="lbSpin"></div>
+      <img id="lbImg" referrerpolicy="no-referrer" alt="" draggable="false">
+      <div class="lb-err" id="lbErr" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3 2.5 20h19L12 3zM12 10v4M12 17.2v.1"/></svg>
+        <span>Изображение не загрузилось</span>
+        <button data-lb="retry">Повторить</button>
+      </div>
+      <button class="lb-nav next" data-lb="next" aria-label="Следующие обои"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+    <div class="lb-caption">
+      <div class="lb-info"><h2 id="lbTitle"></h2><p id="lbMeta"></p></div>
+      <div class="lb-actions">
+        <button class="btn fav" id="lbFav" data-lb="fav" aria-pressed="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 21s-8-5.3-8-11a4.6 4.6 0 0 1 8-3.1A4.6 4.6 0 0 1 20 10c0 5.7-8 11-8 11z"/></svg><span>В избранное</span>
         </button>
-
-        <img id="bigImage" alt="" referrerpolicy="no-referrer" fetchpriority="high">
-
-        <div class="controls">
-            <button class="action-btn" id="download" type="button">Скачать UHD</button>
-        </div>
-    </dialog>
-
-    <script>
-        document.addEventListener('keydown', () => { document.documentElement.dataset.kb = ''; }, true);
-        document.addEventListener('pointerdown', () => { delete document.documentElement.dataset.kb; }, true);
-
-        'use strict';
-
-        const gallery = document.getElementById('gallery');
-        const viewer = document.getElementById('viewer');
-        const bigImage = document.getElementById('bigImage');
-        const downloadBtn = document.getElementById('download');
-        const closeBtn = document.getElementById('close');
-        const prevBtn = document.getElementById('prev');
-        const nextBtn = document.getElementById('next');
-
-        const PAGE_SIZE = 40;
-
-        let galleryItems = [];
-        let renderedCount = 0;
-        let currentIndex = -1;
-        let blobURL = null;
-        let loadToken = 0;
-        let previouslyFocused = null;
-        let downloadFallbackItem = null;
-        let downloadController = null;
-        let sentinelObserver = null;
-        let activeUhdLoader = null;
-        const preloadedUHD = new Set();
-
-        function setDownloadState(label, isLoading = false) {
-            downloadBtn.textContent = label;
-            downloadBtn.classList.toggle('loading', isLoading);
-        }
-
-        function releaseBlobURL() {
-            if (blobURL) {
-                URL.revokeObjectURL(blobURL);
-                blobURL = null;
-            }
-        }
-
-        function cancelDownload() {
-            if (downloadController) {
-                downloadController.abort();
-                downloadController = null;
-            }
-        }
-
-        function cancelUhdLoader() {
-            if (activeUhdLoader) {
-                activeUhdLoader.onload = null;
-                activeUhdLoader.onerror = null;
-                activeUhdLoader.src = '';
-                activeUhdLoader = null;
-            }
-        }
-
-        async function downloadImage(item) {
-            if (!item?.url) return;
-
-            cancelDownload();
-
-            const controller = new AbortController();
-            downloadController = controller;
-            downloadFallbackItem = null;
-            setDownloadState('Загрузка…', true);
-
-            try {
-                const response = await fetch(item.url, {
-                    referrerPolicy: 'no-referrer',
-                    signal: controller.signal,
-                });
-
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-                const blob = await response.blob();
-
-                releaseBlobURL();
-                blobURL = URL.createObjectURL(blob);
-
-                const link = document.createElement('a');
-                link.href = blobURL;
-                link.download = `${item.img_id || 'BING_IMAGE'}.jpg`;
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-
-                setDownloadState('Скачать UHD');
-            } catch (error) {
-                if (error.name === 'AbortError') return;
-                downloadFallbackItem = item;
-                setDownloadState('Открыть UHD');
-            } finally {
-                if (downloadController === controller) {
-                    downloadController = null;
-                    downloadBtn.classList.remove('loading');
-                }
-            }
-        }
-
-        function preloadUHD(url) {
-            if (!url || preloadedUHD.has(url)) return;
-            preloadedUHD.add(url);
-            const img = new Image();
-            img.referrerPolicy = 'no-referrer';
-            img.fetchPriority = 'low';
-            img.src = url;
-        }
-
-        function openViewer(index) {
-            const item = galleryItems[index];
-            if (!item) return;
-
-            currentIndex = index;
-            downloadFallbackItem = null;
-            cancelDownload();
-            cancelUhdLoader();
-
-            if (!viewer.open) {
-                previouslyFocused = document.activeElement;
-                viewer.showModal();
-                document.body.style.overflow = 'hidden';
-            }
-
-            const isFirst = index <= 0;
-            const isLast = index >= galleryItems.length - 1;
-
-            if (isLast && document.activeElement === nextBtn) {
-                (!isFirst ? prevBtn : closeBtn).focus();
-            } else if (isFirst && document.activeElement === prevBtn) {
-                (!isLast ? nextBtn : closeBtn).focus();
-            } else if (document.activeElement !== nextBtn && document.activeElement !== prevBtn) {
-                closeBtn.focus();
-            }
-
-            prevBtn.disabled = isFirst;
-            nextBtn.disabled = isLast;
-
-            const token = ++loadToken;
-            bigImage.alt = item.img_id || 'Обои Bing';
-            bigImage.fetchPriority = 'high';
-
-            // Если есть и превью, и UHD — мгновенно показываем превью из кэша, а UHD грузим с высоким приоритетом
-            if (item.preview && item.url && item.preview !== item.url) {
-                bigImage.onload = null;
-                bigImage.onerror = null;
-                bigImage.src = item.preview;
-                bigImage.style.opacity = '1';
-                setDownloadState('Скачать UHD');
-
-                const uhdLoader = new Image();
-                activeUhdLoader = uhdLoader;
-                uhdLoader.referrerPolicy = 'no-referrer';
-                uhdLoader.fetchPriority = 'high';
-                uhdLoader.decoding = 'async';
-
-                uhdLoader.onload = () => {
-                    if (token !== loadToken) return;
-                    activeUhdLoader = null;
-                    bigImage.src = item.url;
-                    preloadedUHD.add(item.url);
-                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
-                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
-                };
-
-                uhdLoader.onerror = () => {
-                    if (token !== loadToken) return;
-                    activeUhdLoader = null;
-                };
-
-                uhdLoader.src = item.url;
-            } else {
-                bigImage.style.opacity = '0';
-                setDownloadState('Загрузка…', true);
-
-                const targetSrc = item.url || item.preview;
-
-                bigImage.onload = () => {
-                    if (token !== loadToken) return;
-                    bigImage.style.opacity = '1';
-                    setDownloadState('Скачать UHD');
-                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
-                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
-                };
-
-                bigImage.onerror = () => {
-                    if (token !== loadToken) return;
-                    if (bigImage.src !== item.preview && item.preview) {
-                        bigImage.src = item.preview;
-                    } else {
-                        setDownloadState('Ошибка загрузки', true);
-                    }
-                };
-
-                bigImage.src = targetSrc;
-            }
-        }
-
-        function closeViewer() {
-            if (viewer.open) viewer.close();
-        }
-
-        function navigate(direction) {
-            const next = currentIndex + direction;
-            if (next < 0 || next >= galleryItems.length) return;
-            openViewer(next);
-        }
-
-        function createCard(item, index) {
-            const card = document.createElement('button');
-            card.className = 'card';
-            card.type = 'button';
-            card.setAttribute('aria-label', `Открыть ${item.img_id || 'обои'}`);
-
-            const img = document.createElement('img');
-            img.alt = '';
-            img.setAttribute('aria-hidden', 'true');
-            img.decoding = 'async';
-            img.referrerPolicy = 'no-referrer';
-
-            if (index < 6) {
-                img.loading = 'eager';
-                img.fetchPriority = index < 2 ? 'high' : 'auto';
-            } else {
-                img.loading = 'lazy';
-            }
-
-            const primarySrc = item.preview || item.url;
-            let retries = 0;
-
-            img.addEventListener('load', () => {
-                img.classList.add('loaded');
-            }, { once: true });
-
-            img.addEventListener('error', () => {
-                if (retries < 2) {
-                    retries++;
-                    setTimeout(() => {
-                        const current = img.src;
-                        if (current.includes('/th/id/')) {
-                            img.src = current.replace('/th/id/', '/th?id=');
-                        } else if (current.includes('/th?id=')) {
-                            img.src = current.replace('/th?id=', '/th/id/');
-                        } else {
-                            img.src = primarySrc;
-                        }
-                    }, 600 * retries);
-                } else {
-                    img.classList.add('loaded');
-                }
-            });
-
-            img.src = primarySrc;
-
-            card.append(img);
-
-            // Предзагружаем UHD только при осознанном наведении (задержка 300 мс),
-            // чтобы при быстром скролле не забивать канал фоновыми 4K-файлами
-            let hoverTimer = null;
-            card.addEventListener('pointerenter', () => {
-                if (preloadedUHD.has(item.url)) return;
-                hoverTimer = setTimeout(() => {
-                    hoverTimer = null;
-                    preloadUHD(item.url);
-                }, 300);
-            });
-            card.addEventListener('pointerleave', () => {
-                if (hoverTimer) {
-                    clearTimeout(hoverTimer);
-                    hoverTimer = null;
-                }
-            });
-
-            card.addEventListener('click', () => openViewer(index));
-            return card;
-        }
-
-        function renderNextBatch() {
-            if (renderedCount >= galleryItems.length) return;
-
-            const nextBatch = galleryItems.slice(renderedCount, renderedCount + PAGE_SIZE);
-            const fragment = document.createDocumentFragment();
-
-            nextBatch.forEach((item, offset) => {
-                fragment.append(createCard(item, renderedCount + offset));
-            });
-
-            renderedCount += nextBatch.length;
-
-            const sentinel = document.getElementById('gallery-sentinel');
-            if (sentinel) {
-                gallery.insertBefore(fragment, sentinel);
-                if (renderedCount >= galleryItems.length) {
-                    sentinel.remove();
-                    if (sentinelObserver) sentinelObserver.disconnect();
-                }
-            } else {
-                gallery.append(fragment);
-            }
-        }
-
-        function setupInfiniteScroll() {
-            if (sentinelObserver) sentinelObserver.disconnect();
-
-            const sentinel = document.createElement('div');
-            sentinel.id = 'gallery-sentinel';
-            sentinel.style.width = '100%';
-            sentinel.style.height = '60px';
-            sentinel.style.gridColumn = '1 / -1';
-            gallery.append(sentinel);
-
-            sentinelObserver = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    renderNextBatch();
-                }
-            }, { rootMargin: '300px 0px' });
-
-            sentinelObserver.observe(sentinel);
-        }
-
-        function toThumb(url) {
-            if (!url) return '';
-            const sep = url.includes('?') ? '&' : '?';
-            return url + sep + 'w=480&h=270&rs=1&c=7';
-        }
-
-        function renderGallery(data) {
-            const rawItems = Array.isArray(data) ? data : Object.values(data || {});
-            const validItems = [];
-
-            for (let i = 0; i < rawItems.length; i++) {
-                const item = rawItems[i];
-                if (item && (item.url || item.preview)) {
-                    validItems.push({
-                        img_id: item.img_id,
-                        url: item.url ? item.url.replace('/th?id=', '/th/id/') : '',
-                        preview: item.preview
-                            ? toThumb(item.preview.replace('/th?id=', '/th/id/'))
-                            : (item.url ? toThumb(item.url.replace('/th?id=', '/th/id/')) : ''),
-                    });
-                }
-            }
-
-            galleryItems = validItems;
-            gallery.setAttribute('aria-busy', 'false');
-
-            if (!validItems.length) {
-                gallery.innerHTML = '<p class="status">Архив пока пуст.</p>';
-                return;
-            }
-
-            renderedCount = 0;
-            gallery.replaceChildren();
-            renderNextBatch();
-
-            if (validItems.length > PAGE_SIZE) {
-                setupInfiniteScroll();
-            }
-        }
-
-        async function loadGallery() {
-            try {
-                const response = await fetch('data.json');
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const data = await response.json();
-                renderGallery(data);
-            } catch (error) {
-                console.error('Не удалось загрузить архив:', error);
-                gallery.setAttribute('aria-busy', 'false');
-                gallery.innerHTML = '<p class="status">Ошибка загрузки архива.</p>';
-            }
-        }
-
-        downloadBtn.addEventListener('click', () => {
-            if (downloadFallbackItem?.url) {
-                window.open(downloadFallbackItem.url, '_blank', 'noopener,noreferrer');
-                return;
-            }
-            if (currentIndex >= 0) {
-                downloadImage(galleryItems[currentIndex]);
-            }
-        });
-
-        closeBtn.addEventListener('click', closeViewer);
-        prevBtn.addEventListener('click', () => navigate(-1));
-        nextBtn.addEventListener('click', () => navigate(1));
-
-        let touchStartX = 0;
-        let touchStartY = 0;
-
-        viewer.addEventListener('touchstart', event => {
-            if (event.touches.length === 1) {
-                touchStartX = event.touches[0].clientX;
-                touchStartY = event.touches[0].clientY;
-            }
-        }, { passive: true });
-
-        viewer.addEventListener('touchend', event => {
-            if (!viewer.open || event.changedTouches.length === 0) return;
-            const deltaX = event.changedTouches[0].clientX - touchStartX;
-            const deltaY = event.changedTouches[0].clientY - touchStartY;
-
-            if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
-                navigate(deltaX < 0 ? 1 : -1);
-            }
-        }, { passive: true });
-
-        viewer.addEventListener('click', event => {
-            if (event.target === viewer) {
-                closeViewer();
-                return;
-            }
-            if (event.target === bigImage && bigImage.naturalWidth) {
-                const box = bigImage.getBoundingClientRect();
-                const scale = Math.min(box.width / bigImage.naturalWidth, box.height / bigImage.naturalHeight);
-                const w = bigImage.naturalWidth * scale;
-                const h = bigImage.naturalHeight * scale;
-                const x = event.clientX - box.left - (box.width - w) / 2;
-                const y = event.clientY - box.top - (box.height - h) / 2;
-                if (x < 0 || y < 0 || x > w || y > h) closeViewer();
-            }
-        });
-
-        viewer.addEventListener('close', () => {
-            ++loadToken;
-            cancelDownload();
-            cancelUhdLoader();
-            releaseBlobURL();
-
-            document.body.style.overflow = '';
-
-            bigImage.removeAttribute('src');
-            bigImage.style.opacity = '0';
-
-            currentIndex = -1;
-            downloadFallbackItem = null;
-            setDownloadState('Скачать UHD');
-
-            if (previouslyFocused && document.contains(previouslyFocused)) {
-                previouslyFocused.focus();
-            }
-            previouslyFocused = null;
-        });
-
-        document.addEventListener('keydown', event => {
-            if (!viewer.open) return;
-            if (event.key === 'ArrowLeft') navigate(-1);
-            if (event.key === 'ArrowRight') navigate(1);
-        });
-
-        window.addEventListener('pagehide', () => {
-            cancelDownload();
-            cancelUhdLoader();
-            releaseBlobURL();
-        });
-
-        loadGallery();
-    </script>
+        <button class="btn" data-lb="copy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11 5.93M14 10a5 5 0 0 0-7.07 0L4.1 12.83a5 5 0 0 0 7.07 7.07L13 18.07"/></svg><span>Ссылка</span>
+        </button>
+        <a class="btn" id="lbOpen" target="_blank" rel="noreferrer noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h6v6M20 4 10 14M20 13v7H4V4h7"/></svg><span>Оригинал</span>
+        </a>
+        <button class="btn-primary" id="lbDl" data-lb="dl">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M4 21h16"/></svg>Скачать UHD
+        </button>
+      </div>
+    </div>
+    <p class="lb-hint">← → листать · Esc закрыть</p>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+/* Ключевой фикс: Bing блокирует хотлинк с чужим Referer.
+   <meta name="referrer" content="no-referrer"> + referrerpolicy на каждом img
+   + запасные URL (preview / UHD и форма /th?id=). */
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const REGIONS = {
+  'EN-US':{name:'США',hue:'#5ea2ff'}, 'EN-GB':{name:'Великобритания',hue:'#8b5cf6'},
+  'EN-CA':{name:'Канада',hue:'#ff5d73'}, 'JA-JP':{name:'Япония',hue:'#ff4d8d'},
+  'DE-DE':{name:'Германия',hue:'#ffc53d'}, 'FR-FR':{name:'Франция',hue:'#5b6cff'},
+  'ES-ES':{name:'Испания',hue:'#ffb02e'}, 'IT-IT':{name:'Италия',hue:'#3ddc97'},
+  'PT-BR':{name:'Бразилия',hue:'#2dd4bf'}, 'ZH-CN':{name:'Китай',hue:'#ff8a3d'},
+  'ROW':{name:'Весь мир',hue:'#9aa7ff'}
+};
+const M_SHORT = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+const M_FULL  = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const M_GEN   = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+
+const ICONS = {
+  heart:'<path d="M12 21s-8-5.3-8-11a4.6 4.6 0 0 1 8-3.1A4.6 4.6 0 0 1 20 10c0 5.7-8 11-8 11z"/>',
+  dl:'<path d="M12 3v12M7 10l5 5 5-5M4 21h16"/>',
+  alert:'<path d="M12 3 2.5 20h19L12 3zM12 10v4M12 17.2v.1"/>',
+  check:'<path d="M5 13l4 4L19 7"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.1"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>'
+};
+const icon = (n, w=1.8) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICONS[n]}</svg>`;
+
+const state = {
+  items:[], filtered:[], q:'', month:'all', region:'all', sort:'desc', favOnly:false,
+  favs:new Set(), load:new Map(),
+  lb:{ open:false, list:[], idx:0, q:'hd', srcIdx:0, lastFocus:null, closeTimer:0 }
+};
+try { state.favs = new Set(JSON.parse(localStorage.getItem('gorizont:favs')||'[]')); } catch(e){}
+const saveFavs = () => { try{ localStorage.setItem('gorizont:favs', JSON.stringify([...state.favs])); }catch(e){} };
+
+/* ---------- данные ---------- */
+const altForm = u => u.replace('/th/id/','/th?id=');
+const sources = (it, pref='hd') => pref==='uhd'
+  ? [it.url, altForm(it.url), it.preview, altForm(it.preview)]
+  : [it.preview, altForm(it.preview), it.url, altForm(it.url)];
+
+function humanize(id){
+  return id.replace(/([a-z0-9])([A-Z])/g,'$1 $2')
+           .replace(/([A-Z]+)([A-Z][a-z])/g,'$1 $2')
+           .replace(/\s?20\d{2}$/,'');
+}
+function buildItems(raw){
+  const out = [];
+  for (const [key, e] of Object.entries(raw)){
+    if (!e || typeof e !== 'object') continue;
+    const url = e.url || '', preview = e.preview || url;
+    if (!url && !preview) continue;
+    const sk = String(e.sort_key || '');
+    const ds = sk.slice(0,8);
+    if (!/^\d{8}$/.test(ds)) continue;
+    const y = +ds.slice(0,4), m = +ds.slice(4,6)-1, d = +ds.slice(6,8);
+    const id = e.img_id || key;
+    const loc = (url.match(/_([A-Z]{2}-[A-Z]{2}|ROW)\d+_/) || [,'ROW'])[1];
+    const reg = REGIONS[loc] || REGIONS.ROW;
+    out.push({
+      id, title:humanize(id), url:url||preview, preview, sortKey:sk,
+      y, m, d, ym:ds.slice(0,6), loc, reg,
+      dateCard:`${d} ${M_SHORT[m]} ${y}`,
+      dateFull:`${d} ${M_GEN[m]} ${y} года`,
+      hay:(humanize(id)+' '+id).toLowerCase()
+    });
+  }
+  out.sort((a,b) => b.sortKey.localeCompare(a.sortKey));
+  return out;
+}
+
+/* ---------- тосты ---------- */
+function toast(msg, type='info'){
+  const box = $('#toasts');
+  const el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.innerHTML = icon(type==='ok'?'check':type==='err'?'x':type==='warn'?'alert':'info') + '<span>' + esc(msg) + '</span>';
+  box.appendChild(el);
+  while (box.children.length > 3) box.firstChild.remove();
+  setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 260); }, 3400);
+}
+
+/* ---------- статистика и селекты ---------- */
+function buildStats(){
+  const it = state.items;
+  const days = new Set(it.map(x => x.sortKey.slice(0,8))).size;
+  const regs = new Set(it.map(x => x.loc)).size;
+  const min = it[it.length-1], max = it[0];
+  const range = min && max ? `${min.d} ${M_SHORT[min.m]} — ${max.d} ${M_SHORT[max.m]} ${max.y}` : '—';
+  $('#stats').innerHTML =
+    `<span class="stat" style="--c:#ffb02e"><i></i>Обоев — <b>${it.length}</b></span>` +
+    `<span class="stat" style="--c:#ff4d8d"><i></i>Дней — <b>${days}</b></span>` +
+    `<span class="stat" style="--c:#2dd4bf"><i></i>Регионов — <b>${regs}</b></span>` +
+    `<span class="stat" style="--c:#5b6cff"><i></i>${esc(range)}</span>`;
+}
+function buildSelects(){
+  const months = new Map(), regs = new Map();
+  for (const x of state.items){
+    months.set(x.ym, (months.get(x.ym)||0)+1);
+    regs.set(x.loc, (regs.get(x.loc)||0)+1);
+  }
+  const sm = $('#selMonth');
+  sm.innerHTML = '<option value="all">Все месяцы</option>' + [...months.keys()].sort().reverse()
+    .map(ym => `<option value="${ym}">${M_FULL[+ym.slice(4,6)-1]} ${ym.slice(0,4)} · ${months.get(ym)}</option>`).join('');
+  const sr = $('#selRegion');
+  sr.innerHTML = '<option value="all">Все регионы</option>' + [...regs.keys()].sort((a,b) => regs.get(b)-regs.get(a))
+    .map(loc => `<option value="${loc}">${esc((REGIONS[loc]||REGIONS.ROW).name)} · ${regs.get(loc)}</option>`).join('');
+}
+
+/* ---------- сетка ---------- */
+const grid = $('#grid');
+const io = ('IntersectionObserver' in window) ? new IntersectionObserver(es => {
+  for (const en of es) if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+}, {threshold:.04}) : null;
+
+function skeletons(n){
+  grid.innerHTML = Array.from({length:n}, () => '<div class="card skeleton in"><div class="ph"></div></div>').join('');
+}
+function cardHTML(it, i){
+  const fav = state.favs.has(it.id);
+  const st = state.load.get(it.id) || {idx:0, failed:false};
+  const src = sources(it)[Math.min(st.idx, 3)];
+  return `<article class="card${st.failed?' is-error':''}" data-id="${esc(it.id)}" style="--d:${(i%10)*35}ms" tabindex="0" role="button" aria-label="Открыть: ${esc(it.title)}">
+    <div class="ph"></div>
+    <img loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="${esc(it.title)}" data-id="${esc(it.id)}" src="${esc(src)}" draggable="false">
+    <div class="shade"></div>
+    <span class="badge">UHD</span>
+    <button class="heart${fav?' on':''}" data-action="fav" aria-pressed="${fav}" aria-label="В избранное">${icon('heart')}</button>
+    <div class="meta"><div class="t">${esc(it.title)}</div>
+      <div class="m"><i class="dot" style="--c:${it.reg.hue}"></i>${esc(it.dateCard)} · ${esc(it.reg.name)}</div></div>
+    <button class="dl" data-action="dl" aria-label="Скачать UHD">${icon('dl',2)}</button>
+    <div class="err">${icon('alert',1.6)}<span>Не загрузилось</span><button data-action="retry">Повторить</button></div>
+  </article>`;
+}
+function renderGrid(){
+  const list = state.filtered;
+  grid.innerHTML = list.map(cardHTML).join('');
+  if (io) grid.querySelectorAll('.card').forEach(c => io.observe(c));
+  else grid.querySelectorAll('.card').forEach(c => c.classList.add('in'));
+  $('#count').innerHTML = `Найдено: <b>${list.length}</b>`;
+  const active = state.q || state.month!=='all' || state.region!=='all' || state.favOnly || state.sort!=='desc';
+  $('#btnReset').hidden = !active;
+  const empty = $('#empty');
+  empty.hidden = list.length > 0;
+  if (!list.length){
+    const favEmpty = state.favOnly && state.favs.size === 0;
+    $('#emptyTitle').textContent = favEmpty ? 'В избранном пока пусто' : 'Ничего не нашлось';
+    $('#emptyText').textContent = favEmpty ? 'Нажмите на сердечко на любой карточке, чтобы сохранить её здесь.' : 'Попробуйте изменить запрос или ослабить фильтры.';
+  }
+}
+function applyFilters(){
+  let list = state.items;
+  if (state.favOnly) list = list.filter(x => state.favs.has(x.id));
+  if (state.month !== 'all') list = list.filter(x => x.ym === state.month);
+  if (state.region !== 'all') list = list.filter(x => x.loc === state.region);
+  if (state.q) list = list.filter(x => x.hay.includes(state.q));
+  if (state.sort === 'asc') list = [...list].reverse();
+  state.filtered = list;
+  renderGrid();
+}
+
+/* загрузка картинок с запасными источниками (capture: error/load не всплывают) */
+grid.addEventListener('load', e => {
+  const img = e.target;
+  if (img.tagName !== 'IMG') return;
+  const card = img.closest('.card');
+  if (card){ card.classList.add('is-loaded'); card.classList.remove('is-error'); }
+}, true);
+grid.addEventListener('error', e => {
+  const img = e.target;
+  if (img.tagName !== 'IMG') return;
+  const id = img.dataset.id;
+  const it = state.items.find(x => x.id === id);
+  if (!it) return;
+  const st = state.load.get(id) || {idx:0, failed:false};
+  st.idx++;
+  if (st.idx < 4){ state.load.set(id, st); img.src = sources(it)[st.idx]; }
+  else { st.failed = true; state.load.set(id, st); img.closest('.card')?.classList.add('is-error'); }
+}, true);
+
+/* делегированные клики по сетке */
+grid.addEventListener('click', e => {
+  const btn = e.target.closest('button[data-action]');
+  const card = e.target.closest('.card[data-id]');
+  if (!card) return;
+  const id = card.dataset.id;
+  if (btn){
+    const act = btn.dataset.action;
+    if (act === 'fav') toggleFav(id);
+    else if (act === 'dl'){ const it = state.items.find(x => x.id === id); if (it) downloadUHD(it, btn); }
+    else if (act === 'retry'){
+      const it = state.items.find(x => x.id === id); if (!it) return;
+      state.load.set(id, {idx:0, failed:false});
+      card.classList.remove('is-error','is-loaded');
+      const img = card.querySelector('img');
+      img.src = ''; requestAnimationFrame(() => { img.src = sources(it)[0]; });
+    }
+    return;
+  }
+  openLightbox(id);
+});
+grid.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const card = e.target.closest('.card[data-id]');
+  if (card && e.target === card){ e.preventDefault(); openLightbox(card.dataset.id); }
+});
+
+/* ---------- избранное ---------- */
+function syncFavUI(){
+  const n = state.favs.size, badge = $('#favCount');
+  badge.hidden = n === 0; badge.textContent = n;
+}
+function toggleFav(id){
+  const on = !state.favs.has(id);
+  on ? state.favs.add(id) : state.favs.delete(id);
+  saveFavs(); syncFavUI();
+  grid.querySelectorAll(`.card[data-id="${CSS.escape(id)}"] .heart`).forEach(h => {
+    h.classList.toggle('on', on); h.setAttribute('aria-pressed', on);
+  });
+  if (state.lb.open && state.lb.list[state.lb.idx]?.id === id) syncLbFav();
+  toast(on ? 'Добавлено в избранное' : 'Убрано из избранного', on ? 'ok' : 'info');
+  if (state.favOnly) applyFilters();
+}
+
+/* ---------- скачивание / ссылка ---------- */
+async function downloadUHD(it, btn){
+  if (btn?.classList.contains('busy')) return;
+  btn?.classList.add('busy'); if (btn) btn.disabled = true;
+  const name = it.id + '_UHD.jpg';
+  try {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 25000);
+    const res = await fetch(it.url, {referrerPolicy:'no-referrer', mode:'cors', signal:ctrl.signal});
+    clearTimeout(t);
+    if (!res.ok) throw new Error(res.status);
+    const blob = await res.blob();
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    toast('Сохранено: ' + name, 'ok');
+  } catch(e){
+    window.open(it.url, '_blank', 'noopener');
+    toast('Открыл оригинал в новой вкладке — сохраните его там', 'info');
+  } finally {
+    btn?.classList.remove('busy'); if (btn) btn.disabled = false;
+  }
+}
+async function copyLink(it){
+  try { await navigator.clipboard.writeText(it.url); toast('Ссылка на UHD скопирована', 'ok'); }
+  catch(e){
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = it.url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+      toast('Ссылка на UHD скопирована', 'ok');
+    } catch(e2){ toast('Не удалось скопировать ссылку', 'err'); }
+  }
+}
+
+/* ---------- лайтбокс ---------- */
+const lb = $('#lightbox'), lbImg = $('#lbImg'), lbSpin = $('#lbSpin'), lbErr = $('#lbErr');
+const lbItem = () => state.lb.list[state.lb.idx];
+
+function lockScroll(on){
+  if (on){
+    const w = window.innerWidth - document.documentElement.clientWidth;
+    document.documentElement.style.setProperty('--sbw', w + 'px');
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
+    document.documentElement.style.setProperty('--sbw', '0px');
+  }
+}
+function openLightbox(id){
+  const idx = state.filtered.findIndex(x => x.id === id);
+  if (idx < 0) return;
+  const L = state.lb;
+  L.list = state.filtered.slice(); L.idx = idx; L.open = true; L.lastFocus = document.activeElement;
+  clearTimeout(L.closeTimer);
+  lb.hidden = false; lockScroll(true);
+  requestAnimationFrame(() => lb.classList.add('open'));
+  showLb();
+  lb.querySelector('.lb-close').focus();
+}
+function closeLightbox(){
+  const L = state.lb;
+  if (!L.open) return;
+  L.open = false;
+  lb.classList.remove('open');
+  L.closeTimer = setTimeout(() => { lb.hidden = true; lbImg.removeAttribute('src'); lockScroll(false); }, 240);
+  if (L.lastFocus?.focus) L.lastFocus.focus();
+}
+function syncLbFav(){
+  const it = lbItem(); if (!it) return;
+  const on = state.favs.has(it.id);
+  const b = $('#lbFav');
+  b.classList.toggle('on', on); b.setAttribute('aria-pressed', on);
+  b.querySelector('span').textContent = on ? 'В избранном' : 'В избранное';
+}
+function showLb(){
+  const L = state.lb, it = lbItem(); if (!it) return;
+  L.srcIdx = 0;
+  $('#lbCount').textContent = `${L.idx+1} / ${L.list.length}`;
+  $('#lbTitle').textContent = it.title;
+  $('#lbMeta').innerHTML = `<i class="dot" style="--c:${it.reg.hue}"></i>${esc(it.dateFull)} · ${esc(it.reg.name)} · ${L.q==='uhd'?'3840×2160':'1920×1080'}`;
+  $('#lbOpen').href = it.url;
+  lb.querySelectorAll('.lb-quality button').forEach(b => b.classList.toggle('on', b.dataset.q === L.q));
+  syncLbFav();
+  lbImg.classList.remove('on'); lbErr.hidden = true; lbSpin.hidden = false;
+  lbImg.alt = it.title;
+  lbImg.src = sources(it, L.q)[0];
+  preload(L.idx+1); preload(L.idx-1);
+}
+function preload(i){
+  const L = state.lb, it = L.list[(i + L.list.length) % L.list.length];
+  if (!it) return;
+  const im = new Image(); im.referrerPolicy = 'no-referrer'; im.src = it.preview;
+}
+function navLb(dir){
+  const L = state.lb; if (!L.open || L.list.length < 2) return;
+  L.idx = (L.idx + dir + L.list.length) % L.list.length;
+  showLb();
+}
+lbImg.addEventListener('load', () => { lbSpin.hidden = true; lbErr.hidden = true; lbImg.classList.add('on'); });
+lbImg.addEventListener('error', () => {
+  const L = state.lb, it = lbItem(); if (!it || !L.open) return;
+  L.srcIdx++;
+  const srcs = sources(it, L.q);
+  if (L.srcIdx < srcs.length){ lbImg.src = srcs[L.srcIdx]; }
+  else { lbSpin.hidden = true; lbImg.classList.remove('on'); lbErr.hidden = false; }
+});
+lb.addEventListener('click', e => {
+  if (e.target === $('#lbStage')){ closeLightbox(); return; }
+  const q = e.target.closest('.lb-quality button');
+  if (q){ if (state.lb.q !== q.dataset.q){ state.lb.q = q.dataset.q; showLb(); } return; }
+  const b = e.target.closest('[data-lb]'); if (!b) return;
+  const act = b.dataset.lb, it = lbItem();
+  if (act === 'close') closeLightbox();
+  else if (act === 'prev') navLb(-1);
+  else if (act === 'next') navLb(1);
+  else if (act === 'fav' && it) toggleFav(it.id);
+  else if (act === 'copy' && it) copyLink(it);
+  else if (act === 'dl' && it) downloadUHD(it, b);
+  else if (act === 'retry' && it){ state.lb.srcIdx = 0; lbErr.hidden = true; lbSpin.hidden = false; lbImg.src = sources(it, state.lb.q)[0]; }
+});
+/* свайп на мобильных */
+let swipe = null;
+$('#lbStage').addEventListener('pointerdown', e => {
+  if (e.pointerType === 'touch' && !e.target.closest('button')) swipe = {x:e.clientX, y:e.clientY};
+});
+$('#lbStage').addEventListener('pointerup', e => {
+  if (!swipe) return;
+  const dx = e.clientX - swipe.x, dy = e.clientY - swipe.y; swipe = null;
+  if (Math.abs(dx) > 55 && Math.abs(dy) < 90) navLb(dx < 0 ? 1 : -1);
+});
+/* клавиатура + ловушка фокуса */
+document.addEventListener('keydown', e => {
+  if (state.lb.open){
+    if (e.key === 'Escape'){ e.preventDefault(); closeLightbox(); }
+    else if (e.key === 'ArrowLeft'){ e.preventDefault(); navLb(-1); }
+    else if (e.key === 'ArrowRight'){ e.preventDefault(); navLb(1); }
+    else if (e.key === 'Tab'){
+      const f = [...lb.querySelectorAll('button, a[href]')].filter(el => el.getClientRects().length);
+      if (!f.length) return;
+      const first = f[0], last = f[f.length-1];
+      if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+    }
+    return;
+  }
+  if (e.key === '/' && !/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)){
+    e.preventDefault(); $('#q').focus();
+  }
+});
+
+/* ---------- панель управления ---------- */
+let qTimer = 0;
+$('#q').addEventListener('input', e => {
+  const v = e.target.value;
+  $('#searchWrap').classList.toggle('has-value', !!v);
+  clearTimeout(qTimer);
+  qTimer = setTimeout(() => { state.q = v.trim().toLowerCase(); applyFilters(); }, 130);
+});
+$('#qClear').addEventListener('click', () => {
+  $('#q').value = ''; $('#searchWrap').classList.remove('has-value');
+  state.q = ''; applyFilters(); $('#q').focus();
+});
+$('#selMonth').addEventListener('change', e => { state.month = e.target.value; applyFilters(); });
+$('#selRegion').addEventListener('change', e => { state.region = e.target.value; applyFilters(); });
+$('#selSort').addEventListener('change', e => { state.sort = e.target.value; applyFilters(); });
+$('#favToggle').addEventListener('click', () => {
+  state.favOnly = !state.favOnly;
+  $('#favToggle').setAttribute('aria-pressed', state.favOnly);
+  applyFilters();
+});
+$('#btnRandom').addEventListener('click', () => {
+  if (!state.filtered.length){ toast('Сначала ослабьте фильтры', 'warn'); return; }
+  const it = state.filtered[Math.floor(Math.random() * state.filtered.length)];
+  openLightbox(it.id);
+});
+function resetFilters(){
+  state.q = ''; state.month = 'all'; state.region = 'all'; state.sort = 'desc'; state.favOnly = false;
+  $('#q').value = ''; $('#searchWrap').classList.remove('has-value');
+  $('#selMonth').value = 'all'; $('#selRegion').value = 'all'; $('#selSort').value = 'desc';
+  $('#favToggle').setAttribute('aria-pressed', 'false');
+  applyFilters();
+}
+$('#btnReset').addEventListener('click', resetFilters);
+$('#emptyReset').addEventListener('click', resetFilters);
+$('#btnUp').addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+/* плотность сетки */
+function setDensity(d, silent){
+  document.documentElement.style.setProperty('--card-min', d === 'dense' ? '236px' : '330px');
+  $('#denCozy').classList.toggle('on', d !== 'dense');
+  $('#denDense').classList.toggle('on', d === 'dense');
+  try{ localStorage.setItem('gorizont:density', d); }catch(e){}
+  if (!silent) toast(d === 'dense' ? 'Плотная сетка' : 'Крупные плитки', 'info');
+}
+$('#denCozy').addEventListener('click', () => setDensity('cozy'));
+$('#denDense').addEventListener('click', () => setDensity('dense'));
+let savedDensity = 'cozy';
+try{ savedDensity = localStorage.getItem('gorizont:density') || 'cozy'; }catch(e){}
+setDensity(savedDensity, true);
+
+/* шапка + параллакс горизонта */
+const header = $('.site-header'), horizonArt = $('#horizonArt');
+let scrollTick = false;
+window.addEventListener('scroll', () => {
+  if (scrollTick) return;
+  scrollTick = true;
+  requestAnimationFrame(() => {
+    const y = window.scrollY;
+    header.classList.toggle('scrolled', y > 10);
+    horizonArt.style.transform = `translate3d(0, ${Math.min(y * .14, 70)}px, 0)`;
+    scrollTick = false;
+  });
+}, {passive:true});
+
+/* ---------- старт ---------- */
+async function boot(){
+  $('#bootErr').hidden = true; $('#empty').hidden = true;
+  skeletons(12);
+  try {
+    const res = await fetch('data.json', {cache:'no-cache'});
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const raw = await res.json();
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) throw new Error('bad json');
+    state.items = buildItems(raw);
+    if (!state.items.length) throw new Error('empty');
+    state.load.clear();
+    buildStats(); buildSelects(); syncFavUI(); applyFilters();
+  } catch(e){
+    grid.innerHTML = '';
+    $('#count').textContent = '';
+    $('#bootErr').hidden = false;
+    toast('Ошибка загрузки data.json', 'err');
+  }
+}
+$('#btnBootRetry').addEventListener('click', boot);
+boot();
+</script>
 </body>
 </html>
