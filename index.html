@@ -1,736 +1,858 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark" data-density="comfortable">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Личный архив Bing Wallpaper UHD">
-    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
-    <title>Горизонт | Архив Bing</title>
-    <meta name="referrer" content="no-referrer">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="canonical" href="https://gorizont.isvii.ru/">
-    <link rel="dns-prefetch" href="https://www.bing.com">
-    <link rel="preconnect" href="https://www.bing.com">
-    <link rel="preload" href="data.json" as="fetch" crossorigin="anonymous">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Горизонт — архив обоев Bing</title>
+<meta name="description" content="Минималистичный архив ежедневных фоновых изображений Bing в разрешении 4K UHD.">
+<meta name="color-scheme" content="dark light">
+<meta id="metaTheme" name="theme-color" content="#0c0f14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%230c0f14'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%233b5bdb'/%3E%3Cstop offset='.5' stop-color='%23e8663d'/%3E%3Cstop offset='1' stop-color='%23f7d9a0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='26' r='6.5' fill='%23f0a63c'/%3E%3Crect x='9' y='37' width='46' height='3' rx='1.5' fill='url(%23g)'/%3E%3C/svg%3E">
+<script>
+(function(){var t,d;try{t=localStorage.getItem('gorizont:theme');d=localStorage.getItem('gorizont:density')}catch(e){}
+var h=document.documentElement;h.dataset.theme=(t==='light')?'light':'dark';h.dataset.density=(d==='compact')?'compact':'comfortable';})();
+</script>
+<style>
+/* ============ ТОКЕНЫ ============ */
+:root{
+  --topH:56px; --topGap:10px;
+  --gap:8px; --r:10px; --cell:372px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --spring:cubic-bezier(.34,1.4,.64,1);
+  --horizon:linear-gradient(90deg,#3b5bdb,#7b5bd6,#e8663d,#f0a63c,#f7d9a0);
+}
+html[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0c0f14; --bg2:#11151c; --surface:#171c25; --skHi:#1d232e;
+  --text:#e9edf3; --muted:#98a2b3; --faint:#616c7d;
+  --line:rgba(233,237,243,.10); --line2:rgba(233,237,243,.22);
+  --glass:rgba(14,18,25,.62); --hi:rgba(255,255,255,.07);
+  --accent:#f0a63c; --accentInk:#1a1206; --ember:#e8663d; --dusk:#7b5bd6;
+  --ok:#5fd39a; --okInk:#08210f; --warn:#f2c14e; --danger:#f0705a; --info:#63b3ed;
+  --glow:radial-gradient(1100px 380px at 50% -180px,rgba(240,166,60,.09),transparent 70%);
+  --shadow:0 24px 60px rgba(0,0,0,.45);
+  --imgShadow:0 40px 120px rgba(0,0,0,.7);
+}
+html[data-theme="light"]{
+  color-scheme:light;
+  --bg:#f4f2ed; --bg2:#faf9f6; --surface:#ffffff; --skHi:#e9e6df;
+  --text:#171a1f; --muted:#5c6470; --faint:#8b929c;
+  --line:rgba(23,26,31,.12); --line2:rgba(23,26,31,.26);
+  --glass:rgba(255,255,255,.68); --hi:rgba(255,255,255,.9);
+  --accent:#b3720c; --accentInk:#fff8ec; --ember:#c9481f; --dusk:#5b3fbd;
+  --ok:#1f8a55; --okInk:#f0fff6; --warn:#9a6b00; --danger:#c33f28; --info:#1f6fa8;
+  --glow:radial-gradient(1100px 380px at 50% -180px,rgba(179,114,12,.08),transparent 70%);
+  --shadow:0 24px 60px rgba(40,34,22,.16);
+  --imgShadow:0 40px 120px rgba(0,0,0,.55);
+}
+@supports (color:oklch(.5 .1 200)){
+  html[data-theme="dark"]{
+    --bg:oklch(.17 .012 258); --bg2:oklch(.21 .014 258); --surface:oklch(.25 .016 258); --skHi:oklch(.29 .018 258);
+    --text:oklch(.95 .006 250); --muted:oklch(.72 .022 255); --faint:oklch(.55 .022 255);
+    --line:oklch(1 0 0/.10); --line2:oklch(1 0 0/.22); --glass:oklch(.19 .014 258/.62);
+    --accent:oklch(.80 .15 76); --ember:oklch(.68 .18 38); --dusk:oklch(.60 .17 300);
+    --ok:oklch(.82 .16 158); --warn:oklch(.85 .15 90); --danger:oklch(.70 .19 27); --info:oklch(.76 .13 235);
+    --glow:radial-gradient(1100px 380px at 50% -180px,oklch(.80 .15 76/.10),transparent 70%);
+  }
+  html[data-theme="light"]{
+    --bg:oklch(.96 .007 85); --bg2:oklch(.985 .005 85); --surface:oklch(1 0 0); --skHi:oklch(.93 .008 85);
+    --text:oklch(.22 .012 260); --muted:oklch(.50 .02 260); --faint:oklch(.66 .018 260);
+    --line:oklch(.22 .012 260/.12); --line2:oklch(.22 .012 260/.26); --glass:oklch(1 0 0/.68);
+    --accent:oklch(.60 .15 66); --ember:oklch(.56 .19 35); --dusk:oklch(.48 .19 295);
+    --ok:oklch(.55 .14 158); --warn:oklch(.56 .13 80); --danger:oklch(.55 .19 28); --info:oklch(.53 .13 240);
+    --glow:radial-gradient(1100px 380px at 50% -180px,oklch(.60 .15 66/.09),transparent 70%);
+  }
+  :root{--horizon:linear-gradient(90deg,oklch(.50 .19 265),oklch(.58 .19 300),oklch(.68 .18 38),oklch(.82 .15 76),oklch(.93 .09 95))}
+}
+@media (color-gamut:p3){
+  html[data-theme="dark"]{--accent:color(display-p3 .96 .68 .28);--ember:color(display-p3 .91 .42 .24);--ok:color(display-p3 .38 .85 .62)}
+}
+@supports (transition-timing-function:linear(0,1)){
+  :root{--spring:linear(0,.006,.025 2.8%,.101 6.1%,.539 18.9%,.721 25.3%,.849 31.5%,.937 38.1%,.968 41.8%,.991 45.7%,1.006 50.1%,1.015 55%,1.017 63.9%,1.001 100%)}
+}
+html[data-density="compact"]{--cell:252px;--r:8px}
 
-    <meta property="og:title" content="Горизонт | Архив Bing">
-    <meta property="og:description" content="Коллекция лучших обоев Bing в формате UHD.">
-    <meta property="og:url" content="https://gorizont.isvii.ru/">
-    <meta property="og:image" content="https://gorizont.isvii.ru/favicon.png">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
+/* ============ БАЗА ============ */
+*,*::before,*::after{box-sizing:border-box}
+html{scrollbar-gutter:stable;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);min-height:100dvh;
+  font:400 14px/1.5 system-ui,-apple-system,"Segoe UI Variable Text","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-optical-sizing:auto;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body::before{content:"";position:fixed;inset:0;background:var(--glow);pointer-events:none;z-index:0}
+body.locked{overflow:hidden}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+a{color:inherit}
+::selection{background:color-mix(in oklab,var(--accent) 35%,transparent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.num{font-variant-numeric:tabular-nums}
+.icon{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;display:block}
+*{scrollbar-width:thin;scrollbar-color:var(--line2) transparent}
+::-webkit-scrollbar{width:11px;height:11px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:99px;border:3px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--accent)}
 
-    <style>
-        :root {
-            color-scheme: light dark;
-            --bg: #fafafa;
-            --surface: #ececec;
-            --text: #161616;
-            --muted: #707070;
-            --line: #e2e2e2;
-            --gap: 8px;
-            --pad: clamp(12px, 2.2vw, 32px);
-            --radius: 6px;
-            --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-        }
+/* ============ ШАПКА ============ */
+.top{
+  position:fixed;z-index:50;left:var(--topGap);right:var(--topGap);
+  top:calc(var(--topGap) + env(safe-area-inset-top));height:var(--topH);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;padding:0 8px 0 16px;
+  border:1px solid var(--line);border-radius:18px;background:var(--glass);
+  backdrop-filter:blur(24px) saturate(1.6);-webkit-backdrop-filter:blur(24px) saturate(1.6);
+  box-shadow:var(--shadow),inset 0 1px 0 var(--hi);
+  animation:topIn .6s var(--ease) both;
+}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.mark{width:22px;height:22px;flex:none;overflow:visible}
+.wordmark{font-size:11.5px;font-weight:650;letter-spacing:.4em;text-transform:uppercase;white-space:nowrap}
+.bar{display:flex;align-items:center;gap:6px}
+.count{font-size:12px;color:var(--muted);white-space:nowrap;padding-right:6px}
+.sep{width:1px;height:20px;background:var(--line);flex:none}
+.seg{position:relative;display:flex;gap:2px;padding:3px;border:1px solid var(--line);border-radius:12px}
+.seg::before{content:"";position:absolute;top:3px;left:3px;width:28px;height:28px;border-radius:9px;background:var(--surface);box-shadow:inset 0 0 0 1px var(--line2),0 2px 8px rgba(0,0,0,.18);transform:translateX(calc(var(--i,0) * 30px));transition:transform .45s var(--spring)}
+.seg button{position:relative;z-index:1;width:28px;height:28px;border-radius:9px;display:grid;place-items:center;color:var(--muted);transition:color .2s}
+.seg button.on{color:var(--text)}
+.seg button:hover{color:var(--text)}
+.tbtn{width:34px;height:34px;border:1px solid var(--line);border-radius:11px;display:grid;place-items:center;color:var(--text);transition:border-color .2s,background .2s,transform .35s var(--spring)}
+.tbtn:hover{border-color:var(--line2);background:var(--surface)}
+.tbtn:active{transform:scale(.9)}
+.tbtn .icon{transition:transform .5s var(--spring)}
+html[data-theme="light"] .tbtn .icon{transform:rotate(-35deg)}
+.progress{position:absolute;left:14px;right:14px;bottom:5px;height:2px;border-radius:2px;background:var(--line);overflow:hidden}
+.progress i{display:block;height:100%;border-radius:2px;background:var(--horizon);background-size:100% 100%;transform:scaleX(0);transform-origin:left}
+html[data-theme="dark"] .progress i{box-shadow:0 0 10px color-mix(in oklab,var(--accent) 55%,transparent)}
 
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg: #141414;
-                --surface: #1f1f1f;
-                --text: #ededed;
-                --muted: #8a8a8a;
-                --line: #262626;
-            }
-        }
+/* ============ КОНТЕНТ ============ */
+main{position:relative;z-index:1;padding:calc(var(--topH) + var(--topGap) + 26px + env(safe-area-inset-top)) 14px 30px}
+.caption{margin:0 2px 14px;font-size:12.5px;color:var(--muted);letter-spacing:.015em;text-wrap:balance;animation:fadeUp .7s var(--ease) .12s both}
+.caption b{font-weight:600;color:var(--text)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,var(--cell)),1fr));gap:var(--gap);grid-auto-flow:row dense}
+.cell{
+  position:relative;display:block;width:100%;aspect-ratio:16/9;overflow:hidden;isolation:isolate;
+  border-radius:var(--r);background:var(--bg2);border:1px solid var(--line);cursor:zoom-in;
+  opacity:0;transform:translateY(16px);
+  transition:opacity .6s var(--ease) var(--d,0ms),transform .6s var(--ease) var(--d,0ms),border-color .25s,box-shadow .35s,filter .3s;
+}
+.cell.in{opacity:1;transform:none}
+.cell img{width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.03);transition:opacity .7s var(--ease),transform 1.1s var(--ease)}
+.cell.loaded img{opacity:1;transform:none}
+.cell::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.14),transparent 62%)}
+@media (hover:hover){
+  .cell:hover{border-color:var(--line2);box-shadow:0 14px 34px rgba(0,0,0,.32)}
+  .cell:hover img{transform:scale(1.05)}
+  .cell:hover::after{opacity:1}
+  .grid:has(.cell:hover) .cell:not(:hover){filter:opacity(.6) saturate(.85)}
+}
+.cell:focus-visible{outline-offset:3px}
+.cell.peek{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.cell:has(img.broken){cursor:default}
+.cell:has(img.broken) img{display:none}
+.cell:has(img.broken)::before{content:"недоступно";position:absolute;inset:0;display:grid;place-items:center;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+@media (min-width:900px){.cell.lead{grid-column:span 2;grid-row:span 2;aspect-ratio:auto;--r:14px;border-radius:14px}}
+.skel{cursor:default;opacity:1;transform:none;background:linear-gradient(100deg,var(--bg2) 40%,var(--skHi) 50%,var(--bg2) 60%);background-size:200% 100%;animation:shimmer 1.5s linear infinite}
+.sentinel{display:grid;place-items:center;padding:32px 0}
+.spin{width:18px;height:18px;border-radius:50%;border:2px solid var(--line2);border-top-color:var(--accent);animation:rot .7s linear infinite}
+.endcap{text-align:center;padding:36px 0 4px}
+.endcap i{display:block;width:72px;height:2px;margin:0 auto;border-radius:2px;background:var(--horizon);opacity:.9}
+.endcap p{margin:13px 0 0;font-size:9.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--faint)}
+.error{max-width:430px;margin:64px auto;text-align:center;padding:34px 28px;border:1px solid var(--line);border-radius:20px;background:var(--bg2);box-shadow:var(--shadow)}
+.error h2{margin:0 0 8px;font-size:15px;font-weight:650;color:var(--danger)}
+.error p{margin:0 0 18px;font-size:13px;color:var(--muted);text-wrap:pretty}
+.error code{display:block;margin:0 0 18px;padding:11px;border-radius:10px;background:var(--bg);font-size:12px;color:var(--info)}
+.btn-solid{display:inline-flex;align-items:center;height:40px;padding:0 22px;border-radius:99px;background:var(--text);color:var(--bg);font-size:13px;font-weight:650;transition:background .2s,color .2s,transform .35s var(--spring)}
+.btn-solid:hover{background:var(--accent);color:var(--accentInk)}
+.btn-solid:active{transform:scale(.95)}
+footer{position:relative;z-index:1;padding:22px 20px calc(52px + env(safe-area-inset-bottom));text-align:center;font-size:11.5px;color:var(--faint)}
+footer a{color:var(--muted);text-decoration:none;border-bottom:1px solid var(--line2);transition:color .2s,border-color .2s}
+footer a:hover{color:var(--accent);border-color:var(--accent)}
+.totop{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:40;width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;color:var(--muted);background:var(--glass);border:1px solid var(--line2);
+  backdrop-filter:blur(18px) saturate(1.5);-webkit-backdrop-filter:blur(18px) saturate(1.5);box-shadow:var(--shadow);
+  opacity:0;pointer-events:none;transform:translateY(10px) scale(.9);transition:opacity .3s,transform .45s var(--spring),color .2s,border-color .2s}
+.totop.show{opacity:1;pointer-events:auto;transform:none}
+.totop:hover{color:var(--accent);border-color:var(--accent)}
 
-        * { box-sizing: border-box; }
+/* ============ ЛАЙТБОКС ============ */
+dialog#lb{
+  position:fixed;inset:0;width:100%;height:100dvh;max-width:100%;max-height:100dvh;margin:0;padding:0;border:0;overflow:hidden;
+  background:oklch(.13 .012 258/.86);color:#eef1f5;overscroll-behavior:contain;
+  backdrop-filter:blur(20px) saturate(1.1);-webkit-backdrop-filter:blur(20px) saturate(1.1);
+  opacity:0;transition:opacity .3s var(--ease),display .3s allow-discrete,overlay .3s allow-discrete;
+}
+dialog#lb[open]{opacity:1}
+@starting-style{dialog#lb[open]{opacity:0}}
+dialog#lb::backdrop{background:transparent}
+dialog#lb:focus{outline:none}
+.amb{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.35);
+  filter:blur(64px) saturate(1.8) brightness(.55);opacity:0;transition:opacity .6s var(--ease);pointer-events:none}
+.amb.on{opacity:.62}
+.veil{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 50%,transparent 30%,rgba(6,8,12,.72) 100%)}
+.lb-top{position:absolute;top:0;left:0;right:0;z-index:4;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:calc(14px + env(safe-area-inset-top)) 14px 14px;background:linear-gradient(180deg,rgba(6,8,12,.7),transparent)}
+.lb-meta{display:flex;align-items:baseline;min-width:0}
+#lbDate{font-size:12.5px;color:#dbe0e7;white-space:nowrap}
+.lb-count{margin-left:12px;font-size:12px;color:#98a2b3;white-space:nowrap}
+.lb-actions{display:flex;gap:8px;flex:none}
+.ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#e9edf3;
+  border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:background .2s,border-color .2s,transform .4s var(--spring),opacity .25s}
+.ic:hover{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.36)}
+.ic:active{transform:scale(.9)}
+.ic[hidden]{display:none}
+.stage{position:absolute;inset:0;z-index:2;display:grid;place-items:center;padding:70px 86px 112px;touch-action:none}
+.lb-loader{position:absolute;inset:0;display:none;place-items:center;z-index:0}
+.stage.loading .lb-loader{display:grid}
+.spin-lg{width:28px;height:28px;border-color:rgba(255,255,255,.22);border-top-color:var(--accent)}
+#lbImg{position:relative;z-index:1;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:6px;
+  box-shadow:var(--imgShadow);cursor:zoom-in;user-select:none;-webkit-user-drag:none;will-change:transform;
+  transition:opacity .25s var(--ease)}
+#lbImg.fade{opacity:0}
+#lbImg.smooth{transition:opacity .25s var(--ease),transform .42s var(--spring)}
+.stage.zoomed #lbImg{cursor:grab}
+.stage.zoomed.drag #lbImg{cursor:grabbing}
+.lb-nav{position:absolute;top:50%;z-index:4;width:46px;height:46px;transform:translateY(-50%)}
+.lb-nav.prev{left:16px}.lb-nav.next{right:16px}
+.lb-nav:active{transform:translateY(-50%) scale(.9)}
+.lb-bottom{position:absolute;left:0;right:0;bottom:0;z-index:4;container-type:inline-size;
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  padding:16px 16px calc(18px + env(safe-area-inset-bottom));background:linear-gradient(0deg,rgba(6,8,12,.78),transparent)}
+.dl{position:relative;overflow:hidden;display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 24px;border-radius:99px;
+  background:#eef1f5;color:#0f1319;font-size:13.5px;font-weight:650;text-decoration:none;border:1px solid transparent;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);transition:background .2s,color .2s,border-color .2s,transform .4s var(--spring)}
+.dl>*{position:relative;z-index:1}
+.dl::before{content:"";position:absolute;inset:0;z-index:0;background:var(--accent);transform:scaleX(var(--p,0));transform-origin:left;transition:transform .2s linear;opacity:0}
+.dl:hover{background:var(--accent);color:var(--accentInk)}
+.dl:active{transform:scale(.96)}
+.dl .spin{width:14px;height:14px;border-color:rgba(15,19,25,.25);border-top-color:currentColor;display:none}
+.dl[data-state="loading"]{pointer-events:none}
+.dl[data-state="loading"]::before{opacity:.55}
+.dl[data-state="loading"] .dl-svg{display:none}
+.dl[data-state="loading"] .spin{display:block}
+.dl[data-state="success"]{background:var(--ok);color:var(--okInk)}
+.dl[data-state="open"]{background:transparent;border-color:rgba(255,255,255,.34);color:#eef1f5;box-shadow:none}
+.dl[data-state="open"]:hover{border-color:var(--accent);color:var(--accent)}
+.lb-status{min-height:15px;font-size:11.5px;color:#98a2b3;letter-spacing:.02em}
+.lb-status.pulse{animation:pulse 1.5s ease-in-out infinite}
+.hints{position:absolute;left:16px;bottom:calc(15px + env(safe-area-inset-bottom));z-index:4;display:flex;gap:6px;align-items:center;font-size:10.5px;color:#7d8592}
+kbd{font:inherit;font-size:10px;line-height:1;padding:3px 5px;border-radius:5px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);box-shadow:0 1px 0 rgba(255,255,255,.08) inset}
+@container (max-width:430px){.dl{height:42px;padding:0 20px;font-size:13px}}
 
-        html {
-            scrollbar-gutter: stable;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            background: var(--bg);
-        }
+/* ============ VIEW TRANSITIONS ============ */
+::view-transition-group(wall){animation-duration:.52s;animation-timing-function:var(--spring);z-index:10}
+::view-transition-old(wall),::view-transition-new(wall){animation:none;mix-blend-mode:normal;width:100%;height:100%;object-fit:cover}
+::view-transition-group(root){animation-duration:.42s;animation-timing-function:var(--ease)}
+html.vt dialog#lb{transition:none!important}
+html.vt dialog#lb[open]{opacity:1!important}
+html.vt .cell{opacity:1!important;transform:none!important;filter:none!important}
+html.vt .cell img{transform:none!important}
+html.vt .cell::after{opacity:0!important}
+html.tv::view-transition-image-pair(root){isolation:auto}
+html.tv::view-transition-old(root),html.tv::view-transition-new(root){animation:none;mix-blend-mode:normal;display:block}
+html.tv::view-transition-old(root){z-index:0}
+html.tv::view-transition-new(root){z-index:1;animation:circle .6s var(--ease) both}
+@keyframes circle{from{clip-path:circle(0 at var(--vx,50%) var(--vy,0))}to{clip-path:circle(var(--vr,150vmax) at var(--vx,50%) var(--vy,0))}}
 
-        body {
-            margin: 0;
-            min-height: 100vh;
-            padding: 0 var(--pad) var(--pad);
-            color: var(--text);
-            background: var(--bg);
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-        }
+/* ============ SCROLL-DRIVEN ============ */
+@supports (animation-timeline:view()){
+  .cell{opacity:1;transform:none;animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 58%;
+    transition:border-color .25s,box-shadow .35s,filter .3s}
+  .progress i{animation:grow linear both;animation-timeline:scroll(root block)}
+  .top{animation:topIn .6s var(--ease) both,condense linear both;animation-timeline:auto,scroll(root block);animation-range:normal,0 200px}
+  @keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+  @keyframes condense{to{height:46px;border-radius:15px;box-shadow:0 10px 26px rgba(0,0,0,.3),inset 0 1px 0 var(--hi)}}
+  @keyframes rise{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+}
 
-        .top {
-            display: flex;
-            align-items: center;
-            height: 72px;
-            margin-bottom: var(--pad);
-            border-bottom: 1px solid var(--line);
-        }
+/* ============ АНИМАЦИИ ============ */
+@keyframes topIn{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
 
-        h1 {
-            margin: 0;
-            font-size: 20px;
-            font-weight: 500;
-            letter-spacing: -0.02em;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
-            gap: var(--gap);
-        }
-
-        .card {
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            padding: 0;
-            overflow: hidden;
-            border: 0;
-            border-radius: var(--radius);
-            background: var(--surface);
-            cursor: pointer;
-            content-visibility: auto;
-            contain-intrinsic-size: auto 200px;
-        }
-
-        .card img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.6s var(--ease);
-        }
-
-        .card img.loaded { opacity: 1; }
-
-        @media (hover: hover) {
-            .grid:hover .card img.loaded { opacity: 0.55; }
-            .grid .card:hover img.loaded,
-            .grid .card:focus-visible img.loaded { opacity: 1; }
-            .card img { transition-duration: 0.3s; }
-        }
-
-        .card:focus-visible {
-            outline: 2px solid var(--text);
-            outline-offset: 3px;
-        }
-
-        .lightbox {
-            position: fixed;
-            inset: 0;
-            z-index: 1000;
-            width: 100%;
-            height: 100%;
-            max-width: none;
-            max-height: none;
-            margin: 0;
-            padding: 24px 80px 88px;
-            border: 0;
-            background: transparent;
-            color: #fff;
-        }
-
-        .lightbox[open] { display: grid; }
-
-        .lightbox::backdrop {
-            background: rgba(10, 10, 10, 0.96);
-        }
-
-        .lightbox img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            user-select: none;
-            -webkit-user-drag: none;
-            opacity: 0;
-            transition: opacity 0.25s ease;
-        }
-
-        .close,
-        .nav-btn {
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            margin: 0;
-            padding: 0;
-            border: 0;
-            background: none;
-            color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
-            filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.5));
-            transition: color 0.2s ease, opacity 0.2s ease;
-        }
-
-        .close { top: 16px; right: 16px; }
-        .nav-btn { top: 50%; margin-top: -24px; }
-        .nav-btn.prev { left: 16px; }
-        .nav-btn.next { right: 16px; }
-
-        .close svg,
-        .nav-btn svg {
-            display: block;
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.5;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .close:hover,
-        .nav-btn:hover { color: #fff; }
-
-        .close:focus-visible,
-        .nav-btn:focus-visible,
-        .action-btn:focus-visible {
-            outline: 2px solid #fff;
-            outline-offset: 2px;
-            color: #fff;
-        }
-
-        .nav-btn:disabled {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .controls {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: max(24px, env(safe-area-inset-bottom));
-            display: flex;
-            justify-content: center;
-        }
-
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 44px;
-            padding: 0 24px;
-            color: #fff;
-            font: inherit;
-            font-size: 14px;
-            font-weight: 500;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.08);
-            -webkit-backdrop-filter: blur(16px);
-            backdrop-filter: blur(16px);
-            cursor: pointer;
-            transition: background-color 0.2s ease, opacity 0.2s ease;
-        }
-
-        .action-btn:hover { background: rgba(255, 255, 255, 0.16); }
-        .action-btn.loading { opacity: 0.5; pointer-events: none; }
-
-        .status { color: var(--muted); text-align: center; grid-column: 1 / -1; padding: 48px 0; }
-
-        @media (max-width: 600px) {
-            :root { --gap: 6px; }
-            .top { height: 60px; }
-            h1 { font-size: 18px; }
-            .lightbox { padding: 64px 0 88px; }
-            .close { top: 8px; right: 8px; }
-            .nav-btn.prev { left: 4px; }
-            .nav-btn.next { right: 4px; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { transition-duration: 0.01ms !important; }
-        }
-    
+/* ============ АДАПТИВ ============ */
+@media (max-width:760px){
+  :root{--gap:6px;--topGap:8px}
+  main{padding-left:9px;padding-right:9px}
+  .caption{font-size:11.5px;margin-bottom:11px}
+  .lb-nav,.hints{display:none}
+  .stage{padding:62px 8px 124px}
+  .lb-top{padding:calc(10px + env(safe-area-inset-top)) 10px 10px}
+  .ic{width:38px;height:38px}
+}
+@media (max-width:560px){.count{display:none}.wordmark{letter-spacing:.28em;font-size:11px}.top{padding-left:13px}}
+@media (max-height:520px){
+  .stage{padding:50px 70px 94px}.hints{display:none}
+  .lb-top{padding-top:8px;padding-bottom:8px}.lb-bottom{padding-top:8px;padding-bottom:10px}.dl{height:38px}
+}
+@media (prefers-reduced-transparency:reduce){
+  .top,.totop{background:var(--bg2);backdrop-filter:none;-webkit-backdrop-filter:none}
+  dialog#lb{background:#0b0e13;backdrop-filter:none;-webkit-backdrop-filter:none}
+  .amb{display:none}.ic{background:rgba(255,255,255,.1);backdrop-filter:none}
+}
+@media (prefers-contrast:more){:root{--line:var(--line2)}}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .cell{animation:none!important;opacity:1!important;transform:none!important}
+  .top{animation:none!important}
+}
 </style>
 </head>
-
 <body>
-    <header class="top">
-        <h1>Горизонт</h1>
-    </header>
-
-    <main class="grid" id="gallery" aria-busy="true"></main>
-
-    <noscript>
-        <p class="status">Для работы архива необходим JavaScript.</p>
-    </noscript>
-
-    <dialog class="lightbox" id="viewer" aria-label="Просмотр обоев">
-        <button class="close" id="close" type="button" aria-label="Закрыть просмотр">
-            <svg viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M16 4L4 16M4 4l12 12"></path>
-            </svg>
-        </button>
-
-        <button class="nav-btn prev" id="prev" type="button" aria-label="Предыдущее изображение">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M14.5 6.5L9 12l5.5 5.5"></path>
-            </svg>
-        </button>
-        <button class="nav-btn next" id="next" type="button" aria-label="Следующее изображение">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M9.5 6.5L15 12l-5.5 5.5"></path>
-            </svg>
-        </button>
-
-        <img id="bigImage" alt="" referrerpolicy="no-referrer" fetchpriority="high">
-
-        <div class="controls">
-            <button class="action-btn" id="download" type="button">Скачать UHD</button>
-        </div>
-    </dialog>
-
-    <script>
-        'use strict';
-
-        const gallery = document.getElementById('gallery');
-        const viewer = document.getElementById('viewer');
-        const bigImage = document.getElementById('bigImage');
-        const downloadBtn = document.getElementById('download');
-        const closeBtn = document.getElementById('close');
-        const prevBtn = document.getElementById('prev');
-        const nextBtn = document.getElementById('next');
-
-        const PAGE_SIZE = 40;
-
-        let galleryItems = [];
-        let renderedCount = 0;
-        let currentIndex = -1;
-        let blobURL = null;
-        let loadToken = 0;
-        let previouslyFocused = null;
-        let downloadFallbackItem = null;
-        let downloadController = null;
-        let sentinelObserver = null;
-        let activeUhdLoader = null;
-        const preloadedUHD = new Set();
-
-        function setDownloadState(label, isLoading = false) {
-            downloadBtn.textContent = label;
-            downloadBtn.classList.toggle('loading', isLoading);
-        }
-
-        function releaseBlobURL() {
-            if (blobURL) {
-                URL.revokeObjectURL(blobURL);
-                blobURL = null;
-            }
-        }
-
-        function cancelDownload() {
-            if (downloadController) {
-                downloadController.abort();
-                downloadController = null;
-            }
-        }
-
-        function cancelUhdLoader() {
-            if (activeUhdLoader) {
-                activeUhdLoader.onload = null;
-                activeUhdLoader.onerror = null;
-                activeUhdLoader.src = '';
-                activeUhdLoader = null;
-            }
-        }
-
-        async function downloadImage(item) {
-            if (!item?.url) return;
-
-            cancelDownload();
-
-            const controller = new AbortController();
-            downloadController = controller;
-            downloadFallbackItem = null;
-            setDownloadState('Загрузка…', true);
-
-            try {
-                const response = await fetch(item.url, {
-                    referrerPolicy: 'no-referrer',
-                    signal: controller.signal,
-                });
-
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-                const blob = await response.blob();
-
-                releaseBlobURL();
-                blobURL = URL.createObjectURL(blob);
-
-                const link = document.createElement('a');
-                link.href = blobURL;
-                link.download = `${item.img_id || 'BING_IMAGE'}.jpg`;
-                document.body.appendChild(link);
-                link.click();
-                link.remove();
-
-                setDownloadState('Скачать UHD');
-            } catch (error) {
-                if (error.name === 'AbortError') return;
-                downloadFallbackItem = item;
-                setDownloadState('Открыть UHD');
-            } finally {
-                if (downloadController === controller) {
-                    downloadController = null;
-                    downloadBtn.classList.remove('loading');
-                }
-            }
-        }
-
-        function preloadUHD(url) {
-            if (!url || preloadedUHD.has(url)) return;
-            preloadedUHD.add(url);
-            const img = new Image();
-            img.referrerPolicy = 'no-referrer';
-            img.fetchPriority = 'low';
-            img.src = url;
-        }
-
-        function openViewer(index) {
-            const item = galleryItems[index];
-            if (!item) return;
-
-            currentIndex = index;
-            downloadFallbackItem = null;
-            cancelDownload();
-            cancelUhdLoader();
-
-            if (!viewer.open) {
-                previouslyFocused = document.activeElement;
-                viewer.showModal();
-                document.body.style.overflow = 'hidden';
-            }
-
-            const isFirst = index <= 0;
-            const isLast = index >= galleryItems.length - 1;
-
-            if (isLast && document.activeElement === nextBtn) {
-                (!isFirst ? prevBtn : closeBtn).focus();
-            } else if (isFirst && document.activeElement === prevBtn) {
-                (!isLast ? nextBtn : closeBtn).focus();
-            } else if (document.activeElement !== nextBtn && document.activeElement !== prevBtn) {
-                closeBtn.focus();
-            }
-
-            prevBtn.disabled = isFirst;
-            nextBtn.disabled = isLast;
-
-            const token = ++loadToken;
-            bigImage.alt = item.img_id || 'Обои Bing';
-            bigImage.fetchPriority = 'high';
-
-            // Если есть и превью, и UHD — мгновенно показываем превью из кэша, а UHD грузим с высоким приоритетом
-            if (item.preview && item.url && item.preview !== item.url) {
-                bigImage.onload = null;
-                bigImage.onerror = null;
-                bigImage.src = item.preview;
-                bigImage.style.opacity = '1';
-                setDownloadState('Скачать UHD');
-
-                const uhdLoader = new Image();
-                activeUhdLoader = uhdLoader;
-                uhdLoader.referrerPolicy = 'no-referrer';
-                uhdLoader.fetchPriority = 'high';
-                uhdLoader.decoding = 'async';
-
-                uhdLoader.onload = () => {
-                    if (token !== loadToken) return;
-                    activeUhdLoader = null;
-                    bigImage.src = item.url;
-                    preloadedUHD.add(item.url);
-                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
-                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
-                };
-
-                uhdLoader.onerror = () => {
-                    if (token !== loadToken) return;
-                    activeUhdLoader = null;
-                };
-
-                uhdLoader.src = item.url;
-            } else {
-                bigImage.style.opacity = '0';
-                setDownloadState('Загрузка…', true);
-
-                const targetSrc = item.url || item.preview;
-
-                bigImage.onload = () => {
-                    if (token !== loadToken) return;
-                    bigImage.style.opacity = '1';
-                    setDownloadState('Скачать UHD');
-                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
-                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
-                };
-
-                bigImage.onerror = () => {
-                    if (token !== loadToken) return;
-                    if (bigImage.src !== item.preview && item.preview) {
-                        bigImage.src = item.preview;
-                    } else {
-                        setDownloadState('Ошибка загрузки', true);
-                    }
-                };
-
-                bigImage.src = targetSrc;
-            }
-        }
-
-        function closeViewer() {
-            if (viewer.open) viewer.close();
-        }
-
-        function navigate(direction) {
-            const next = currentIndex + direction;
-            if (next < 0 || next >= galleryItems.length) return;
-            openViewer(next);
-        }
-
-        function createCard(item, index) {
-            const card = document.createElement('button');
-            card.className = 'card';
-            card.type = 'button';
-            card.setAttribute('aria-label', `Открыть ${item.img_id || 'обои'}`);
-
-            const img = document.createElement('img');
-            img.alt = '';
-            img.setAttribute('aria-hidden', 'true');
-            img.decoding = 'async';
-            img.referrerPolicy = 'no-referrer';
-
-            if (index < 6) {
-                img.loading = 'eager';
-                img.fetchPriority = index < 2 ? 'high' : 'auto';
-            } else {
-                img.loading = 'lazy';
-            }
-
-            const primarySrc = item.preview || item.url;
-            let retries = 0;
-
-            img.addEventListener('load', () => {
-                img.classList.add('loaded');
-            }, { once: true });
-
-            img.addEventListener('error', () => {
-                if (retries < 2) {
-                    retries++;
-                    setTimeout(() => {
-                        const current = img.src;
-                        if (current.includes('/th/id/')) {
-                            img.src = current.replace('/th/id/', '/th?id=');
-                        } else if (current.includes('/th?id=')) {
-                            img.src = current.replace('/th?id=', '/th/id/');
-                        } else {
-                            img.src = primarySrc;
-                        }
-                    }, 600 * retries);
-                } else {
-                    img.classList.add('loaded');
-                }
-            });
-
-            img.src = primarySrc;
-
-            card.append(img);
-
-            // Предзагружаем UHD только при осознанном наведении (задержка 300 мс),
-            // чтобы при быстром скролле не забивать канал фоновыми 4K-файлами
-            let hoverTimer = null;
-            card.addEventListener('pointerenter', () => {
-                if (preloadedUHD.has(item.url)) return;
-                hoverTimer = setTimeout(() => {
-                    hoverTimer = null;
-                    preloadUHD(item.url);
-                }, 300);
-            });
-            card.addEventListener('pointerleave', () => {
-                if (hoverTimer) {
-                    clearTimeout(hoverTimer);
-                    hoverTimer = null;
-                }
-            });
-
-            card.addEventListener('click', () => openViewer(index));
-            return card;
-        }
-
-        function renderNextBatch() {
-            if (renderedCount >= galleryItems.length) return;
-
-            const nextBatch = galleryItems.slice(renderedCount, renderedCount + PAGE_SIZE);
-            const fragment = document.createDocumentFragment();
-
-            nextBatch.forEach((item, offset) => {
-                fragment.append(createCard(item, renderedCount + offset));
-            });
-
-            renderedCount += nextBatch.length;
-
-            const sentinel = document.getElementById('gallery-sentinel');
-            if (sentinel) {
-                gallery.insertBefore(fragment, sentinel);
-                if (renderedCount >= galleryItems.length) {
-                    sentinel.remove();
-                    if (sentinelObserver) sentinelObserver.disconnect();
-                }
-            } else {
-                gallery.append(fragment);
-            }
-        }
-
-        function setupInfiniteScroll() {
-            if (sentinelObserver) sentinelObserver.disconnect();
-
-            const sentinel = document.createElement('div');
-            sentinel.id = 'gallery-sentinel';
-            sentinel.style.width = '100%';
-            sentinel.style.height = '60px';
-            sentinel.style.gridColumn = '1 / -1';
-            gallery.append(sentinel);
-
-            sentinelObserver = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    renderNextBatch();
-                }
-            }, { rootMargin: '300px 0px' });
-
-            sentinelObserver.observe(sentinel);
-        }
-
-        function toThumb(url) {
-            if (!url) return '';
-            const sep = url.includes('?') ? '&' : '?';
-            return url + sep + 'w=480&h=270&rs=1&c=7';
-        }
-
-        function renderGallery(data) {
-            const rawItems = Array.isArray(data) ? data : Object.values(data || {});
-            const validItems = [];
-
-            for (let i = 0; i < rawItems.length; i++) {
-                const item = rawItems[i];
-                if (item && (item.url || item.preview)) {
-                    validItems.push({
-                        img_id: item.img_id,
-                        url: item.url ? item.url.replace('/th?id=', '/th/id/') : '',
-                        preview: item.preview
-                            ? toThumb(item.preview.replace('/th?id=', '/th/id/'))
-                            : (item.url ? toThumb(item.url.replace('/th?id=', '/th/id/')) : ''),
-                    });
-                }
-            }
-
-            galleryItems = validItems;
-            gallery.setAttribute('aria-busy', 'false');
-
-            if (!validItems.length) {
-                gallery.innerHTML = '<p class="status">Архив пока пуст.</p>';
-                return;
-            }
-
-            renderedCount = 0;
-            gallery.replaceChildren();
-            renderNextBatch();
-
-            if (validItems.length > PAGE_SIZE) {
-                setupInfiniteScroll();
-            }
-        }
-
-        async function loadGallery() {
-            try {
-                const response = await fetch('data.json');
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                const data = await response.json();
-                renderGallery(data);
-            } catch (error) {
-                console.error('Не удалось загрузить архив:', error);
-                gallery.setAttribute('aria-busy', 'false');
-                gallery.innerHTML = '<p class="status">Ошибка загрузки архива.</p>';
-            }
-        }
-
-        downloadBtn.addEventListener('click', () => {
-            if (downloadFallbackItem?.url) {
-                window.open(downloadFallbackItem.url, '_blank', 'noopener,noreferrer');
-                return;
-            }
-            if (currentIndex >= 0) {
-                downloadImage(galleryItems[currentIndex]);
-            }
-        });
-
-        closeBtn.addEventListener('click', closeViewer);
-        prevBtn.addEventListener('click', () => navigate(-1));
-        nextBtn.addEventListener('click', () => navigate(1));
-
-        let touchStartX = 0;
-        let touchStartY = 0;
-
-        viewer.addEventListener('touchstart', event => {
-            if (event.touches.length === 1) {
-                touchStartX = event.touches[0].clientX;
-                touchStartY = event.touches[0].clientY;
-            }
-        }, { passive: true });
-
-        viewer.addEventListener('touchend', event => {
-            if (!viewer.open || event.changedTouches.length === 0) return;
-            const deltaX = event.changedTouches[0].clientX - touchStartX;
-            const deltaY = event.changedTouches[0].clientY - touchStartY;
-
-            if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
-                navigate(deltaX < 0 ? 1 : -1);
-            }
-        }, { passive: true });
-
-        viewer.addEventListener('click', event => {
-            if (event.target === viewer) closeViewer();
-        });
-
-        viewer.addEventListener('close', () => {
-            ++loadToken;
-            cancelDownload();
-            cancelUhdLoader();
-            releaseBlobURL();
-
-            document.body.style.overflow = '';
-
-            bigImage.removeAttribute('src');
-            bigImage.style.opacity = '0';
-
-            currentIndex = -1;
-            downloadFallbackItem = null;
-            setDownloadState('Скачать UHD');
-
-            if (previouslyFocused && document.contains(previouslyFocused)) {
-                previouslyFocused.focus();
-            }
-            previouslyFocused = null;
-        });
-
-        document.addEventListener('keydown', event => {
-            if (!viewer.open) return;
-            if (event.key === 'ArrowLeft') navigate(-1);
-            if (event.key === 'ArrowRight') navigate(1);
-        });
-
-        window.addEventListener('pagehide', () => {
-            cancelDownload();
-            cancelUhdLoader();
-            releaseBlobURL();
-        });
-
-        loadGallery();
-    </script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>
+  <symbol id="i-g2" viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.4"/><rect x="13" y="4" width="7" height="7" rx="1.4"/><rect x="4" y="13" width="7" height="7" rx="1.4"/><rect x="13" y="13" width="7" height="7" rx="1.4"/></symbol>
+  <symbol id="i-g3" viewBox="0 0 24 24"><rect x="4" y="4" width="3.4" height="3.4" rx="1"/><rect x="10.3" y="4" width="3.4" height="3.4" rx="1"/><rect x="16.6" y="4" width="3.4" height="3.4" rx="1"/><rect x="4" y="10.3" width="3.4" height="3.4" rx="1"/><rect x="10.3" y="10.3" width="3.4" height="3.4" rx="1"/><rect x="16.6" y="10.3" width="3.4" height="3.4" rx="1"/><rect x="4" y="16.6" width="3.4" height="3.4" rx="1"/><rect x="10.3" y="16.6" width="3.4" height="3.4" rx="1"/><rect x="16.6" y="16.6" width="3.4" height="3.4" rx="1"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-cl" viewBox="0 0 24 24"><path d="M14.5 6 8.5 12l6 6"/></symbol>
+  <symbol id="i-cr" viewBox="0 0 24 24"><path d="M9.5 6l6 6-6 6"/></symbol>
+  <symbol id="i-exp" viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></symbol>
+  <symbol id="i-comp" viewBox="0 0 24 24"><path d="M9 4v5H4M20 9h-5V4M15 20v-5h5M4 15h5v5"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12.5l5 5L19 7.5"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 24 24"><path d="M18 13.5V19H5V6h5.5M14.5 4.5h5v5M19 5l-8.5 8.5"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M2 4v6h6"/><path d="M4.5 15a9 9 0 1 0 2.1-9.4L2 10"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 24 24" aria-hidden="true">
+      <defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#3b5bdb"/><stop offset=".5" stop-color="#e8663d"/><stop offset="1" stop-color="#f7d9a0"/>
+      </linearGradient></defs>
+      <circle cx="12" cy="9" r="4" fill="var(--accent)"/>
+      <rect x="2" y="15.5" width="20" height="2" rx="1" fill="url(#hg)"/>
+    </svg>
+    <span class="wordmark">Горизонт</span>
+  </div>
+  <div class="bar">
+    <span id="count" class="count num" title="Всего изображений в архиве">…</span>
+    <span class="sep" aria-hidden="true"></span>
+    <div class="seg" id="seg" role="group" aria-label="Размер превью">
+      <button type="button" data-density="comfortable" title="Крупные превью" aria-label="Крупные превью"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-g2"/></svg></button>
+      <button type="button" data-density="compact" title="Мелкие превью" aria-label="Мелкие превью"><svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-g3"/></svg></button>
+    </div>
+    <button type="button" id="themeBtn" class="tbtn" title="Светлая тема" aria-label="Светлая тема"><svg class="icon" width="17" height="17" aria-hidden="true"><use id="themeIcon" href="#i-sun"/></svg></button>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="prog"></i></div>
+</header>
+
+<main>
+  <p class="caption">Ежедневные обои Bing · <b>4K UHD</b> · сначала новые</p>
+  <section id="grid" class="grid" aria-label="Архив обоев"></section>
+  <div id="sentinel" class="sentinel" aria-hidden="true"><span class="spin"></span></div>
+  <div id="endcap" class="endcap" hidden><i></i><p>Начало архива</p></div>
+  <div id="error" class="error" hidden>
+    <h2>Не удалось загрузить архив</h2>
+    <p id="errMsg">Проверьте соединение и попробуйте ещё раз.</p>
+    <code id="errHint" hidden>python -m http.server 8000</code>
+    <button type="button" id="retryBtn" class="btn-solid">Повторить</button>
+  </div>
+</main>
+
+<footer>Горизонт · изображения Bing и их авторы · <a href="https://github.com/Rammsystem/Gorizont" target="_blank" rel="noopener">GitHub</a></footer>
+
+<button type="button" id="toTop" class="totop" title="Наверх" aria-label="Наверх"><svg class="icon" width="18" height="18" aria-hidden="true"><use href="#i-up"/></svg></button>
+
+<dialog id="lb" tabindex="-1" aria-label="Просмотр изображения">
+  <div class="amb" id="ambA" aria-hidden="true"></div>
+  <div class="amb" id="ambB" aria-hidden="true"></div>
+  <div class="veil" aria-hidden="true"></div>
+  <div class="lb-top">
+    <div class="lb-meta"><span id="lbDate"></span><span id="lbCount" class="lb-count num"></span></div>
+    <div class="lb-actions">
+      <button type="button" id="zoomReset" class="ic" hidden title="Сбросить масштаб (0)" aria-label="Сбросить масштаб"><svg class="icon" width="17" height="17" aria-hidden="true"><use href="#i-reset"/></svg></button>
+      <button type="button" id="fsBtn" class="ic" title="Полный экран (F)" aria-label="Полный экран"><svg class="icon" width="18" height="18" aria-hidden="true"><use id="fsIcon" href="#i-exp"/></svg></button>
+      <button type="button" id="closeBtn" class="ic" title="Закрыть (Esc)" aria-label="Закрыть"><svg class="icon" width="18" height="18" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+  </div>
+  <div class="stage" id="stage">
+    <div class="lb-loader" aria-hidden="true"><span class="spin spin-lg"></span></div>
+    <img id="lbImg" class="fade" alt="" draggable="false">
+  </div>
+  <button type="button" id="prevBtn" class="ic lb-nav prev" title="Предыдущее (←)" aria-label="Предыдущее изображение"><svg class="icon" width="20" height="20" aria-hidden="true"><use href="#i-cl"/></svg></button>
+  <button type="button" id="nextBtn" class="ic lb-nav next" title="Следующее (→)" aria-label="Следующее изображение"><svg class="icon" width="20" height="20" aria-hidden="true"><use href="#i-cr"/></svg></button>
+  <div class="lb-bottom">
+    <a id="dlBtn" class="dl" data-state="idle" href="#" target="_blank" rel="noopener" title="Скачать в 4K" aria-label="Скачать UHD">
+      <svg class="icon dl-svg" width="16" height="16" aria-hidden="true"><use id="dlIcon" href="#i-dl"/></svg>
+      <span class="spin" aria-hidden="true"></span>
+      <span id="dlLabel">Скачать UHD</span>
+    </a>
+    <span id="lbStatus" class="lb-status num" aria-live="polite"></span>
+  </div>
+  <div class="hints" aria-hidden="true"><kbd>←</kbd><kbd>→</kbd><kbd>F</kbd><kbd>D</kbd><kbd>0</kbd><kbd>Esc</kbd><span>· колесо — зум</span></div>
+</dialog>
+
+<noscript><div class="error" style="position:fixed;left:16px;right:16px;top:38%;z-index:99"><h2>Нужен JavaScript</h2><p>Для работы архива необходим JavaScript.</p></div></noscript>
+
+<script>
+(function(){'use strict';
+/* ---------- утилиты ---------- */
+var $=function(s){return document.querySelector(s)};
+var html=document.documentElement;
+var RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var SDA=window.CSS&&CSS.supports&&CSS.supports('animation-timeline','view()');
+var VT=typeof document.startViewTransition==='function'&&!RM;
+var clamp=function(v,a,b){return v<a?a:v>b?b:v};
+var mod=function(i,n){return ((i%n)+n)%n};
+
+var grid=$('#grid'),sentinel=$('#sentinel'),endcap=$('#endcap'),errorBox=$('#error'),errMsg=$('#errMsg'),errHint=$('#errHint'),countEl=$('#count'),prog=$('#prog');
+var dialog=$('#lb'),stage=$('#stage'),lbImg=$('#lbImg'),lbDate=$('#lbDate'),lbCount=$('#lbCount'),lbStatus=$('#lbStatus');
+var dlBtn=$('#dlBtn'),dlIcon=$('#dlIcon'),dlLabel=$('#dlLabel'),fsBtn=$('#fsBtn'),fsIcon=$('#fsIcon'),zoomReset=$('#zoomReset');
+var toTop=$('#toTop'),themeBtn=$('#themeBtn'),themeIcon=$('#themeIcon'),seg=$('#seg');
+var segBtns=[].slice.call(seg.querySelectorAll('button'));
+var ambs=[$('#ambA'),$('#ambB')],ambSide=0;
+
+var BATCH=48,entries=[],total=0,rendered=0,cur=0,openedIdx=0,navToken=0,closing=false,lastFocus=null,vtBusy=false;
+var revealIO=null,sentIO=null,baseDims='',statusBase='',statusPulse=false;
+var dl={busy:false,cors:false,ctrl:null};
+var z={s:1,x:0,y:0},smoothT=0;
+var dateCache=new Map();
+var fmt=new Intl.DateTimeFormat('ru-RU',{day:'numeric',month:'long',year:'numeric'});
+
+function human(e){
+  if(dateCache.has(e.img_id))return dateCache.get(e.img_id);
+  var m=/^(\d{4})(\d{2})(\d{2})/.exec(e.sort_key||'');
+  var s=m?fmt.format(new Date(+m[1],+m[2]-1,+m[3])).replace(' г.',''):'Без даты';
+  dateCache.set(e.img_id,s);return s;
+}
+function plural(n,f){var a=n%10,b=n%100;return a===1&&b!==11?f[0]:a>=2&&a<=4&&(b<12||b>14)?f[1]:f[2]}
+
+/* ---------- переходы представления ---------- */
+function clearNames(){lbImg.style.viewTransitionName='';var a=grid.querySelectorAll('[style*="view-transition-name"]');for(var i=0;i<a.length;i++)a[i].style.viewTransitionName=''}
+function vt(update,after){
+  if(!VT||vtBusy){update();if(after)after();return}
+  vtBusy=true;var t;
+  try{t=document.startViewTransition(function(){html.classList.add('vt');update()})}
+  catch(e){html.classList.remove('vt');vtBusy=false;update();if(after)after();return}
+  var done=function(){html.classList.remove('vt');vtBusy=false;clearNames();if(after)after()};
+  t.finished.then(done,done);
+}
+
+/* ---------- тема / плотность ---------- */
+function applyTheme(t){
+  html.dataset.theme=t;
+  $('#metaTheme').content=t==='light'?'#f4f2ed':'#0c0f14';
+  themeIcon.setAttribute('href',t==='light'?'#i-moon':'#i-sun');
+  var l=t==='light'?'Тёмная тема':'Светлая тема';
+  themeBtn.title=l;themeBtn.setAttribute('aria-label',l);
+  try{localStorage.setItem('gorizont:theme',t)}catch(e){}
+}
+themeBtn.addEventListener('click',function(){
+  var next=html.dataset.theme==='light'?'dark':'light';
+  if(!VT||vtBusy){applyTheme(next);return}
+  var r=themeBtn.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;
+  html.style.setProperty('--vx',cx+'px');html.style.setProperty('--vy',cy+'px');
+  html.style.setProperty('--vr',Math.hypot(Math.max(cx,innerWidth-cx),Math.max(cy,innerHeight-cy))+'px');
+  html.classList.add('tv');vtBusy=true;
+  var t;
+  try{t=document.startViewTransition(function(){applyTheme(next)})}
+  catch(e){html.classList.remove('tv');vtBusy=false;applyTheme(next);return}
+  var done=function(){html.classList.remove('tv');vtBusy=false};
+  t.finished.then(done,done);
+});
+function applyDensity(d){
+  html.dataset.density=d;
+  seg.style.setProperty('--i',d==='compact'?1:0);
+  segBtns.forEach(function(b){var on=b.dataset.density===d;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on)});
+  try{localStorage.setItem('gorizont:density',d)}catch(e){}
+}
+segBtns.forEach(function(b){b.addEventListener('click',function(){applyDensity(b.dataset.density)})});
+applyTheme(html.dataset.theme||'dark');
+applyDensity(html.dataset.density||'comfortable');
+
+/* ---------- загрузка данных ---------- */
+function showSkeleton(){
+  grid.hidden=false;errorBox.hidden=true;sentinel.hidden=false;endcap.hidden=true;grid.innerHTML='';
+  var f=document.createDocumentFragment();
+  for(var i=0;i<12;i++){var d=document.createElement('div');d.className='cell skel';if(i===0)d.classList.add('lead');f.appendChild(d)}
+  grid.appendChild(f);
+}
+function initObservers(){
+  if(!SDA){
+    if(!revealIO)revealIO=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');revealIO.unobserve(en.target)}})},{threshold:.05,rootMargin:'0px 0px -20px 0px'});
+    else revealIO.disconnect();
+  }
+  if(!sentIO)sentIO=new IntersectionObserver(function(es){if(es[0].isIntersecting&&rendered<total)renderMore()},{rootMargin:'1500px 0px'});
+  sentIO.observe(sentinel);
+}
+function renderMore(){
+  if(rendered>=total)return;
+  var start=rendered,end=Math.min(total,rendered+BATCH),f=document.createDocumentFragment(),cells=[];
+  for(var i=start;i<end;i++){
+    var e=entries[i],b=document.createElement('button');
+    b.type='button';b.className='cell'+(i===0?' lead':'');b.dataset.idx=i;
+    b.style.setProperty('--d',Math.min((i-start)*32,300)+'ms');
+    b.setAttribute('aria-label','Открыть обои: '+human(e));
+    var im=document.createElement('img');
+    im.loading='lazy';im.decoding='async';im.alt='';im.draggable=false;im.src=e.preview;
+    im.addEventListener('load',function(ev){ev.currentTarget.parentNode.classList.add('loaded')},{once:true});
+    im.addEventListener('error',function(ev){var p=ev.currentTarget.parentNode;p.classList.add('loaded');ev.currentTarget.classList.add('broken');p.disabled=true},{once:true});
+    if(im.complete&&im.naturalWidth)b.classList.add('loaded');
+    b.appendChild(im);f.appendChild(b);cells.push(b);
+  }
+  grid.appendChild(f);
+  if(revealIO)cells.forEach(function(c){revealIO.observe(c)});else cells.forEach(function(c){c.classList.add('in')});
+  rendered=end;
+  if(rendered>=total){sentinel.hidden=true;endcap.hidden=false;if(sentIO)sentIO.unobserve(sentinel)}
+}
+function ensureRendered(n){while(rendered<n&&rendered<total)renderMore()}
+function boot(){
+  showSkeleton();countEl.textContent='…';
+  fetch('data.json',{cache:'no-cache'}).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);return r.json();
+  }).then(function(data){
+    entries=Object.keys(data).map(function(k){return data[k]}).filter(function(e){return e&&e.url&&e.preview})
+      .sort(function(a,b){return String(b.sort_key||'').localeCompare(String(a.sort_key||''))});
+    if(!entries.length)throw new Error('архив пуст');
+    total=entries.length;rendered=0;dateCache.clear();grid.innerHTML='';
+    countEl.textContent=total+' '+plural(total,['изображение','изображения','изображений']);
+    initObservers();renderMore();handleHash();
+  }).catch(function(err){
+    grid.hidden=true;sentinel.hidden=true;endcap.hidden=true;errorBox.hidden=false;
+    errMsg.textContent='Проверьте соединение и попробуйте ещё раз.'+(err&&err.message?' ('+err.message+')':'');
+    errHint.hidden=location.protocol!=='file:';
+    if(location.protocol==='file:')errMsg.textContent='Откройте сайт через локальный сервер:';
+    countEl.textContent='—';
+  });
+}
+$('#retryBtn').addEventListener('click',boot);
+grid.addEventListener('click',function(e){
+  var c=e.target.closest('.cell');
+  if(!c||c.disabled||c.classList.contains('skel'))return;
+  openLB(+c.dataset.idx);
+});
+
+/* ---------- блик под курсором ---------- */
+if(matchMedia('(hover:hover)').matches&&!RM){
+  var sheenCell=null,sheenQ=false,sx=0,sy=0;
+  grid.addEventListener('pointermove',function(e){
+    var c=e.target.closest('.cell');if(!c||c.classList.contains('skel'))return;
+    sheenCell=c;sx=e.clientX;sy=e.clientY;
+    if(sheenQ)return;sheenQ=true;
+    requestAnimationFrame(function(){
+      sheenQ=false;if(!sheenCell)return;
+      var r=sheenCell.getBoundingClientRect();
+      sheenCell.style.setProperty('--mx',(sx-r.left)+'px');
+      sheenCell.style.setProperty('--my',(sy-r.top)+'px');
+    });
+  },{passive:true});
+  grid.addEventListener('pointerleave',function(){sheenCell=null},{passive:true});
+}
+
+/* ---------- прогресс / наверх ---------- */
+var tick=false;
+function onScroll(){
+  if(tick)return;tick=true;
+  requestAnimationFrame(function(){
+    tick=false;
+    var h=document.documentElement.scrollHeight-innerHeight;
+    if(!SDA||RM)prog.style.transform='scaleX('+(h>0?clamp(scrollY/h,0,1):0)+')';
+    toTop.classList.toggle('show',scrollY>900);
+  });
+}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',onScroll,{passive:true});
+toTop.addEventListener('click',function(){scrollTo({top:0,behavior:RM?'auto':'smooth'})});
+
+/* ---------- хэш ---------- */
+function setHash(e){try{history.replaceState(null,'','#'+encodeURIComponent(e.img_id))}catch(_){}}
+function clearHash(){try{history.replaceState(null,'',location.pathname+location.search)}catch(_){}}
+function handleHash(){
+  var h=location.hash.slice(1);if(!h)return;
+  var id;try{id=decodeURIComponent(h)}catch(_){id=h}
+  for(var i=0;i<entries.length;i++)if(entries[i].img_id===id){ensureRendered(i+1);openLB(i);return}
+}
+
+/* ---------- ambient ---------- */
+function setAmbient(url){
+  if(!url){ambs.forEach(function(a){a.classList.remove('on')});return}
+  var next=ambs[ambSide^1],old=ambs[ambSide];
+  next.style.backgroundImage='url("'+url+'")';
+  next.classList.add('on');old.classList.remove('on');ambSide^=1;
+}
+
+/* ---------- статус / кнопка ---------- */
+function renderStatus(){
+  lbStatus.textContent=statusBase+(z.s>1.02?' · ×'+z.s.toFixed(1):'');
+  lbStatus.classList.toggle('pulse',statusPulse);
+}
+function setStatus(t,pulse){statusBase=t||'';statusPulse=!!pulse;renderStatus()}
+function setDlState(s,pct){
+  dlBtn.dataset.state=s;
+  var m={idle:['#i-dl','Скачать UHD','Скачать в 4K'],loading:['#i-dl','Скачивание',''],
+         success:['#i-ok','Сохранено',''],open:['#i-ext','Открыть UHD','Откроется в новой вкладке']}[s];
+  dlIcon.setAttribute('href',m[0]);
+  dlLabel.textContent=s==='loading'&&pct!=null?'Скачивание '+pct+'%':m[1];
+  dlBtn.title=m[2];dlBtn.setAttribute('aria-label',dlLabel.textContent);
+  dlBtn.style.setProperty('--p',s==='loading'?(pct||0)/100:0);
+}
+function abortDL(){if(dl.ctrl){dl.ctrl.abort();dl.ctrl=null}}
+
+/* ---------- масштаб ---------- */
+function applyZ(){
+  lbImg.style.transform='translate3d('+z.x+'px,'+z.y+'px,0) scale('+z.s+')';
+  var zoomed=z.s>1.02;
+  stage.classList.toggle('zoomed',zoomed);
+  zoomReset.hidden=!zoomed;
+  renderStatus();
+}
+function clampPan(){
+  var bw=lbImg.offsetWidth||0,bh=lbImg.offsetHeight||0;
+  var mx=Math.max(0,bw*(z.s-1)/2),my=Math.max(0,bh*(z.s-1)/2);
+  z.x=clamp(z.x,-mx,mx);z.y=clamp(z.y,-my,my);
+}
+function resetZoom(){z.s=1;z.x=0;z.y=0;stage.classList.remove('drag');applyZ()}
+function smooth(){lbImg.classList.add('smooth');clearTimeout(smoothT);smoothT=setTimeout(function(){lbImg.classList.remove('smooth')},450)}
+function setZoom(ns,ax,ay){
+  ns=clamp(ns,1,6);
+  var r=lbImg.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,k=ns/z.s;
+  if(ax!=null){z.x+=(ax-cx)*(1-k);z.y+=(ay-cy)*(1-k)}
+  z.s=ns;if(z.s<=1.001){z.s=1;z.x=0;z.y=0}
+  clampPan();applyZ();
+}
+stage.addEventListener('wheel',function(e){
+  if(!dialog.open)return;
+  e.preventDefault();
+  var d=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?innerHeight:1);
+  setZoom(z.s*Math.exp(-d*.0016),e.clientX,e.clientY);
+},{passive:false});
+lbImg.addEventListener('dblclick',function(e){
+  smooth();
+  if(z.s>1.02)resetZoom();else setZoom(2.6,e.clientX,e.clientY);
+});
+zoomReset.addEventListener('click',function(){smooth();resetZoom()});
+
+/* ---------- жесты ---------- */
+var pts=new Map(),gest=null,suppress=false;
+function dist(a,b){return Math.hypot(a.x-b.x,a.y-b.y)}
+stage.addEventListener('pointerdown',function(e){
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  try{stage.setPointerCapture(e.pointerId)}catch(_){}
+  suppress=false;
+  if(pts.size===2){var v=[].concat.apply([],[Array.from(pts.values())]);gest={t:'pinch',d:dist(v[0],v[1]),s:z.s}}
+  else if(pts.size===1){gest={t:z.s>1.02?'pan':'swipe',x:e.clientX,y:e.clientY,ox:z.x,oy:z.y};if(z.s>1.02)stage.classList.add('drag')}
+});
+stage.addEventListener('pointermove',function(e){
+  if(!pts.has(e.pointerId)||!gest)return;
+  pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(gest.t==='pinch'&&pts.size>=2){
+    var v=Array.from(pts.values()),d=dist(v[0],v[1]);
+    if(gest.d>0)setZoom(gest.s*(d/gest.d),(v[0].x+v[1].x)/2,(v[0].y+v[1].y)/2);
+    suppress=true;
+  }else if(gest.t==='pan'){
+    z.x=gest.ox+(e.clientX-gest.x);z.y=gest.oy+(e.clientY-gest.y);
+    clampPan();applyZ();suppress=true;
+  }else if(gest.t==='swipe'){
+    if(Math.abs(e.clientX-gest.x)>10||Math.abs(e.clientY-gest.y)>10)suppress=true;
+  }
+});
+function endPtr(e){
+  if(!pts.has(e.pointerId))return;
+  pts.delete(e.pointerId);
+  if(gest&&gest.t==='swipe'&&pts.size===0){
+    var dx=e.clientX-gest.x,dy=e.clientY-gest.y;
+    if(Math.abs(dx)>56&&Math.abs(dx)>Math.abs(dy)*1.2)navTo(cur+(dx<0?1:-1));
+  }
+  if(pts.size===0){gest=null;stage.classList.remove('drag')}
+  else{var p=Array.from(pts.values())[0];gest={t:z.s>1.02?'pan':'swipe',x:p.x,y:p.y,ox:z.x,oy:z.y};suppress=true}
+}
+stage.addEventListener('pointerup',endPtr);
+stage.addEventListener('pointercancel',endPtr);
+stage.addEventListener('click',function(e){if(e.target===stage&&!suppress)closeLB()});
+
+/* ---------- содержимое лайтбокса ---------- */
+function loadUHD(e,token,dims){
+  var u=new Image();u.decoding='async';
+  u.onload=function(){if(token!==navToken)return;lbImg.src=e.url;baseDims=u.naturalWidth+' × '+u.naturalHeight+' · UHD';setStatus(baseDims,false)};
+  u.onerror=function(){if(token!==navToken)return;baseDims=dims+' · превью';setStatus(baseDims,false)};
+  u.src=e.url;
+}
+function navTo(i,instant){
+  cur=mod(i,total);navToken++;
+  var token=navToken,e=entries[cur];
+  abortDL();dl.busy=false;setDlState(dl.cors?'open':'idle');
+  resetZoom();
+  lbDate.textContent=human(e);
+  lbCount.textContent=(cur+1)+' / '+total;
+  dlBtn.href=e.url;dlBtn.setAttribute('download',e.img_id+'_UHD.jpg');
+  lbImg.alt='Обои Bing — '+human(e);
+  setAmbient(e.preview);
+  setStatus('',false);
+  if(instant){lbImg.src=e.preview;lbImg.classList.remove('fade');stage.classList.remove('loading')}
+  else{lbImg.classList.add('fade');stage.classList.add('loading')}
+  var pre=new Image();pre.decoding='async';
+  pre.onload=function(){
+    if(token!==navToken)return;
+    var dims=pre.naturalWidth+' × '+pre.naturalHeight;
+    if(!instant){
+      lbImg.src=e.preview;
+      requestAnimationFrame(function(){if(token!==navToken)return;lbImg.classList.remove('fade');stage.classList.remove('loading')});
+    }
+    baseDims=dims+' · загрузка 4K…';setStatus(baseDims,true);
+    loadUHD(e,token,dims);
+  };
+  pre.onerror=function(){if(token!==navToken)return;stage.classList.remove('loading');lbImg.classList.add('fade');setStatus('Не удалось загрузить изображение',false)};
+  pre.src=e.preview;
+  [cur-1,cur+1].forEach(function(k){var n=entries[mod(k,total)];if(n){var p=new Image();p.src=n.preview}});
+  setHash(e);
+}
+function openDialog(){
+  if(typeof dialog.showModal==='function'){if(!dialog.open)dialog.showModal()}
+  else dialog.setAttribute('open','');
+  document.body.classList.add('locked');
+  syncFS();
+  dialog.focus({preventScroll:true});
+}
+function openLB(i){
+  if(!total||dialog.open)return;
+  lastFocus=document.activeElement;openedIdx=i;
+  ensureRendered(i+1);
+  var cell=grid.querySelector('.cell[data-idx="'+i+'"]'),thumb=cell?cell.querySelector('img'):null;
+  navTo(i,true);
+  var show=function(){
+    if(thumb)thumb.style.viewTransitionName='wall';
+    vt(function(){
+      if(thumb)thumb.style.viewTransitionName='';
+      lbImg.style.viewTransitionName='wall';
+      openDialog();
+    });
+  };
+  if(lbImg.decode)lbImg.decode().then(show,show);else show();
+}
+function closeLB(){
+  if(!dialog.open||closing)return;
+  closing=true;abortDL();navToken++;
+  var idx=cur,changed=idx!==openedIdx;
+  ensureRendered(idx+1);
+  var cell=grid.querySelector('.cell[data-idx="'+idx+'"]'),thumb=cell?cell.querySelector('img'):null;
+  if(changed&&cell)cell.scrollIntoView({block:'center',behavior:'auto'});
+  var finish=function(){
+    lbImg.style.viewTransitionName='wall';
+    vt(function(){
+      lbImg.style.viewTransitionName='';
+      if(thumb)thumb.style.viewTransitionName='wall';
+      try{dialog.close()}catch(_){dialog.removeAttribute('open')}
+    });
+  };
+  var wait=(thumb&&!thumb.complete)?new Promise(function(res){
+    thumb.addEventListener('load',res,{once:true});thumb.addEventListener('error',res,{once:true});setTimeout(res,450);
+  }):Promise.resolve();
+  wait.then(function(){requestAnimationFrame(function(){requestAnimationFrame(finish)})});
+}
+dialog.addEventListener('cancel',function(e){
+  e.preventDefault();
+  if(document.fullscreenElement||document.webkitFullscreenElement){exitFS();return}
+  closeLB();
+});
+dialog.addEventListener('close',function(){
+  closing=false;
+  document.body.classList.remove('locked');
+  exitFS();clearHash();resetZoom();
+  lbImg.classList.add('fade');stage.classList.remove('loading');
+  setStatus('',false);setAmbient(null);
+  pts.clear();gest=null;
+  var idx=cur,cell=grid.querySelector('.cell[data-idx="'+idx+'"]');
+  if(idx!==openedIdx&&cell){
+    cell.classList.add('peek');setTimeout(function(){cell.classList.remove('peek')},1800);
+    cell.focus({preventScroll:true});
+  }else if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true});
+  lastFocus=null;
+  setTimeout(function(){if(!dialog.open)lbImg.removeAttribute('src')},500);
+});
+$('#closeBtn').addEventListener('click',closeLB);
+$('#prevBtn').addEventListener('click',function(){navTo(cur-1)});
+$('#nextBtn').addEventListener('click',function(){navTo(cur+1)});
+
+/* ---------- клавиатура ---------- */
+dialog.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft'){e.preventDefault();navTo(cur-1);return}
+  if(e.key==='ArrowRight'){e.preventDefault();navTo(cur+1);return}
+  var k=e.key.toLowerCase();
+  if(k==='f'||k==='а'){e.preventDefault();if(fsOK)toggleFS()}
+  else if(k==='d'||k==='в'){e.preventDefault();if(!dl.busy){if(dl.cors)window.open(entries[cur].url,'_blank','noopener');else startDownload()}}
+  else if(k==='0'||k==='escape'&&z.s>1.02){if(k==='0'){e.preventDefault();smooth();resetZoom()}}
+  else if(k==='+'||k==='='){e.preventDefault();smooth();var r=lbImg.getBoundingClientRect();setZoom(z.s*1.4,r.left+r.width/2,r.top+r.height/2)}
+  else if(k==='-'||k==='_'){e.preventDefault();smooth();var r2=lbImg.getBoundingClientRect();setZoom(z.s/1.4,r2.left+r2.width/2,r2.top+r2.height/2)}
+});
+
+/* ---------- полный экран ---------- */
+var fsOK=!!(dialog.requestFullscreen||dialog.webkitRequestFullscreen);
+if(!fsOK)fsBtn.hidden=true;
+function exitFS(){
+  if(document.fullscreenElement||document.webkitFullscreenElement){
+    try{var f=document.exitFullscreen||document.webkitExitFullscreen;if(f)f.call(document)}catch(_){}
+  }
+}
+function toggleFS(){
+  if(document.fullscreenElement||document.webkitFullscreenElement){exitFS();return}
+  try{var f=dialog.requestFullscreen||dialog.webkitRequestFullscreen;if(f)f.call(dialog)}catch(_){}
+}
+function syncFS(){
+  var on=!!(document.fullscreenElement||document.webkitFullscreenElement);
+  fsIcon.setAttribute('href',on?'#i-comp':'#i-exp');
+  var l=on?'Выйти из полного экрана':'Полный экран';
+  fsBtn.title=l+' (F)';fsBtn.setAttribute('aria-label',l);
+}
+fsBtn.addEventListener('click',toggleFS);
+document.addEventListener('fullscreenchange',syncFS);
+document.addEventListener('webkitfullscreenchange',syncFS);
+
+/* ---------- скачивание с прогрессом и CORS-фолбэком ---------- */
+dlBtn.addEventListener('click',function(e){
+  if(dl.cors)return;
+  e.preventDefault();
+  if(!dl.busy)startDownload();
+});
+function startDownload(){
+  var e=entries[cur],token=navToken;
+  dl.busy=true;setDlState('loading',0);
+  var ctrl=new AbortController();dl.ctrl=ctrl;
+  fetch(e.url,{signal:ctrl.signal,mode:'cors',credentials:'omit'}).then(function(r){
+    if(!r.ok)throw new Error('HTTP '+r.status);
+    var len=parseInt(r.headers.get('content-length')||'0',10);
+    if(!r.body||!len||!r.body.getReader)return r.blob();
+    var reader=r.body.getReader(),chunks=[],got=0,last=-1;
+    function pump(){
+      return reader.read().then(function(res){
+        if(res.done)return new Blob(chunks,{type:r.headers.get('content-type')||'image/jpeg'});
+        chunks.push(res.value);got+=res.value.length;
+        var p=Math.min(99,Math.round(got/len*100));
+        if(p!==last&&token===navToken){last=p;setDlState('loading',p)}
+        return pump();
+      });
+    }
+    return pump();
+  }).then(function(blob){
+    if(ctrl.signal.aborted||token!==navToken)return;
+    var u=URL.createObjectURL(blob),a=document.createElement('a');
+    a.href=u;a.download=e.img_id+'_UHD.jpg';
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(function(){URL.revokeObjectURL(u)},5000);
+    if(token===navToken){
+      setDlState('success');
+      setTimeout(function(){if(token===navToken&&!dl.busy)setDlState(dl.cors?'open':'idle')},1700);
+    }
+  }).catch(function(){
+    if(ctrl.signal.aborted||token!==navToken)return;
+    dl.cors=true;setDlState('open');
+    window.open(e.url,'_blank','noopener');
+  }).then(function(){if(dl.ctrl===ctrl)dl.ctrl=null;dl.busy=false});
+}
+
+/* ---------- старт ---------- */
+boot();onScroll();
+})();
+</script>
 </body>
 </html>
