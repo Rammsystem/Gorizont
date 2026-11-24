@@ -34,7 +34,7 @@
             --ctl-bg: rgba(60, 60, 67, 0.12);
             --ctl-bg-hover: rgba(60, 60, 67, 0.2);
             --ctl-fg: #1d1d1f;
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 12px 32px rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 24px 48px rgba(0, 0, 0, 0.22);
             --gap: 20px;
             --pad: clamp(16px, 3vw, 44px);
             --radius: 18px;
@@ -52,7 +52,7 @@
                 --ctl-bg: rgba(120, 120, 128, 0.32);
                 --ctl-bg-hover: rgba(120, 120, 128, 0.48);
                 --ctl-fg: #f5f5f7;
-                --shadow: none;
+                --shadow: 0 0 0 1px rgba(255, 255, 255, 0.16), 0 24px 48px rgba(0, 0, 0, 0.7);
             }
         }
 
@@ -103,7 +103,7 @@
             content-visibility: auto;
             contain-intrinsic-size: auto 200px;
             -webkit-tap-highlight-color: transparent;
-            transition: transform 0.5s var(--spring), box-shadow 0.5s var(--spring);
+            transition: transform 0.45s var(--spring), box-shadow 0.45s var(--spring), opacity 0.3s ease;
         }
 
         .card img {
@@ -119,14 +119,17 @@
 
         @media (hover: hover) {
             .card:hover {
-                transform: scale(1.025);
+                z-index: 1;
+                transform: scale(1.04);
                 box-shadow: var(--shadow);
             }
+
+            .grid:has(.card:hover) .card:not(:hover) { opacity: 0.55; }
         }
 
         .card:active { transform: scale(0.98); transition-duration: 0.15s; }
 
-        .card:focus-visible {
+        html[data-kb] .card:focus-visible {
             outline: 3px solid var(--accent);
             outline-offset: 3px;
         }
@@ -216,9 +219,11 @@
         .close:active,
         .nav-btn:active { transform: scale(0.92); }
 
-        .close:focus-visible,
-        .nav-btn:focus-visible,
-        .action-btn:focus-visible {
+        .lightbox button:focus { outline: none; }
+
+        html[data-kb] .close:focus-visible,
+        html[data-kb] .nav-btn:focus-visible,
+        html[data-kb] .action-btn:focus-visible {
             outline: 3px solid var(--accent);
             outline-offset: 3px;
         }
@@ -315,6 +320,9 @@
     </dialog>
 
     <script>
+        document.addEventListener('keydown', () => { document.documentElement.dataset.kb = ''; }, true);
+        document.addEventListener('pointerdown', () => { delete document.documentElement.dataset.kb; }, true);
+
         'use strict';
 
         const gallery = document.getElementById('gallery');
@@ -718,7 +726,19 @@
         }, { passive: true });
 
         viewer.addEventListener('click', event => {
-            if (event.target === viewer) closeViewer();
+            if (event.target === viewer) {
+                closeViewer();
+                return;
+            }
+            if (event.target === bigImage && bigImage.naturalWidth) {
+                const box = bigImage.getBoundingClientRect();
+                const scale = Math.min(box.width / bigImage.naturalWidth, box.height / bigImage.naturalHeight);
+                const w = bigImage.naturalWidth * scale;
+                const h = bigImage.naturalHeight * scale;
+                const x = event.clientX - box.left - (box.width - w) / 2;
+                const y = event.clientY - box.top - (box.height - h) / 2;
+                if (x < 0 || y < 0 || x > w || y > h) closeViewer();
+            }
         });
 
         viewer.addEventListener('close', () => {
