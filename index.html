@@ -103,7 +103,8 @@
             content-visibility: auto;
             contain-intrinsic-size: auto 200px;
             -webkit-tap-highlight-color: transparent;
-            transition: transform 0.45s var(--spring), box-shadow 0.45s var(--spring);
+            transform: translateZ(0);
+            transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
         .card img {
@@ -120,7 +121,7 @@
         @media (hover: hover) {
             .card:hover {
                 z-index: 1;
-                transform: scale(1.03);
+                transform: scale(1.03) translateZ(0);
                 box-shadow: var(--shadow);
             }
         }
@@ -271,10 +272,6 @@
             .close { top: 12px; right: 12px; }
             .nav-btn.prev { left: 10px; }
             .nav-btn.next { right: 10px; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *, *::before, *::after { transition-duration: 0.01ms !important; }
         }
     
 </style>
