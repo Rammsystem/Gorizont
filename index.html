@@ -1,68 +1,814 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Проверка загрузки картинок Bing</title>
-<style>
-  body { font: 16px/1.5 system-ui, sans-serif; max-width: 760px; margin: 32px auto; padding: 0 16px; }
-  h1 { font-size: 22px; }
-  .row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #ddd; }
-  .mark { width: 28px; font-size: 20px; text-align: center; }
-  .name { flex: 1; }
-  .name small { display: block; color: #777; word-break: break-all; }
-  .res { width: 150px; text-align: right; font-variant-numeric: tabular-nums; }
-  pre { background: #f3f3f3; padding: 12px; white-space: pre-wrap; border-radius: 8px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Личный архив Bing Wallpaper UHD">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+    <title>Горизонт | Архив Bing</title>
+    <meta name="referrer" content="no-referrer">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="canonical" href="https://gorizont.isvii.ru/">
+    <link rel="dns-prefetch" href="https://www.bing.com">
+    <link rel="preconnect" href="https://www.bing.com">
+    <link rel="preload" href="data.json" as="fetch" crossorigin="anonymous">
+
+    <meta property="og:title" content="Горизонт | Архив Bing">
+    <meta property="og:description" content="Коллекция лучших обоев Bing в формате UHD.">
+    <meta property="og:url" content="https://gorizont.isvii.ru/">
+    <meta property="og:image" content="https://gorizont.isvii.ru/favicon.png">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <style>
+        :root {
+            color-scheme: light dark;
+            --bg: #f5f5f7;
+            --surface: #e8e8ed;
+            --text: #1d1d1f;
+            --muted: #6e6e73;
+            --accent: #0071e3;
+            --accent-hover: #0077ed;
+            --ctl-bg: rgba(60, 60, 67, 0.12);
+            --ctl-bg-hover: rgba(60, 60, 67, 0.2);
+            --ctl-fg: #1d1d1f;
+            --shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+            --gap: 20px;
+            --pad: clamp(16px, 3vw, 44px);
+            --radius: 18px;
+            --spring: cubic-bezier(0.32, 0.72, 0, 1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #000;
+                --surface: #1c1c1e;
+                --text: #f5f5f7;
+                --muted: #86868b;
+                --accent: #2997ff;
+                --accent-hover: #4aa8ff;
+                --ctl-bg: rgba(120, 120, 128, 0.32);
+                --ctl-bg-hover: rgba(120, 120, 128, 0.48);
+                --ctl-fg: #f5f5f7;
+                --shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        html {
+            scrollbar-gutter: stable;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: var(--bg);
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 0 var(--pad) var(--pad);
+            color: var(--text);
+            background: var(--bg);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+        }
+
+        .top { padding: clamp(28px, 4vw, 56px) 0 clamp(20px, 2.5vw, 32px); }
+
+        h1 {
+            margin: 0;
+            font-size: clamp(40px, 6vw, 64px);
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -0.035em;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+            gap: var(--gap);
+        }
+
+        .card {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            padding: 0;
+            overflow: hidden;
+            border: 0;
+            border-radius: var(--radius);
+            background: var(--surface);
+            cursor: pointer;
+            content-visibility: auto;
+            contain-intrinsic-size: auto 200px;
+            -webkit-tap-highlight-color: transparent;
+            transform: translateZ(0);
+            transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .card img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .card img.loaded { opacity: 1; }
+
+        @media (hover: hover) {
+            .card:hover {
+                z-index: 1;
+                transform: scale(1.03) translateZ(0);
+                box-shadow: var(--shadow);
+            }
+        }
+
+        .card:active { transform: scale(0.98); transition-duration: 0.15s; }
+
+        html[data-kb] .card:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            width: 100%;
+            height: 100%;
+            max-width: none;
+            max-height: none;
+            margin: 0;
+            padding: 24px 88px 96px;
+            border: 0;
+            background: transparent;
+            color: var(--text);
+        }
+
+        .lightbox[open] {
+            display: grid;
+            grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+        }
+
+        .lightbox::backdrop {
+            background: rgba(245, 245, 247, 0.86);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            backdrop-filter: blur(40px) saturate(180%);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .lightbox::backdrop { background: rgba(0, 0, 0, 0.82); }
+        }
+
+        .lightbox img {
+            width: 100%;
+            height: 100%;
+            min-width: 0;
+            min-height: 0;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .close,
+        .nav-btn {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            border-radius: 50%;
+            background: var(--ctl-bg);
+            color: var(--ctl-fg);
+            cursor: pointer;
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.2s var(--spring);
+        }
+
+        .close { top: 20px; right: 20px; }
+        .nav-btn { top: 50%; margin-top: -20px; }
+        .nav-btn.prev { left: 24px; }
+        .nav-btn.next { right: 24px; }
+
+        .close svg,
+        .nav-btn svg {
+            display: block;
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .close:hover,
+        .nav-btn:hover { background: var(--ctl-bg-hover); }
+
+        .close:active,
+        .nav-btn:active { transform: scale(0.92); }
+
+        .lightbox button:focus { outline: none; }
+
+        html[data-kb] .close:focus-visible,
+        html[data-kb] .nav-btn:focus-visible,
+        html[data-kb] .action-btn:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 3px;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .controls {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: max(28px, env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: center;
+        }
+
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0 24px;
+            color: #fff;
+            font: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            border: 0;
+            border-radius: 980px;
+            background: var(--accent);
+            cursor: pointer;
+            transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.2s var(--spring);
+        }
+
+        .action-btn:hover { background: var(--accent-hover); }
+        .action-btn:active { transform: scale(0.97); }
+        .action-btn.loading { opacity: 0.55; pointer-events: none; }
+
+        .status { color: var(--muted); text-align: center; grid-column: 1 / -1; padding: 48px 0; }
+
+        @media (max-width: 600px) {
+            :root { --gap: 12px; --radius: 14px; }
+            .lightbox { padding: 72px 0 96px; }
+            .close { top: 12px; right: 12px; }
+            .nav-btn.prev { left: 10px; }
+            .nav-btn.next { right: 10px; }
+        }
+    
 </style>
 </head>
+
 <body>
-<h1>Проверка загрузки картинок Bing</h1>
-<p>Страница пробует загрузить одну и ту же обоину разными способами. Откройте её без VPN, подождите несколько секунд и пришлите скриншот или текст из рамки внизу.</p>
-<div id="list"></div>
-<pre id="report">Идёт проверка…</pre>
+    <header class="top">
+        <h1>Горизонт</h1>
+    </header>
 
-<script>
-const ID = 'OHR.SunsetPoint_JA-JP7278727628';
-const tests = [
-  { name: '1080p, без referrer (как на сайте)', url: `https://www.bing.com/th/id/${ID}_1920x1080.jpg`, rp: 'no-referrer' },
-  { name: '1080p, обычный referrer', url: `https://www.bing.com/th/id/${ID}_1920x1080.jpg`, rp: '' },
-  { name: 'Превью с параметрами (как сейчас на сайте)', url: `https://www.bing.com/th/id/${ID}_1920x1080.jpg?w=480&h=270&rs=1&c=7`, rp: 'no-referrer' },
-  { name: 'Вариант адреса /th?id=', url: `https://www.bing.com/th?id=${ID}_1920x1080.jpg`, rp: 'no-referrer' },
-  { name: 'UHD', url: `https://www.bing.com/th/id/${ID}_UHD.jpg`, rp: 'no-referrer' },
-  { name: 'Эксперимент: другой сервер Bing (tse1.mm.bing.net), превью', url: `https://tse1.mm.bing.net/th?id=${ID}_1920x1080.jpg&w=480&h=270&c=7`, rp: 'no-referrer' },
-  { name: 'Эксперимент: другой сервер Bing (tse2.mm.bing.net), 1080p', url: `https://tse2.mm.bing.net/th?id=${ID}_1920x1080.jpg`, rp: 'no-referrer' },
-];
+    <main class="grid" id="gallery" aria-busy="true"></main>
 
-const list = document.getElementById('list');
-const report = document.getElementById('report');
-const lines = [];
-let pending = tests.length;
+    <noscript>
+        <p class="status">Для работы архива необходим JavaScript.</p>
+    </noscript>
 
-tests.forEach((t, i) => {
-  const row = document.createElement('div');
-  row.className = 'row';
-  row.innerHTML = `<div class="mark">…</div><div class="name">${i + 1}. ${t.name}<small>${t.url}</small></div><div class="res">ждём</div>`;
-  list.append(row);
-  const mark = row.querySelector('.mark');
-  const res = row.querySelector('.res');
-  const started = performance.now();
-  const img = new Image();
-  img.referrerPolicy = t.rp;
-  const done = ok => {
-    const ms = Math.round(performance.now() - started);
-    mark.textContent = ok ? '✅' : '❌';
-    res.textContent = ok ? `${img.naturalWidth}×${img.naturalHeight}, ${ms} мс` : `ошибка, ${ms} мс`;
-    lines.push(`${i + 1}. ${ok ? 'OK' : 'ОШИБКА'} — ${t.name}`);
-    if (--pending === 0) {
-      lines.sort();
-      report.textContent = lines.join('\n');
-    }
-  };
-  img.onload = () => done(true);
-  img.onerror = () => done(false);
-  setTimeout(() => { if (!img.complete) { img.src = ''; done(false); } }, 20000);
-  img.src = t.url;
-});
-</script>
+    <dialog class="lightbox" id="viewer" aria-label="Просмотр обоев">
+        <button class="close" id="close" type="button" aria-label="Закрыть просмотр">
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+                <path d="M15 5L5 15M5 5l10 10"></path>
+            </svg>
+        </button>
+
+        <button class="nav-btn prev" id="prev" type="button" aria-label="Предыдущее изображение">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M14.5 6.5L9 12l5.5 5.5"></path>
+            </svg>
+        </button>
+        <button class="nav-btn next" id="next" type="button" aria-label="Следующее изображение">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M9.5 6.5L15 12l-5.5 5.5"></path>
+            </svg>
+        </button>
+
+        <img id="bigImage" alt="" referrerpolicy="no-referrer" fetchpriority="high">
+
+        <div class="controls">
+            <button class="action-btn" id="download" type="button">Скачать UHD</button>
+        </div>
+    </dialog>
+
+    <script>
+        document.addEventListener('keydown', () => { document.documentElement.dataset.kb = ''; }, true);
+        document.addEventListener('pointerdown', () => { delete document.documentElement.dataset.kb; }, true);
+
+        'use strict';
+
+        const gallery = document.getElementById('gallery');
+        const viewer = document.getElementById('viewer');
+        const bigImage = document.getElementById('bigImage');
+        const downloadBtn = document.getElementById('download');
+        const closeBtn = document.getElementById('close');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+
+        const PAGE_SIZE = 40;
+
+        let galleryItems = [];
+        let renderedCount = 0;
+        let currentIndex = -1;
+        let blobURL = null;
+        let loadToken = 0;
+        let previouslyFocused = null;
+        let downloadFallbackItem = null;
+        let downloadController = null;
+        let sentinelObserver = null;
+        let activeUhdLoader = null;
+        const preloadedUHD = new Set();
+
+        function setDownloadState(label, isLoading = false) {
+            downloadBtn.textContent = label;
+            downloadBtn.classList.toggle('loading', isLoading);
+        }
+
+        function releaseBlobURL() {
+            if (blobURL) {
+                URL.revokeObjectURL(blobURL);
+                blobURL = null;
+            }
+        }
+
+        function cancelDownload() {
+            if (downloadController) {
+                downloadController.abort();
+                downloadController = null;
+            }
+        }
+
+        function cancelUhdLoader() {
+            if (activeUhdLoader) {
+                activeUhdLoader.onload = null;
+                activeUhdLoader.onerror = null;
+                activeUhdLoader.src = '';
+                activeUhdLoader = null;
+            }
+        }
+
+        async function downloadImage(item) {
+            if (!item?.url) return;
+
+            cancelDownload();
+
+            const controller = new AbortController();
+            downloadController = controller;
+            downloadFallbackItem = null;
+            setDownloadState('Загрузка…', true);
+
+            try {
+                const response = await fetch(item.url, {
+                    referrerPolicy: 'no-referrer',
+                    signal: controller.signal,
+                });
+
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const blob = await response.blob();
+
+                releaseBlobURL();
+                blobURL = URL.createObjectURL(blob);
+
+                const link = document.createElement('a');
+                link.href = blobURL;
+                link.download = `${item.img_id || 'BING_IMAGE'}.jpg`;
+                document.body.appendChild(link);
+                link.click();
+                link.remove();
+
+                setDownloadState('Скачать UHD');
+            } catch (error) {
+                if (error.name === 'AbortError') return;
+                downloadFallbackItem = item;
+                setDownloadState('Открыть UHD');
+            } finally {
+                if (downloadController === controller) {
+                    downloadController = null;
+                    downloadBtn.classList.remove('loading');
+                }
+            }
+        }
+
+        // Запасной сервер изображений Bing. В некоторых сетях www.bing.com
+        // недоступен для картинок, а tse*.mm.bing.net открывается нормально
+        function mirrorUrl(url, n) {
+            return (url || '').replace('https://www.bing.com/th/id/', `https://tse${n}.mm.bing.net/th?id=`);
+        }
+
+        // Загружает UHD: сначала с запасного сервера, при ошибке — с основного
+        function loadUhd(url, priority, onOk, onFail) {
+            const mirror = mirrorUrl(url, 1);
+            const list = mirror && mirror !== url ? [mirror, url] : [url];
+            let i = 0;
+            const img = new Image();
+            img.referrerPolicy = 'no-referrer';
+            img.fetchPriority = priority;
+            img.decoding = 'async';
+            const next = () => {
+                if (i >= list.length) {
+                    if (onFail) onFail();
+                    return;
+                }
+                img.src = list[i++];
+            };
+            img.onload = () => onOk(img.currentSrc || img.src);
+            img.onerror = next;
+            next();
+            return img;
+        }
+
+        function preloadUHD(url) {
+            if (!url || preloadedUHD.has(url)) return;
+            preloadedUHD.add(url);
+            loadUhd(url, 'low', () => {}, () => preloadedUHD.delete(url));
+        }
+
+        function openViewer(index) {
+            const item = galleryItems[index];
+            if (!item) return;
+
+            currentIndex = index;
+            downloadFallbackItem = null;
+            cancelDownload();
+            cancelUhdLoader();
+
+            if (!viewer.open) {
+                previouslyFocused = document.activeElement;
+                viewer.showModal();
+                document.body.style.overflow = 'hidden';
+            }
+
+            const isFirst = index <= 0;
+            const isLast = index >= galleryItems.length - 1;
+
+            if (isLast && document.activeElement === nextBtn) {
+                (!isFirst ? prevBtn : closeBtn).focus();
+            } else if (isFirst && document.activeElement === prevBtn) {
+                (!isLast ? nextBtn : closeBtn).focus();
+            } else if (document.activeElement !== nextBtn && document.activeElement !== prevBtn) {
+                closeBtn.focus();
+            }
+
+            prevBtn.disabled = isFirst;
+            nextBtn.disabled = isLast;
+
+            const token = ++loadToken;
+            bigImage.alt = item.img_id || 'Обои Bing';
+            bigImage.fetchPriority = 'high';
+
+            // Если есть и превью, и UHD — мгновенно показываем превью из кэша, а UHD грузим с высоким приоритетом
+            if (item.preview && item.url && item.preview !== item.url) {
+                bigImage.onload = null;
+                bigImage.onerror = null;
+                bigImage.src = item.preview;
+                bigImage.style.opacity = '1';
+                setDownloadState('Скачать UHD');
+
+                activeUhdLoader = loadUhd(item.url, 'high', workingSrc => {
+                    if (token !== loadToken) return;
+                    activeUhdLoader = null;
+                    bigImage.src = workingSrc;
+                    preloadedUHD.add(item.url);
+                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
+                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
+                }, () => {
+                    if (token !== loadToken) return;
+                    activeUhdLoader = null;
+                });
+            } else {
+                bigImage.style.opacity = '0';
+                setDownloadState('Загрузка…', true);
+
+                const targetSrc = item.url || item.preview;
+
+                bigImage.onload = () => {
+                    if (token !== loadToken) return;
+                    bigImage.style.opacity = '1';
+                    setDownloadState('Скачать UHD');
+                    if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
+                    if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
+                };
+
+                bigImage.onerror = () => {
+                    if (token !== loadToken) return;
+                    if (bigImage.src !== item.preview && item.preview) {
+                        bigImage.src = item.preview;
+                    } else {
+                        setDownloadState('Ошибка загрузки', true);
+                    }
+                };
+
+                bigImage.src = targetSrc;
+            }
+        }
+
+        function closeViewer() {
+            if (viewer.open) viewer.close();
+        }
+
+        function navigate(direction) {
+            const next = currentIndex + direction;
+            if (next < 0 || next >= galleryItems.length) return;
+            openViewer(next);
+        }
+
+        function createCard(item, index) {
+            const card = document.createElement('button');
+            card.className = 'card';
+            card.type = 'button';
+            card.setAttribute('aria-label', `Открыть ${item.img_id || 'обои'}`);
+
+            const img = document.createElement('img');
+            img.alt = '';
+            img.setAttribute('aria-hidden', 'true');
+            img.decoding = 'async';
+            img.referrerPolicy = 'no-referrer';
+
+            if (index < 6) {
+                img.loading = 'eager';
+                img.fetchPriority = index < 2 ? 'high' : 'auto';
+            } else {
+                img.loading = 'lazy';
+            }
+
+            const primarySrc = item.preview || item.url;
+            const plainSrc = item.plain || primarySrc;
+            const mirrorPlain = mirrorUrl(plainSrc, 1 + (index % 2));
+            const mirrorThumb = toThumb(mirrorPlain);
+
+            // Порядок попыток: запасной сервер, основной сервер, затем обычные ссылки без параметров.
+            // Сброс соединения часто разовый, поэтому в конце ещё одна попытка
+            const sources = [
+                mirrorThumb,
+                primarySrc,
+                mirrorPlain,
+                plainSrc,
+                mirrorThumb + '&r=1',
+            ];
+            let attempt = 0;
+            let waiting = false;
+            let timer = null;
+
+            const watch = () => {
+                clearTimeout(timer);
+                timer = setTimeout(advance, 8000);
+            };
+
+            function advance() {
+                if (waiting) return;
+                waiting = true;
+                clearTimeout(timer);
+                attempt++;
+                if (attempt < sources.length) {
+                    setTimeout(() => {
+                        waiting = false;
+                        img.src = sources[attempt];
+                        watch();
+                    }, 300 * attempt);
+                } else {
+                    img.classList.add('loaded');
+                }
+            }
+
+            img.addEventListener('load', () => {
+                clearTimeout(timer);
+                img.classList.add('loaded');
+                // Запоминаем рабочий адрес превью: его же использует просмотрщик
+                item.preview = img.currentSrc || img.src;
+            }, { once: true });
+
+            img.addEventListener('error', advance);
+
+            img.src = sources[0];
+            if (index < 6) watch();
+
+            card.append(img);
+
+            // Предзагружаем UHD только при осознанном наведении (задержка 300 мс),
+            // чтобы при быстром скролле не забивать канал фоновыми 4K-файлами
+            let hoverTimer = null;
+            card.addEventListener('pointerenter', () => {
+                if (preloadedUHD.has(item.url)) return;
+                hoverTimer = setTimeout(() => {
+                    hoverTimer = null;
+                    preloadUHD(item.url);
+                }, 300);
+            });
+            card.addEventListener('pointerleave', () => {
+                if (hoverTimer) {
+                    clearTimeout(hoverTimer);
+                    hoverTimer = null;
+                }
+            });
+
+            card.addEventListener('click', () => openViewer(index));
+            return card;
+        }
+
+        function renderNextBatch() {
+            if (renderedCount >= galleryItems.length) return;
+
+            const nextBatch = galleryItems.slice(renderedCount, renderedCount + PAGE_SIZE);
+            const fragment = document.createDocumentFragment();
+
+            nextBatch.forEach((item, offset) => {
+                fragment.append(createCard(item, renderedCount + offset));
+            });
+
+            renderedCount += nextBatch.length;
+
+            const sentinel = document.getElementById('gallery-sentinel');
+            if (sentinel) {
+                gallery.insertBefore(fragment, sentinel);
+                if (renderedCount >= galleryItems.length) {
+                    sentinel.remove();
+                    if (sentinelObserver) sentinelObserver.disconnect();
+                }
+            } else {
+                gallery.append(fragment);
+            }
+        }
+
+        function setupInfiniteScroll() {
+            if (sentinelObserver) sentinelObserver.disconnect();
+
+            const sentinel = document.createElement('div');
+            sentinel.id = 'gallery-sentinel';
+            sentinel.style.width = '100%';
+            sentinel.style.height = '60px';
+            sentinel.style.gridColumn = '1 / -1';
+            gallery.append(sentinel);
+
+            sentinelObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    renderNextBatch();
+                }
+            }, { rootMargin: '300px 0px' });
+
+            sentinelObserver.observe(sentinel);
+        }
+
+        function toThumb(url) {
+            if (!url) return '';
+            const sep = url.includes('?') ? '&' : '?';
+            return url + sep + 'w=480&h=270&rs=1&c=7';
+        }
+
+        function renderGallery(data) {
+            const rawItems = Array.isArray(data) ? data : Object.values(data || {});
+            const validItems = [];
+
+            for (let i = 0; i < rawItems.length; i++) {
+                const item = rawItems[i];
+                if (item && (item.url || item.preview)) {
+                    validItems.push({
+                        img_id: item.img_id,
+                        url: item.url ? item.url.replace('/th?id=', '/th/id/') : '',
+                        preview: item.preview
+                            ? toThumb(item.preview.replace('/th?id=', '/th/id/'))
+                            : (item.url ? toThumb(item.url.replace('/th?id=', '/th/id/')) : ''),
+                        plain: (item.preview || item.url || '').replace('/th?id=', '/th/id/'),
+                    });
+                }
+            }
+
+            galleryItems = validItems;
+            gallery.setAttribute('aria-busy', 'false');
+
+            if (!validItems.length) {
+                gallery.innerHTML = '<p class="status">Архив пока пуст.</p>';
+                return;
+            }
+
+            renderedCount = 0;
+            gallery.replaceChildren();
+            renderNextBatch();
+
+            if (validItems.length > PAGE_SIZE) {
+                setupInfiniteScroll();
+            }
+        }
+
+        async function loadGallery() {
+            try {
+                const response = await fetch('data.json');
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                renderGallery(data);
+            } catch (error) {
+                console.error('Не удалось загрузить архив:', error);
+                gallery.setAttribute('aria-busy', 'false');
+                gallery.innerHTML = '<p class="status">Ошибка загрузки архива.</p>';
+            }
+        }
+
+        downloadBtn.addEventListener('click', () => {
+            if (downloadFallbackItem?.url) {
+                window.open(downloadFallbackItem.url, '_blank', 'noopener,noreferrer');
+                return;
+            }
+            if (currentIndex >= 0) {
+                downloadImage(galleryItems[currentIndex]);
+            }
+        });
+
+        closeBtn.addEventListener('click', closeViewer);
+        prevBtn.addEventListener('click', () => navigate(-1));
+        nextBtn.addEventListener('click', () => navigate(1));
+
+        let touchStartX = 0;
+        let touchStartY = 0;
+
+        viewer.addEventListener('touchstart', event => {
+            if (event.touches.length === 1) {
+                touchStartX = event.touches[0].clientX;
+                touchStartY = event.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        viewer.addEventListener('touchend', event => {
+            if (!viewer.open || event.changedTouches.length === 0) return;
+            const deltaX = event.changedTouches[0].clientX - touchStartX;
+            const deltaY = event.changedTouches[0].clientY - touchStartY;
+
+            if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
+                navigate(deltaX < 0 ? 1 : -1);
+            }
+        }, { passive: true });
+
+        viewer.addEventListener('click', event => {
+            if (event.target === viewer) {
+                closeViewer();
+                return;
+            }
+            if (event.target === bigImage && bigImage.naturalWidth) {
+                const box = bigImage.getBoundingClientRect();
+                const scale = Math.min(box.width / bigImage.naturalWidth, box.height / bigImage.naturalHeight);
+                const w = bigImage.naturalWidth * scale;
+                const h = bigImage.naturalHeight * scale;
+                const x = event.clientX - box.left - (box.width - w) / 2;
+                const y = event.clientY - box.top - (box.height - h) / 2;
+                if (x < 0 || y < 0 || x > w || y > h) closeViewer();
+            }
+        });
+
+        viewer.addEventListener('close', () => {
+            ++loadToken;
+            cancelDownload();
+            cancelUhdLoader();
+            releaseBlobURL();
+
+            document.body.style.overflow = '';
+
+            bigImage.removeAttribute('src');
+            bigImage.style.opacity = '0';
+
+            currentIndex = -1;
+            downloadFallbackItem = null;
+            setDownloadState('Скачать UHD');
+
+            if (previouslyFocused && document.contains(previouslyFocused)) {
+                previouslyFocused.focus();
+            }
+            previouslyFocused = null;
+        });
+
+        document.addEventListener('keydown', event => {
+            if (!viewer.open) return;
+            if (event.key === 'ArrowLeft') navigate(-1);
+            if (event.key === 'ArrowRight') navigate(1);
+        });
+
+        window.addEventListener('pagehide', () => {
+            cancelDownload();
+            cancelUhdLoader();
+            releaseBlobURL();
+        });
+
+        loadGallery();
+    </script>
 </body>
 </html>
