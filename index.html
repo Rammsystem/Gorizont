@@ -380,14 +380,35 @@
             setDownloadState('Загрузка…', true);
 
             try {
-                const response = await fetch(item.url, {
-                    referrerPolicy: 'no-referrer',
-                    signal: controller.signal,
-                });
+                // Пробуем адреса по очереди: рабочий адрес из просмотрщика, запасной сервер, основной.
+                // Если сервер не отвечает 10 секунд, переходим к следующему
+                const candidates = [...new Set([item.uhdSrc, mirrorUrl(item.url, 1), item.url].filter(Boolean))];
+                let blob = null;
 
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                for (const url of candidates) {
+                    const attemptController = new AbortController();
+                    const cancelAttempt = () => attemptController.abort();
+                    controller.signal.addEventListener('abort', cancelAttempt);
+                    const timer = setTimeout(cancelAttempt, 10000);
 
-                const blob = await response.blob();
+                    try {
+                        const response = await fetch(url, {
+                            referrerPolicy: 'no-referrer',
+                            signal: attemptController.signal,
+                        });
+                        clearTimeout(timer);
+                        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                        blob = await response.blob();
+                        break;
+                    } catch (attemptError) {
+                        clearTimeout(timer);
+                        if (controller.signal.aborted) throw attemptError;
+                    } finally {
+                        controller.signal.removeEventListener('abort', cancelAttempt);
+                    }
+                }
+
+                if (!blob) throw new Error('Не удалось скачать файл');
 
                 releaseBlobURL();
                 blobURL = URL.createObjectURL(blob);
@@ -491,6 +512,7 @@
                     if (token !== loadToken) return;
                     activeUhdLoader = null;
                     bigImage.src = workingSrc;
+                    item.uhdSrc = workingSrc;
                     preloadedUHD.add(item.url);
                     if (galleryItems[index + 1]?.url) preloadUHD(galleryItems[index + 1].url);
                     if (galleryItems[index - 1]?.url) preloadUHD(galleryItems[index - 1].url);
@@ -727,7 +749,7 @@
 
         downloadBtn.addEventListener('click', () => {
             if (downloadFallbackItem?.url) {
-                window.open(downloadFallbackItem.url, '_blank', 'noopener,noreferrer');
+                window.open(downloadFallbackItem.uhdSrc || downloadFallbackItem.url, '_blank', 'noopener,noreferrer');
                 return;
             }
             if (currentIndex >= 0) {
